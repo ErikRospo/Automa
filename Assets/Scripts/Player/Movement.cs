@@ -6,12 +6,11 @@ public class Movement : MonoBehaviour
     Animator animator;
 
     public Transform head;
+    public GameObject rightArm;
+    public GameObject rightHand;
 
     float horizontal;
     float vertical;
-
-    float previousHeadRotation;
-    float previousBodyRotation;
 
     private float speed;
     public float walkSpeed = 2f;
@@ -22,14 +21,14 @@ public class Movement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         speed = walkSpeed;
-
-        previousHeadRotation = head.rotation.eulerAngles.z;
-        previousBodyRotation = transform.rotation.eulerAngles.z;
     }
 
     void Update()
     {
         RotateTowardsMouse();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !rightArm.activeSelf) HoldingPistol();
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) EmptyHands();
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
@@ -41,8 +40,9 @@ public class Movement : MonoBehaviour
         else speed = walkSpeed;
 
         animator.SetFloat("Speed", speed);
+        animator.SetBool("Pistol", rightArm.activeSelf);
     }
-    // penis
+    
     private void RotateTowardsMouse()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -52,11 +52,21 @@ public class Movement : MonoBehaviour
         mousePos.y -= objectPos.y;
 
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        head.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
-        if (head.rotation.eulerAngles.z > 20f) transform.rotation = Quaternion.Euler(new Vector3(0, 0, head.rotation.eulerAngles.z - 20f));
-        else if (head.rotation.eulerAngles.z < -20f) transform.rotation = Quaternion.Euler(new Vector3(0, 0, head.rotation.eulerAngles.z + 20f));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
+
+    private void HoldingPistol()
+    {
+        rightArm.SetActive(true);
+        rightHand.SetActive(false);
+    }
+
+    private void EmptyHands()
+    {
+        rightArm.SetActive(false);
+        rightHand.SetActive(true);
+    }
+
 
     private void FixedUpdate()
     {
