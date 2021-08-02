@@ -52,8 +52,29 @@ public class Movement : MonoBehaviour
         mousePos.y -= objectPos.y;
 
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+
+        // Rotate head
         head.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        float headLocalRotation = head.localRotation.eulerAngles.z;
+        if (headLocalRotation > 180) headLocalRotation -= 360;
+
+        // Adjust for overshoot
+        if (headLocalRotation >= 30)
+        {
+            float overShoot = head.localRotation.eulerAngles.z - 30;
+            head.localRotation = Quaternion.Euler(new Vector3(0, 0, 30));
+            transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
+        }
+        else if (headLocalRotation <= -30)
+        {
+            float overShoot = head.localRotation.eulerAngles.z + 30;
+            head.localRotation = Quaternion.Euler(new Vector3(0, 0, -30));
+            transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
+        }
     }
+
+
 
     private void HoldingPistol()
     {
