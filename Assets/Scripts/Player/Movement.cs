@@ -5,8 +5,13 @@ public class Movement : MonoBehaviour
     Rigidbody2D body;
     Animator animator;
 
+    public Transform head;
+
     float horizontal;
     float vertical;
+
+    float previousHeadRotation;
+    float previousBodyRotation;
 
     private float speed;
     public float walkSpeed = 2f;
@@ -17,6 +22,9 @@ public class Movement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         speed = walkSpeed;
+
+        previousHeadRotation = head.rotation.eulerAngles.z;
+        previousBodyRotation = transform.rotation.eulerAngles.z;
     }
 
     void Update()
@@ -34,7 +42,7 @@ public class Movement : MonoBehaviour
 
         animator.SetFloat("Speed", speed);
     }
-
+    // penis
     private void RotateTowardsMouse()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -44,7 +52,10 @@ public class Movement : MonoBehaviour
         mousePos.y -= objectPos.y;
 
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        head.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        if (head.rotation.eulerAngles.z > 20f) transform.rotation = Quaternion.Euler(new Vector3(0, 0, head.rotation.eulerAngles.z - 20f));
+        else if (head.rotation.eulerAngles.z < -20f) transform.rotation = Quaternion.Euler(new Vector3(0, 0, head.rotation.eulerAngles.z + 20f));
     }
 
     private void FixedUpdate()
