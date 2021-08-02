@@ -1,2 +1,4 @@
 # SpaceFactory
-Coming Soon (repository name placeholder)
+Name is just a placeholder.
+
+Coming Soon.
