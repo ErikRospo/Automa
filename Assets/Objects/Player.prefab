@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: 3844035053942206039}
   - component: {fileID: 4602674567683336000}
   m_Layer: 0
-  m_Name: Left Shoulder
+  m_Name: Right Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 1538844969456516073}
   - component: {fileID: 6227728690341577062}
   m_Layer: 0
-  m_Name: Right Shoulder
+  m_Name: Left Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
