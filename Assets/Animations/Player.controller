@@ -12,7 +12,6 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5775591272047578446}
-  - {fileID: -4614681451194722084}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -271,15 +270,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -1654655199172579693}
     m_Position: {x: 250, y: 110, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2609527777041792282}
-    m_Position: {x: 480, y: 190, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2015353614689182962}
-    m_Position: {x: 480, y: 270, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4211008901400526619}
-    m_Position: {x: 480, y: 110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -302,7 +292,6 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 615067391395055966}
-  - {fileID: -4462629709142684723}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -312,7 +301,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 42be9a970853fea40817ace15dac76ec, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3445ff5413c907d4a9baddb9ae6393a6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -331,7 +320,6 @@ AnimatorState:
   m_Transitions:
   - {fileID: -2767197557323272918}
   - {fileID: -5042837926744810908}
-  - {fileID: 5802399953457270234}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -386,13 +374,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Pistol
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

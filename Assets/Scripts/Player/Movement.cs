@@ -16,6 +16,7 @@ public class Movement : NetworkBehaviour
     private float speed;
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
+    public float rotationSpeed = 5f;
 
     void Start()
     {
@@ -111,6 +112,8 @@ public class Movement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        var step = rotationSpeed * Time.deltaTime;
+        if (speed > 0) transform.rotation = Quaternion.RotateTowards(transform.rotation, head.rotation, step);
         body.velocity = new Vector2(horizontal * speed, vertical * speed);
     }
 }
