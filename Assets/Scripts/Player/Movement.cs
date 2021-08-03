@@ -7,8 +7,9 @@ public class Movement : NetworkBehaviour
     Animator animator;
 
     public Transform head;
-    public GameObject rightArm;
-    public GameObject rightHand;
+    public GameObject pistol;
+
+    bool holdingPistol = false;
 
     float horizontal;
     float vertical;
@@ -33,21 +34,24 @@ public class Movement : NetworkBehaviour
 
         RotateTowardsMouse();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !rightArm.activeSelf) HoldingPistol();
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) EmptyHands();
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            holdingPistol = !holdingPistol;
+            pistol.SetActive(holdingPistol);
+        }
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
         bool isMoving = horizontal != 0 || vertical != 0;
 
-        if (isMoving && Input.GetKey(KeyCode.LeftShift)) speed = runSpeed;
+        if (isMoving && Input.GetKey(KeyCode.LeftShift) && !holdingPistol) speed = runSpeed;
         else if (!isMoving) speed = 0f;
         else speed = walkSpeed;
         CmdUpdatePlayer(transform);
 
         animator.SetFloat("Speed", speed);
-        animator.SetBool("Pistol", rightArm.activeSelf);
+        animator.SetBool("Pistol", holdingPistol);
     }
 
     // Update player state command
@@ -96,19 +100,6 @@ public class Movement : NetworkBehaviour
             transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
     }
-
-    private void HoldingPistol()
-    {
-        rightArm.SetActive(true);
-        rightHand.SetActive(false);
-    }
-
-    private void EmptyHands()
-    {
-        rightArm.SetActive(false);
-        rightHand.SetActive(true);
-    }
-
 
     private void FixedUpdate()
     {
