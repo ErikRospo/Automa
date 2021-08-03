@@ -10,6 +10,7 @@ public class Movement : NetworkBehaviour
     public GameObject pistol;
 
     bool holdingPistol = false;
+    bool droneDeployed = false;
 
     float horizontal;
     float vertical;
@@ -35,6 +36,12 @@ public class Movement : NetworkBehaviour
         RotateTowardsMouse();
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            holdingPistol = !holdingPistol;
+            pistol.SetActive(holdingPistol);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
         {
             holdingPistol = !holdingPistol;
             pistol.SetActive(holdingPistol);
