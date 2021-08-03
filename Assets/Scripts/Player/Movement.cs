@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement : NetworkBehaviour
 {
     Rigidbody2D body;
     Animator animator;
@@ -21,10 +22,14 @@ public class Movement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         speed = walkSpeed;
+        Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
     }
 
+    [Client]
     void Update()
     {
+        if (!hasAuthority) return;
+
         RotateTowardsMouse();
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && !rightArm.activeSelf) HoldingPistol();
@@ -38,9 +43,26 @@ public class Movement : MonoBehaviour
         if (isMoving && Input.GetKey(KeyCode.LeftShift)) speed = runSpeed;
         else if (!isMoving) speed = 0f;
         else speed = walkSpeed;
+        CmdUpdatePlayer(transform);
 
         animator.SetFloat("Speed", speed);
         animator.SetBool("Pistol", rightArm.activeSelf);
+    }
+
+    // Update player state command
+    [Command]
+    private void CmdUpdatePlayer(Transform pos)
+    {
+        // Todo: Movement Validation
+
+        RpcUpdatePlayer(pos);
+    }
+
+    [ClientRpc]
+    private void RpcUpdatePlayer(Transform pos)
+    {
+        transform.position = pos.position;
+        transform.rotation = pos.rotation;
     }
     
     private void RotateTowardsMouse()
@@ -73,8 +95,6 @@ public class Movement : MonoBehaviour
             transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
     }
-
-
 
     private void HoldingPistol()
     {
