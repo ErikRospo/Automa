@@ -10,7 +10,6 @@ public class Movement : NetworkBehaviour
     public GameObject pistol;
 
     bool holdingPistol = false;
-    bool droneDeployed = false;
 
     float horizontal;
     float vertical;
@@ -35,6 +34,10 @@ public class Movement : NetworkBehaviour
     [Client]
     void Update()
     {
+        // Update for Everyone
+        animator.SetFloat("Speed", speed);
+
+        // Upate for owner
         if (!hasAuthority) return;
 
         RotateTowardsMouse();
@@ -45,7 +48,6 @@ public class Movement : NetworkBehaviour
             pistol.SetActive(holdingPistol);
         }
 
-
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
@@ -55,26 +57,29 @@ public class Movement : NetworkBehaviour
         else if (!isMoving) speed = 0f;
         else speed = walkSpeed;
 
-        animator.SetFloat("Speed", speed);
+        
         animator.SetBool("Pistol", holdingPistol);
 
-        CmdUpdatePlayer(transform.position, transform.rotation.eulerAngles.z, head.rotation.eulerAngles.z);
+        CmdUpdatePlayer(transform.position, transform.rotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
     }
 
     // Update player state command
     [Command]
-    private void CmdUpdatePlayer(Vector3 position, float bodyRotation, float headRotation)
+    private void CmdUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed)
     {
         // Todo: Validation
-        RpcUpdatePlayer(position, bodyRotation, headRotation);
+        RpcUpdatePlayer(position, bodyRotation, headRotation, speed, false);
     }
 
     [ClientRpc]
-    private void RpcUpdatePlayer(Vector3 position, float bodyRotation, float headRotation)
+    private void RpcUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed, bool force)
     {
+        if (!force && hasAuthority) return;
+
         transform.position = position;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, bodyRotation));
         head.rotation = Quaternion.Euler(new Vector3(0, 0, headRotation));
+        this.speed = speed;
     }
     
     private void RotateTowardsMouse()
