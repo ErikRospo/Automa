@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
-        Screen.fullScreen = false;
+        Screen.SetResolution(360, 720, false);
     }
 
     void FixedUpdate()

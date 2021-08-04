@@ -22,9 +22,13 @@ public class Movement : NetworkBehaviour
 
     void Start()
     {
+        // Start for everyone
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         speed = walkSpeed;
+
+        // Start for owner only
+        if (!hasAuthority) return;
         Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
     }
 
@@ -50,26 +54,27 @@ public class Movement : NetworkBehaviour
         if (isMoving && Input.GetKey(KeyCode.LeftShift) && !holdingPistol) speed = runSpeed;
         else if (!isMoving) speed = 0f;
         else speed = walkSpeed;
-        CmdUpdatePlayer(transform);
 
         animator.SetFloat("Speed", speed);
         animator.SetBool("Pistol", holdingPistol);
+
+        CmdUpdatePlayer(transform.position, transform.rotation.eulerAngles.z, head.rotation.eulerAngles.z);
     }
 
     // Update player state command
     [Command]
-    private void CmdUpdatePlayer(Transform pos)
+    private void CmdUpdatePlayer(Vector3 position, float bodyRotation, float headRotation)
     {
-        // Todo: Movement Validation
-
-        RpcUpdatePlayer(pos);
+        // Todo: Validation
+        RpcUpdatePlayer(position, bodyRotation, headRotation);
     }
 
     [ClientRpc]
-    private void RpcUpdatePlayer(Transform pos)
+    private void RpcUpdatePlayer(Vector3 position, float bodyRotation, float headRotation)
     {
-        transform.position = pos.position;
-        transform.rotation = pos.rotation;
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, bodyRotation));
+        head.rotation = Quaternion.Euler(new Vector3(0, 0, headRotation));
     }
     
     private void RotateTowardsMouse()
@@ -105,6 +110,8 @@ public class Movement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!hasAuthority) return;
+
         var step = rotationSpeed * Time.deltaTime;
         if (speed > 0) transform.rotation = Quaternion.RotateTowards(transform.rotation, head.rotation, step);
         body.velocity = new Vector2(horizontal * speed, vertical * speed);
