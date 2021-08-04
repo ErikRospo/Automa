@@ -41,11 +41,6 @@ public class Movement : NetworkBehaviour
             pistol.SetActive(holdingPistol);
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            holdingPistol = !holdingPistol;
-            pistol.SetActive(holdingPistol);
-        }
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
