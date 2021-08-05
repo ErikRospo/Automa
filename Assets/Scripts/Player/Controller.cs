@@ -83,6 +83,14 @@ public class Controller : NetworkBehaviour
     // Checks for keyboard input
     private void CheckInput()
     {
+        CheckMovementInput();
+
+
+    }
+
+    // Checks for movement input
+    private void CheckMovementInput()
+    {
         vertical = 0;
         vertical += Input.GetKey(Keybinds.move_up) ? 1 : 0;
         vertical -= Input.GetKey(Keybinds.move_down) ? 1 : 0;
