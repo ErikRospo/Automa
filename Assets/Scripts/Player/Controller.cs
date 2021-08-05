@@ -23,6 +23,9 @@ public class Controller : NetworkBehaviour
     float horizontal;
     float vertical;
 
+    // Shooting variables
+    public bool isClicking = false;
+
     // Player movement variables
     private float speed;
     public float walkSpeed = 2f;
@@ -32,6 +35,9 @@ public class Controller : NetworkBehaviour
     // Called on start
     void Start()
     {
+        // Grab inventory script
+        inventory = GetComponent<Inventory>();
+
         // Start for everyone
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -41,8 +47,8 @@ public class Controller : NetworkBehaviour
         speed = walkSpeed;
 
         // Start for owner only
-        if (!hasAuthority) return;
-        Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
+        if (hasAuthority) 
+            Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
     }
 
     // Normal frame update
@@ -61,12 +67,7 @@ public class Controller : NetworkBehaviour
         // Checks for keyboard input
         CheckInput();
 
-        bool isMoving = horizontal != 0 || vertical != 0;
-
-        if (isMoving && Input.GetKey(KeyCode.LeftShift)) speed = runSpeed;
-        else if (!isMoving) speed = 0f;
-        else speed = walkSpeed;
-
+        // Update the player for all other players
         CmdUpdatePlayer(transform.position, transform.rotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
     }
 
@@ -83,9 +84,28 @@ public class Controller : NetworkBehaviour
     // Checks for keyboard input
     private void CheckInput()
     {
+        // Speed input checks
         CheckMovementInput();
+        CalculateSpeed();
 
+        // Clicking input check
+        if (Input.GetKeyDown(Keybinds.shoot))
+        {
+            isClicking = true;
+            Debug.Log(transform.name + " pressed primary fire");
+        }
+        else if (Input.GetKeyUp(Keybinds.shoot))
+        {
+            isClicking = false;
+            Debug.Log(transform.name + " released primary fire");
+        }
 
+        // Interacting input check
+        if (Input.GetKeyDown(Keybinds.equip)) 
+            Debug.Log(transform.name + " pressed equip button");
+
+        // Alpha numeric input check 
+        CheckHotbarInput();
     }
 
     // Checks for movement input
@@ -98,6 +118,21 @@ public class Controller : NetworkBehaviour
         horizontal = 0;
         horizontal += Input.GetKey(Keybinds.move_right) ? 1 : 0;
         horizontal -= Input.GetKey(Keybinds.move_left) ? 1 : 0;
+    }
+
+    // Calculate speed
+    private void CalculateSpeed()
+    {
+        bool isMoving = horizontal != 0 || vertical != 0;
+        if (isMoving && Input.GetKey(KeyCode.LeftShift)) speed = runSpeed;
+        else if (!isMoving) speed = 0f;
+        else speed = walkSpeed;
+    }
+
+    // Checks for hotbar input
+    private void CheckHotbarInput()
+    {
+
     }
 
     // Rotates the players head towards the mouse
