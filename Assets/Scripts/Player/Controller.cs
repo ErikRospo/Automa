@@ -84,12 +84,12 @@ public class Controller : NetworkBehaviour
     private void CheckInput()
     {
         vertical = 0;
-        vertical += Input.GetButton(Keybinds.action_move_up) ? 1 : 0;
-        vertical -= Input.GetButton(Keybinds.action_move_down) ? 1 : 0;
+        vertical += Input.GetKey(Keybinds.move_up) ? 1 : 0;
+        vertical -= Input.GetKey(Keybinds.move_down) ? 1 : 0;
 
         horizontal = 0;
-        horizontal += Input.GetButton(Keybinds.action_move_left) ? 1 : 0;
-        horizontal -= Input.GetButton(Keybinds.action_move_right) ? 1 : 0;
+        horizontal += Input.GetKey(Keybinds.move_right) ? 1 : 0;
+        horizontal -= Input.GetKey(Keybinds.move_left) ? 1 : 0;
     }
 
     // Rotates the players head towards the mouse

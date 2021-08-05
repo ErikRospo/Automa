@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Keybinds
 {
-    public static string action_move_up = "w";
-    public static string action_move_down = "s";
-    public static string action_move_left = "a";
-    public static string action_move_right = "d";
-    public static string action_sprint = "left shift";
-    public static string action_shoot = "mouse 0";
-    public static string action_equip = "e";
-    public static string action_hotbar_1 = "1";
-    public static string action_hotbar_2 = "2";
-    public static string action_hotbar_3 = "3";
-    public static string action_hotbar_4 = "4";
-    public static string action_hotbar_5 = "5";
-    public static string action_hotbar_6 = "6";
-    public static string action_hotbar_7 = "7";
-    public static string action_hotbar_8 = "8";
-    public static string action_hotbar_9 = "9";
-    public static string action_hotbar_0 = "0";
+    public static KeyCode move_up = KeyCode.W;
+    public static KeyCode move_down = KeyCode.S;
+    public static KeyCode move_left = KeyCode.A;
+    public static KeyCode move_right = KeyCode.D;
+    public static KeyCode sprint = KeyCode.LeftShift;
+    public static KeyCode shoot = KeyCode.Mouse0;
+    public static KeyCode equip = KeyCode.E;
+    public static KeyCode hotbar_1 = KeyCode.Alpha1;
+    public static KeyCode hotbar_2 = KeyCode.Alpha2;
+    public static KeyCode hotbar_3 = KeyCode.Alpha3;
+    public static KeyCode hotbar_4 = KeyCode.Alpha4;
+    public static KeyCode hotbar_5 = KeyCode.Alpha5;
+    public static KeyCode hotbar_6 = KeyCode.Alpha6;
+    public static KeyCode hotbar_7 = KeyCode.Alpha7;
+    public static KeyCode hotbar_8 = KeyCode.Alpha8;
+    public static KeyCode hotbar_9 = KeyCode.Alpha9;
+    public static KeyCode hotbar_0 = KeyCode.Alpha0;
 }
