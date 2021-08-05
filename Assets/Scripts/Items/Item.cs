@@ -9,13 +9,13 @@ public class Item : ScriptableObject
     public new string name;
     public string description;
     public int maxStackSize;
-    public Sprite icon;
+    //public Sprite icon;
 
     [System.Serializable]
     public struct Recipe
     {
         public string name;
-        public Item item;
+        //public Item item;
         public int amount;
     }
     public Recipe[] recipe;
