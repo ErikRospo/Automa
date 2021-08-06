@@ -779,9 +779,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  test: {fileID: 11400000, guid: bd043ea66d7ef7647ac4adbc79c0a13a, type: 2}
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
   equippedItem: {fileID: 0}
+  isClicking: 0
   walkSpeed: 5
   runSpeed: 15
   rotationSpeed: 50
@@ -797,6 +799,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c570ef57a0e284d852bdc3d9269bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inventorySize: 0
 --- !u!50 &6507742647347197754
 Rigidbody2D:
   serializedVersion: 4

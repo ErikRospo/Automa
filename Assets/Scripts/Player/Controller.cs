@@ -11,6 +11,8 @@ public class Controller : NetworkBehaviour
     // Inventory script (attached to object)
     Inventory inventory;
 
+    public Item test;
+
     // GameObject child transforms
     private Rigidbody2D body;
     public Transform head;
@@ -93,6 +95,8 @@ public class Controller : NetworkBehaviour
         {
             isClicking = true;
             Debug.Log(transform.name + " pressed primary fire");
+
+           BuildingHandler.active.GenerateTile();
         }
         else if (Input.GetKeyUp(Keybinds.shoot))
         {
