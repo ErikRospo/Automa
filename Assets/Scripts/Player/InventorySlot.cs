@@ -5,8 +5,8 @@ using TMPro;
 public class InventorySlot : MonoBehaviour
 {
     public Inventory.InventoryItem inventoryItem;
-    public Image icon;
-    public TextMeshProUGUI amount;
+    [HideInInspector] public Image icon;
+    [HideInInspector] public TextMeshProUGUI amount;
     public int slotNumber;
 
     private void Start()

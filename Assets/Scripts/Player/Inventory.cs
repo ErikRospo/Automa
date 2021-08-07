@@ -95,6 +95,6 @@ public class Inventory : NetworkBehaviour
 
         if (inventorySlots.Count > slot)
             inventorySlots[slot].SetItem(inventoryItem);
-        else Debug.LogError("Not enough slots available to add item!")
+        else Debug.LogError("Not enough slots available to add item!");
     }
 }
