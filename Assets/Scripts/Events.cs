@@ -5,18 +5,25 @@ using UnityEngine;
 
 public class Events : MonoBehaviour
 {
-    public static Events events;
+    public static Events current;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        events = this;
+        current = this;
     }
 
-    public event Action onBuildingPlaced;
+    public event Action onPlaceBuilding;
     public void PlaceBuilding()
     {
-        if (onBuildingPlaced != null)
-            PlaceBuilding();
+        if (onPlaceBuilding != null)
+            onPlaceBuilding();
+    }
+
+    public event Action<InventorySlot> onRegisterInventorySlot;
+    public void RegisterInventorySlot(InventorySlot slot)
+    {
+        if (onRegisterInventorySlot != null)
+            onRegisterInventorySlot(slot);
     }
 }

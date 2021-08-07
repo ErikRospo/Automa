@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour
     private void Start()
     {
         icon = transform.GetChild(0).GetComponent<Image>();
+        Events.current.RegisterHotbarSlot(this);
     }
 
     public void SetItem(Inventory.InventoryItem inventoryItem)

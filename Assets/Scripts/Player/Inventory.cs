@@ -22,12 +22,18 @@ public class Inventory : NetworkBehaviour
     [SerializeField] private int inventorySize;
 
     // If inventory UI is available
-    bool inventoryUI = false;
+    public List<InventorySlot> inventorySlots;
 
     // Initial setup
     private void Start()
     {
-        inventorySize = 9;        
+        inventorySize = 9;
+        Events.current.onRegisterInventorySlot += OnRegisterHotbarSlot;
+    }
+
+    private void OnRegisterHotbarSlot(InventorySlot slot)
+    {
+        inventorySlots.Add(slot);
     }
 
     [Command]
