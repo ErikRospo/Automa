@@ -11,8 +11,6 @@ public class Controller : NetworkBehaviour
     // Inventory script (attached to object)
     Inventory inventory;
 
-    public Item test;
-
     // GameObject child transforms
     private Rigidbody2D body;
     public Transform head;
@@ -136,7 +134,16 @@ public class Controller : NetworkBehaviour
     // Checks for hotbar input
     private void CheckHotbarInput()
     {
-
+        if (Input.GetKeyDown(Keybinds.hotbar_1)) Debug.Log("Press number 1");
+        else if (Input.GetKeyDown(Keybinds.hotbar_2)) Debug.Log("Press number 2");
+        else if (Input.GetKeyDown(Keybinds.hotbar_3)) Debug.Log("Press number 3");
+        else if (Input.GetKeyDown(Keybinds.hotbar_4)) Debug.Log("Press number 4");
+        else if (Input.GetKeyDown(Keybinds.hotbar_5)) Debug.Log("Press number 5");
+        else if (Input.GetKeyDown(Keybinds.hotbar_6)) Debug.Log("Press number 6");
+        else if (Input.GetKeyDown(Keybinds.hotbar_7)) Debug.Log("Press number 7");
+        else if (Input.GetKeyDown(Keybinds.hotbar_8)) Debug.Log("Press number 8");
+        else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");
+        else if (Input.GetKeyDown(Keybinds.hotbar_0)) Debug.Log("Press number 0");
     }
 
     // Rotates the players head towards the mouse

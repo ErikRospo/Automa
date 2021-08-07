@@ -21,6 +21,12 @@ public class Inventory : NetworkBehaviour
     public Dictionary<int, InventoryItem> inventory = new Dictionary<int, InventoryItem>();
     [SerializeField] private int inventorySize;
 
+    // Initial setup
+    private void Start()
+    {
+        inventorySize = 9;        
+    }
+
     [Command]
     public void CmdAddItem(Item item, int amount)
     {
@@ -56,6 +62,7 @@ public class Inventory : NetworkBehaviour
             }
         }
 
+        UpdateUI();
         RpcUpdateInventory(this);
     }
 
@@ -67,5 +74,10 @@ public class Inventory : NetworkBehaviour
             inventory = player.inventory;
 
         }
+    }
+
+    private void UpdateUI()
+    {
+
     }
 }
