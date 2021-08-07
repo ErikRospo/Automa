@@ -31,11 +31,13 @@ public class Inventory : NetworkBehaviour
         Events.current.onRegisterInventorySlot += OnRegisterHotbarSlot;
     }
 
+    // Inventory slot listener
     private void OnRegisterHotbarSlot(InventorySlot slot)
     {
         inventorySlots.Add(slot);
     }
 
+    // Updates server on item being added
     [Command]
     public void CmdAddItem(Item item, int amount)
     {
@@ -46,14 +48,12 @@ public class Inventory : NetworkBehaviour
             {
                 if (amount > item.maxStackSize)
                 {
-                    inventory.Add(i, new InventoryItem(item, item.maxStackSize));
-                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, item.maxStackSize);
+                    AddItem(i, item, item.maxStackSize);
                     amount -= item.maxStackSize;
                 }
                 else
                 {
-                    inventory.Add(i, new InventoryItem(item, amount));
-                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, amount);
+                    AddItem(i, item, amount);
                     amount = 0;
                 }
             }
@@ -62,14 +62,12 @@ public class Inventory : NetworkBehaviour
                 int spotsAvailable = item.maxStackSize - holder.amount;
                 if (amount > spotsAvailable)
                 {
-                    inventory.Add(i, new InventoryItem(item, spotsAvailable));
-                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, item.maxStackSize);
+                    AddItem(i, item, spotsAvailable);
                     amount -= spotsAvailable;
                 }
                 else
                 {
-                    inventory.Add(i, new InventoryItem(item, amount));
-                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, amount);
+                    AddItem(i, item, amount);
                     amount = 0;
                 }
             }
@@ -78,6 +76,7 @@ public class Inventory : NetworkBehaviour
         RpcUpdateInventory(this);
     }
 
+    // Updates all other players on inventory change
     [ClientRpc]
     public void RpcUpdateInventory(Inventory player)
     {
@@ -88,8 +87,14 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    private void UpdateUI(Sprite icon, int slot, int amount)
+    // Adds an item to a players inventory
+    private void AddItem(int slot, Item item, int amount)
     {
+        InventoryItem inventoryItem = new InventoryItem(item, amount);
+        inventory.Add(slot, inventoryItem);
 
+        if (inventorySlots.Count > slot)
+            inventorySlots[slot].SetItem(inventoryItem);
+        else Debug.LogError("Not enough slots available to add item!")
     }
 }
