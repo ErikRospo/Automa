@@ -58,7 +58,7 @@ public class Controller : NetworkBehaviour
         // Update for Everyone
         animator.SetFloat("Speed", speed);
 
-        // Upate for owner
+        // Update for owner
         if (!hasAuthority) return;
 
         // Rotates player body to mouse
@@ -132,8 +132,12 @@ public class Controller : NetworkBehaviour
     }
 
     // Checks for hotbar input
+    [ClientCallback]
     private void CheckHotbarInput()
     {
+        if (!hasAuthority)
+            return;
+
         if (Input.GetKeyDown(Keybinds.hotbar_1)) Debug.Log("Press number 1");
         else if (Input.GetKeyDown(Keybinds.hotbar_2)) Debug.Log("Press number 2");
         else if (Input.GetKeyDown(Keybinds.hotbar_3)) Debug.Log("Press number 3");
@@ -143,7 +147,7 @@ public class Controller : NetworkBehaviour
         else if (Input.GetKeyDown(Keybinds.hotbar_7)) Debug.Log("Press number 7");
         else if (Input.GetKeyDown(Keybinds.hotbar_8)) Debug.Log("Press number 8");
         else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");
-        else if (Input.GetKeyDown(Keybinds.hotbar_0)) Debug.Log("Press number 0");
+        else if (Input.GetKeyDown(Keybinds.hotbar_0)) inventory.CmdAddItem(equippedItem, 25);
     }
 
     // Rotates the players head towards the mouse

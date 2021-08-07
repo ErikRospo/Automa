@@ -26,4 +26,11 @@ public class Events : MonoBehaviour
         if (onRegisterInventorySlot != null)
             onRegisterInventorySlot(slot);
     }
+
+    public event Action<Inventory> onRequestInventorySlots;
+    public void RequestInventorySlots(Inventory inventory)
+    {
+        if (onRequestInventorySlots != null)
+            onRequestInventorySlots(inventory);
+    }
 }

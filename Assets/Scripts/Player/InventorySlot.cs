@@ -23,15 +23,25 @@ public class InventorySlot : MonoBehaviour
         }
 
         Events.current.RegisterInventorySlot(this);
+        Events.current.onRequestInventorySlots += SendInventorySlot;
     }
 
+    // Sends an inventory slot back to the requesting script
+    private void SendInventorySlot(Inventory inventory)
+    {
+        inventory.inventorySlots.Add(this);
+    }
+
+    // Sets an inventory slot to a specified item
     public void SetItem(Inventory.InventoryItem inventoryItem)
     {
+        Debug.Log(inventoryItem.item.name);
         this.inventoryItem = inventoryItem;
-        icon.sprite = Resources.Load<Sprite>("Icons/" + inventoryItem.item.name);
+        icon.sprite = Resources.Load<Sprite>("Sprites/Items/" + inventoryItem.item.name);
         amount.text = inventoryItem.amount.ToString();
     }
 
+    // Takes an item from the specified inventory slot
     public Inventory.InventoryItem TakeItem()
     {
         Inventory.InventoryItem holder = inventoryItem;
@@ -39,10 +49,11 @@ public class InventorySlot : MonoBehaviour
         return holder;
     }
 
+    // Removes an item from the specified inventory slot
     public void RemoveItem()
     {
         inventoryItem = new Inventory.InventoryItem();
-        icon.sprite = Resources.Load<Sprite>("Icons/Empty");
+        icon.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
         amount.text = "";
     }
 }
