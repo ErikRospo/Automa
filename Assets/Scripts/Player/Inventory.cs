@@ -21,6 +21,9 @@ public class Inventory : NetworkBehaviour
     public Dictionary<int, InventoryItem> inventory = new Dictionary<int, InventoryItem>();
     [SerializeField] private int inventorySize;
 
+    // If inventory UI is available
+    bool inventoryUI = false;
+
     // Initial setup
     private void Start()
     {
@@ -38,11 +41,13 @@ public class Inventory : NetworkBehaviour
                 if (amount > item.maxStackSize)
                 {
                     inventory.Add(i, new InventoryItem(item, item.maxStackSize));
+                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, item.maxStackSize);
                     amount -= item.maxStackSize;
                 }
                 else
                 {
                     inventory.Add(i, new InventoryItem(item, amount));
+                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, amount);
                     amount = 0;
                 }
             }
@@ -52,17 +57,18 @@ public class Inventory : NetworkBehaviour
                 if (amount > spotsAvailable)
                 {
                     inventory.Add(i, new InventoryItem(item, spotsAvailable));
+                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, item.maxStackSize);
                     amount -= spotsAvailable;
                 }
                 else
                 {
                     inventory.Add(i, new InventoryItem(item, amount));
+                    UpdateUI(Resources.Load<Sprite>("Sprites/World/" + item.name), i, amount);
                     amount = 0;
                 }
             }
         }
 
-        UpdateUI();
         RpcUpdateInventory(this);
     }
 
@@ -76,7 +82,7 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    private void UpdateUI()
+    private void UpdateUI(Sprite icon, int slot, int amount)
     {
 
     }
