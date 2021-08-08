@@ -28,7 +28,8 @@ public class BuildingHandler : MonoBehaviour
     // Register a tile 
     public void GenerateTile()
     {
-        grid.SetTile(Vector3Int.RoundToInt(transform.position), test);
+        Vector3Int cellIndex = grid.WorldToCell(transform.position);
+        grid.SetTile(cellIndex, test);
         Debug.Log("Placed tile at " + transform.position);
     }
 }

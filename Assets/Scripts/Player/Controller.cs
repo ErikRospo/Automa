@@ -89,7 +89,7 @@ public class Controller : NetworkBehaviour
         CalculateSpeed();
 
         // Clicking input check
-        if (Input.GetKeyDown(Keybinds.shoot))
+        if (Input.GetKey(Keybinds.shoot))
         {
             isClicking = true;
             Debug.Log(transform.name + " pressed primary fire");
