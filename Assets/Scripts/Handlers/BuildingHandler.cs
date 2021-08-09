@@ -10,7 +10,9 @@ public class BuildingHandler : NetworkBehaviour
     private static Building selectedBuilding;
     private static Vector2 position;
     private static Quaternion rotation;
-    private static List<Transform> buildings;
+    private static Dictionary<Vector2, Building> buildings;
+
+    public Building test;
 
     // Sprite values
     private static SpriteRenderer spriteRenderer;
@@ -32,6 +34,9 @@ public class BuildingHandler : NetworkBehaviour
         {
             Debug.Log("No building handler active in scene.");
         }
+
+        SetBuilding(test);
+        buildings = new Dictionary<Vector2, Building>();
     }
 
     // Update is called once per frame
@@ -68,8 +73,11 @@ public class BuildingHandler : NetworkBehaviour
     // Creates a building
     public static void CmdCreateBuilding()
     {
+        if (buildings.ContainsKey(position)) return;
         GameObject holder = Instantiate(selectedBuilding.obj, position, rotation);
         holder.name = selectedBuilding.obj.name;
-        buildings.Add(holder.transform);
+        buildings.Add(holder.transform.position, selectedBuilding);
+
+        Debug.Log("Created building " + holder.name + " with key " + holder.transform.position);
     }
 }

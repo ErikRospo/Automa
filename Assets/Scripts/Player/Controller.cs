@@ -91,14 +91,11 @@ public class Controller : NetworkBehaviour
         // Clicking input check
         if (Input.GetKey(Keybinds.shoot))
         {
-            isClicking = true;
-            Debug.Log(transform.name + " pressed primary fire");
-
-           //BuildingHandler.active.GenerateTile();
+            BuildingHandler.CmdCreateBuilding();
         }
         else if (Input.GetKeyUp(Keybinds.shoot))
         {
-            isClicking = false;
+            
             Debug.Log(transform.name + " released primary fire");
         }
 
@@ -135,9 +132,6 @@ public class Controller : NetworkBehaviour
     [ClientCallback]
     private void CheckHotbarInput()
     {
-        if (!hasAuthority)
-            return;
-
         if (Input.GetKeyDown(Keybinds.hotbar_1)) Debug.Log("Press number 1");
         else if (Input.GetKeyDown(Keybinds.hotbar_2)) Debug.Log("Press number 2");
         else if (Input.GetKeyDown(Keybinds.hotbar_3)) Debug.Log("Press number 3");
