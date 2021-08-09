@@ -94,7 +94,7 @@ public class Controller : NetworkBehaviour
             isClicking = true;
             Debug.Log(transform.name + " pressed primary fire");
 
-           BuildingHandler.active.GenerateTile();
+           //BuildingHandler.active.GenerateTile();
         }
         else if (Input.GetKeyUp(Keybinds.shoot))
         {

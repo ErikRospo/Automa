@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class ChildBuilding : Tile
+[CreateAssetMenu(fileName = "New Child Building", menuName = "Items/Building (Child)")]
+public class ChildBuilding : Item
 {
-    public ParentBuilding parent;
+    public Building parent;
 }

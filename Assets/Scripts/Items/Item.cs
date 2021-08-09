@@ -1,9 +1,7 @@
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
-public class Item : Tile
+public class Item : ScriptableObject
 {
     public new string name;
     public string description;
@@ -17,17 +15,4 @@ public class Item : Tile
         public int amount;
     }
     public Recipe[] recipe;
-
-    /*
-    [CreateTileFromPalette]
-    public Item CreateTile()
-    {
-        var tile = ScriptableObject.CreateInstance<Item>();
-        tile.name = name;
-        tile.description = description;
-        tile.maxStackSize = maxStackSize;
-        tile.icon = Resources.Load<Sprite>("Icons/" + name);
-        return tile;
-    }
-    */
 }
