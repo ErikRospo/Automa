@@ -21871,6 +21871,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   test: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
+  spriteRenderer: {fileID: 1905279622}
+  alphaAdjust: 0.05
 --- !u!4 &1905279624
 Transform:
   m_ObjectHideFlags: 0

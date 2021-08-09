@@ -11,37 +11,41 @@ public class BuildingHandler : NetworkBehaviour
     private static Vector2 position;
     private static Quaternion rotation;
     private static Dictionary<Vector2, Building> buildings;
+    private static GameObject lastObj;
+    private static bool changeSprite;
 
     public Building test;
 
     // Sprite values
-    private static SpriteRenderer spriteRenderer;
-    private float alphaAdjust;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float alphaAdjust;
+    private float alphaHolder;
 
     // Start method grabs tilemap
     private void Start()
     {
-        active = this;
+        // Grabs active component if it exists
+        if (this != null) active = this;
+        else active = null;
+
+        // Sets static variables on start
+        selectedBuilding = null;
         position = new Vector2(0, 0);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-
-        try
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            alphaAdjust = 0.01f;
-        }
-        catch
-        {
-            Debug.Log("No building handler active in scene.");
-        }
+        buildings = new Dictionary<Vector2, Building>();
+        changeSprite = false;
+        lastObj = null;
+        alphaHolder = alphaAdjust;
 
         SetBuilding(test);
-        buildings = new Dictionary<Vector2, Building>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        // Check if active is null
+        if (active == null) return;
+
         // Round to grid
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
@@ -54,30 +58,53 @@ public class BuildingHandler : NetworkBehaviour
     // Adjusts the alpha transparency of the SR component 
     private void AdjustTransparency()
     {
+        // Check if building changed
+        if (changeSprite)
+        {
+            try
+            {
+                if (selectedBuilding != null) spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + selectedBuilding.name);
+                else spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
+            }
+            catch
+            {
+                Debug.LogError("Sprite could not be retrieved. Please check you have placed the sprite in resources with the correct name!");
+            }
+            changeSprite = false;
+        }
+
         // Switches
         if (spriteRenderer.color.a >= 1f)
-            alphaAdjust = -alphaAdjust;
+            alphaHolder = -alphaAdjust;
         else if (spriteRenderer.color.a <= 0f)
-            alphaAdjust = -alphaAdjust;
+            alphaHolder = alphaAdjust;
 
-        spriteRenderer.color = new Color(1f, 1f, 1f, alphaAdjust);
+        // Set alpha
+        spriteRenderer.color = new Color(1f, 1f, 1f, spriteRenderer.color.a + alphaHolder);
+        Debug.Log(spriteRenderer.color.a);
     }
 
     // Sets the selected building
     public static void SetBuilding(Building building)
     {
-        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + building.name);
+        // Check if active is null
+        if (active == null) return;
+
+        changeSprite = true;
         selectedBuilding = building;
     }
 
     // Creates a building
     public static void CmdCreateBuilding()
     {
-        if (buildings.ContainsKey(position)) return;
-        GameObject holder = Instantiate(selectedBuilding.obj, position, rotation);
-        holder.name = selectedBuilding.obj.name;
-        buildings.Add(holder.transform.position, selectedBuilding);
+        // Check if active is null
+        if (active == null) return;
 
-        Debug.Log("Created building " + holder.name + " with key " + holder.transform.position);
+        if (buildings.ContainsKey(position)) return;
+        lastObj = Instantiate(selectedBuilding.obj, position, rotation);
+        lastObj.name = selectedBuilding.obj.name;
+        buildings.Add(lastObj.transform.position, selectedBuilding);
+
+        Debug.Log("Created building " + lastObj.name + " with key " + lastObj.transform.position);
     }
 }
