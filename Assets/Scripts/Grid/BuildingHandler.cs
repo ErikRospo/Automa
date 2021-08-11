@@ -5,16 +5,18 @@ using Mirror;
 
 public class BuildingHandler : NetworkBehaviour
 {
+    // Grid variable
+    public static Grid tileGrid;
+
     // Building variables
     public static BuildingHandler active;
-    private static Building selectedBuilding;
+    private static Tile selectedTile;
     private static Vector2 position;
     private static Quaternion rotation;
-    private static Dictionary<Vector2, Building> buildings;
     private static GameObject lastObj;
     private static bool changeSprite;
 
-    public Building test;
+    public Tile test;
 
     // Sprite values
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -29,10 +31,11 @@ public class BuildingHandler : NetworkBehaviour
         else active = null;
 
         // Sets static variables on start
-        selectedBuilding = null;
+        tileGrid = new Grid();
+        tileGrid.cells = new Dictionary<Vector2, Grid.Cell>();
+        selectedTile = null;
         position = new Vector2(0, 0);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        buildings = new Dictionary<Vector2, Building>();
         changeSprite = false;
         lastObj = null;
         alphaHolder = alphaAdjust;
@@ -63,7 +66,7 @@ public class BuildingHandler : NetworkBehaviour
         {
             try
             {
-                if (selectedBuilding != null) spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + selectedBuilding.name);
+                if (selectedTile != null) spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + selectedTile.name);
                 else spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
             }
             catch
@@ -81,17 +84,16 @@ public class BuildingHandler : NetworkBehaviour
 
         // Set alpha
         spriteRenderer.color = new Color(1f, 1f, 1f, spriteRenderer.color.a + alphaHolder);
-        Debug.Log(spriteRenderer.color.a);
     }
 
     // Sets the selected building
-    public static void SetBuilding(Building building)
+    public static void SetBuilding(Tile tile)
     {
         // Check if active is null
         if (active == null) return;
 
         changeSprite = true;
-        selectedBuilding = building;
+        selectedTile = tile;
     }
 
     // Creates a building
@@ -100,11 +102,57 @@ public class BuildingHandler : NetworkBehaviour
         // Check if active is null
         if (active == null) return;
 
-        if (buildings.ContainsKey(position)) return;
-        lastObj = Instantiate(selectedBuilding.obj, position, rotation);
-        lastObj.name = selectedBuilding.obj.name;
-        buildings.Add(lastObj.transform.position, selectedBuilding);
+        // Check to make sure the tiles are not being used
+        if (!CheckTiles()) return;
 
-        Debug.Log("Created building " + lastObj.name + " with key " + lastObj.transform.position);
+        // Create the tile
+        lastObj = Instantiate(selectedTile.obj, position, rotation);
+        lastObj.name = selectedTile.obj.name;
+
+        // Set the tiles on the grid class
+        if (selectedTile.cells.Length > 0)
+        {
+            foreach (Tile.Cell cell in selectedTile.cells)
+                tileGrid.SetCell(new Vector2(position.x + cell.x, position.y + cell.y), true, selectedTile, lastObj);
+        }
+        else tileGrid.SetCell(position, true, selectedTile, lastObj);
+    }
+
+    // Checks to make sure tile(s) isn't occupied
+    public static bool CheckTiles()
+    {
+        if (selectedTile.cells.Length > 0)
+        {
+            foreach (Tile.Cell cell in selectedTile.cells)
+                if (tileGrid.RetrieveCell(new Vector2(position.x + cell.x, position.y + cell.y)) != null)
+                    return false;
+        }
+        else return tileGrid.RetrieveCell(position) == null;
+        return true;
+    }
+
+    // Attempts to return a building
+    public static Building TryGetBuilding(Vector2 position)
+    {
+        Grid.Cell cell = tileGrid.RetrieveCell(position);
+        if (cell != null)
+        {
+            Building building = cell.obj.GetComponent<Building>();
+            return building;
+        }
+        return null;
+    }
+
+    // Attempts to return a conveyor
+    public static Conveyor TryGetConveyor(Vector2 position)
+    {
+        Grid.Cell cell = tileGrid.RetrieveCell(position);
+        if (cell != null)
+        {
+            Debug.Log("Found cell at " + position);
+            Conveyor conveyor = cell.obj.GetComponent<Conveyor>();
+            return conveyor;
+        }
+        return null;
     }
 }
