@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ConveyorHandler : MonoBehaviour
+public class ConveyorHandler : NetworkBehaviour
 {
     public class ConveyorEntity
     {
-        public ConveyorEntity(float speed, Vector3 target, Transform entity)
+        public ConveyorEntity(float speed, Vector3 target, Entity entity, Conveyor conveyor)
         {
             this.speed = speed;
             this.target = target;
             this.entity = entity;
+            obj = entity.transform;
+            this.conveyor = conveyor;
         }
 
         public float speed;
         public Vector3 target;
-        public Transform entity;
+        public Entity entity;
+        public Transform obj;
+        public Conveyor conveyor;
     }
     public static List<ConveyorEntity> conveyorEntities;
 
@@ -29,8 +34,8 @@ public class ConveyorHandler : MonoBehaviour
         for (int i = 0; i < conveyorEntities.Count; i++)
         {
             ConveyorEntity a = conveyorEntities[i];
-            a.entity.position = Vector2.MoveTowards(a.entity.position, a.target, a.speed * Time.deltaTime);
-            if (a.entity.position == a.target)
+            a.obj.position = Vector2.MoveTowards(a.obj.position, a.target, a.speed * Time.deltaTime);
+            if (a.obj.position == a.target)
             {
                 RemoveConveyorEntity(a);
                 i--;
@@ -39,9 +44,9 @@ public class ConveyorHandler : MonoBehaviour
     }
 
     // Registers a new conveyor entity and returns it to the callign script
-    public static ConveyorEntity RegisterConveyorEntity(float speed, Vector3 target, Transform entity)
+    public static ConveyorEntity RegisterConveyorEntity(float speed, Vector3 target, Entity entity, Conveyor conveyor)
     {
-        ConveyorEntity newEntity = new ConveyorEntity(speed, target, entity);
+        ConveyorEntity newEntity = new ConveyorEntity(speed, target, entity, conveyor);
         conveyorEntities.Add(newEntity);
         return newEntity;
     }
@@ -49,6 +54,7 @@ public class ConveyorHandler : MonoBehaviour
     // Removes a conveyor entity
     public static void RemoveConveyorEntity(ConveyorEntity entity)
     {
+        entity.conveyor.SetBin(entity.entity);
         conveyorEntities.Remove(entity);
     }
 

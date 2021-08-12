@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
   m_Name: Spawner
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  maxStackSize: 0
+  name: Spawner
+  description: Creates items (ALPHA ONLY)
+  maxStackSize: 1
   recipe: []
-  obj: {fileID: 0}
+  obj: {fileID: 6147068497244908113, guid: 0685f90c72ff41f429949da1627020eb, type: 3}
   cells: []

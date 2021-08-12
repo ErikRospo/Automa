@@ -783,7 +783,7 @@ MonoBehaviour:
   spawner: {fileID: 11400000, guid: 0cf329597955554409a9825ec59aea3c, type: 2}
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
-  equippedItem: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
+  equippedItem: {fileID: 0}
   isClicking: 0
   walkSpeed: 5
   runSpeed: 15

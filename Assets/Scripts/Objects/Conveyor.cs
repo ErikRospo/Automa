@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Conveyor", menuName = "Buildings/Conveyor")]
 public class Conveyor : Building
 {
     // Containers
-    private Entity frontContainer;
-    private Entity backContainer;
-    public Vector3 frontPosition;
-    public Vector3 backPosition;
-    public bool frontOccupied;
-    public bool backOccupied;
+    public Entity frontBin;
+    public Entity rearBin;
+    public Transform frontPos;
+    public Transform rearPos;
 
     // Hold a reference to the previous belt
     public Building nextTarget;
@@ -24,32 +21,41 @@ public class Conveyor : Building
         CheckNearbyConveyors();
     }
 
-    public void UpdateContainer()
+    public void SetBin(Entity entity)
+    {
+        if (entity.transform.position == rearPos.position)
+        {
+            rearBin = entity;
+            acceptingEntities = false;
+        }
+        else frontBin = entity;
+        UpdateBin();
+    }
+
+    public void UpdateBin()
     {
         // Checks the front container
-        if (frontContainer != null)
+        if (frontBin != null && nextTarget != null && nextTarget.acceptingEntities)
         {
-            nextTarget.PassEntity(frontContainer);
-            frontContainer = null;
-            frontOccupied = false;
+            nextTarget.PassEntity(frontBin);
+            frontBin = null;
         }
         
         // Check the back container
-        if (backContainer != null && !frontOccupied)
+        if (rearBin != null && frontBin == null)
         {
-            backContainer.SetTarget(speed, frontPosition);
-            backContainer = null;
-            backOccupied = false;
-            frontOccupied = true;
+            rearBin.SetConveyorTarget(speed, frontPos.position, this);
+            rearBin = null;
+            acceptingEntities = true;
 
             if (previousConveyor != null)
-                previousConveyor.UpdateContainer();
+                previousConveyor.UpdateBin();
         }
     }
 
     public void CheckNearbyConveyors()
     {
-        /* Check the right position
+        // Check the right position
         Conveyor conveyor = BuildingHandler.TryGetConveyor(new Vector2(transform.position.x + 5f, transform.position.y));
         if (conveyor != null)
         {
@@ -66,16 +72,14 @@ public class Conveyor : Building
         if (conveyor != null)
         {
             conveyor.nextTarget = this;
+            conveyor.UpdateBin();
             previousConveyor = conveyor;
         }
-        */
     }
 
-    public override bool PassEntity(Entity entity)
+    public override void PassEntity(Entity entity)
     {
-        entity.SetTarget(speed, backPosition);
-        backOccupied = true;
-        return true;
+        entity.SetConveyorTarget(speed, rearPos.position, this);
     }
 
 }

@@ -7,19 +7,12 @@ public class Entity : MonoBehaviour
     public Item item;
     private ConveyorHandler.ConveyorEntity holder;
 
-    // Parameterized constructor
-    public Entity(Item item)
+    public void SetConveyorTarget(float speed, Vector3 target, Conveyor conveyor)
     {
-        this.item = item;
-        holder = null;
+        holder = ConveyorHandler.RegisterConveyorEntity(speed, target, this, conveyor);
     }
 
-    public void SetTarget(float speed, Vector3 target)
-    {
-        holder = ConveyorHandler.RegisterConveyorEntity(speed, target, transform);
-    }
-
-    public void RemoveTarget(bool removeEntity)
+    public void RemoveConveyorTarget(bool removeEntity)
     {
         ConveyorHandler.RemoveConveyorEntity(holder);
 

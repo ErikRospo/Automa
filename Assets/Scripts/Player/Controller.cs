@@ -137,7 +137,7 @@ public class Controller : NetworkBehaviour
     {
         if (Input.GetKeyDown(Keybinds.hotbar_1)) BuildingHandler.SetBuilding(conveyor);
         else if (Input.GetKeyDown(Keybinds.hotbar_2)) BuildingHandler.SetBuilding(spawner);
-        else if (Input.GetKeyDown(Keybinds.hotbar_3)) Debug.Log("Press number 3");
+        else if (Input.GetKeyDown(Keybinds.hotbar_3)) Debug.Log(ConveyorHandler.conveyorEntities.Count);
         else if (Input.GetKeyDown(Keybinds.hotbar_4)) Debug.Log("Press number 4");
         else if (Input.GetKeyDown(Keybinds.hotbar_5)) Debug.Log("Press number 5");
         else if (Input.GetKeyDown(Keybinds.hotbar_6)) Debug.Log("Press number 6");
