@@ -106,7 +106,7 @@ public class BuildingHandler : NetworkBehaviour
         if (!CheckTiles()) return;
 
         // Create the tile
-        lastObj = Instantiate(selectedTile.obj, position, rotation);
+        lastObj = Instantiate(selectedTile.obj, position, active.transform.rotation);
         lastObj.name = selectedTile.obj.name;
 
         // Set the tiles on the grid class

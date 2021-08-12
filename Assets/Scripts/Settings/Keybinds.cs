@@ -10,7 +10,10 @@ public class Keybinds
     public static KeyCode move_right = KeyCode.D;
     public static KeyCode sprint = KeyCode.LeftShift;
     public static KeyCode shoot = KeyCode.Mouse0;
+    public static KeyCode deselect = KeyCode.Mouse1;
+    public static KeyCode escape = KeyCode.Escape;
     public static KeyCode equip = KeyCode.E;
+    public static KeyCode rotate = KeyCode.R;
     public static KeyCode hotbar_1 = KeyCode.Alpha1;
     public static KeyCode hotbar_2 = KeyCode.Alpha2;
     public static KeyCode hotbar_3 = KeyCode.Alpha3;

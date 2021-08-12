@@ -93,14 +93,11 @@ public class Controller : NetworkBehaviour
 
         // Clicking input check
         if (Input.GetKey(Keybinds.shoot))
-        {
             BuildingHandler.CmdCreateBuilding();
-        }
-        else if (Input.GetKeyUp(Keybinds.shoot))
-        {
-            
-            Debug.Log(transform.name + " released primary fire");
-        }
+        else if (Input.GetKeyDown(Keybinds.rotate))
+            BuildingHandler.active.transform.Rotate(0, 0, -90);
+        else if (Input.GetKeyDown(Keybinds.deselect) || Input.GetKeyDown(Keybinds.escape))
+            BuildingHandler.SetBuilding(null);
 
         // Interacting input check
         if (Input.GetKeyDown(Keybinds.equip)) 

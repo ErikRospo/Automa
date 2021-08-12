@@ -47,7 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  acceptingEntities: 1
   entity: {fileID: 1748768319241353826, guid: 2bfe5a1c0c54ced49b61ef18658d71fd, type: 3}
+  facingTile: {x: 0, y: 0}
 --- !u!114 &-1190917367331746169
 MonoBehaviour:
   m_ObjectHideFlags: 0
