@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Conveyor", menuName = "Buildings/Conveyor")]
 public class Conveyor : Building
 {
     // Containers
@@ -23,7 +24,7 @@ public class Conveyor : Building
         CheckNearbyConveyors();
     }
 
-    public void updateContainer()
+    public void UpdateContainer()
     {
         // Checks the front container
         if (frontContainer != null)
@@ -42,13 +43,13 @@ public class Conveyor : Building
             frontOccupied = true;
 
             if (previousConveyor != null)
-                previousConveyor.updateContainer();
+                previousConveyor.UpdateContainer();
         }
     }
 
     public void CheckNearbyConveyors()
     {
-        // Check the right position
+        /* Check the right position
         Conveyor conveyor = BuildingHandler.TryGetConveyor(new Vector2(transform.position.x + 5f, transform.position.y));
         if (conveyor != null)
         {
@@ -67,6 +68,7 @@ public class Conveyor : Building
             conveyor.nextTarget = this;
             previousConveyor = conveyor;
         }
+        */
     }
 
     public override bool PassEntity(Entity entity)

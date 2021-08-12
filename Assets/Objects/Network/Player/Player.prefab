@@ -779,6 +779,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  conveyor: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
+  spawner: {fileID: 11400000, guid: 0cf329597955554409a9825ec59aea3c, type: 2}
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
   equippedItem: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
@@ -1265,7 +1267,7 @@ SpriteRenderer:
   m_Size: {x: 1.6, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7796201561969810501
