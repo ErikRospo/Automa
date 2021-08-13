@@ -112,19 +112,13 @@ public class Conveyor : Building
             {
                 conveyor.previousConveyor = this;
                 nextTarget = conveyor;
-
-                updateAnimation();
-                conveyor.updateAnimation();
             }
         }
         else
         {
             Building building = BuildingHandler.TryGetBuilding(frontTile);
             if (building != null)
-            {
                 nextTarget = building;
-                updateAnimation();
-            }
         }
 
         conveyor = BuildingHandler.TryGetConveyor(rearTile);
@@ -133,10 +127,9 @@ public class Conveyor : Building
             conveyor.nextTarget = this;
             conveyor.UpdateBin();
             previousConveyor = conveyor;
-
-            updateAnimation();
-            conveyor.updateAnimation();
         }
+
+        animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
     public override void PassEntity(Entity entity)
@@ -146,8 +139,6 @@ public class Conveyor : Building
 
     private void updateAnimation()
     {
-        Debug.Log(nextTarget != null && previousConveyor != null);
-
         if (nextTarget != null && previousConveyor != null)
             animator.SetInteger("Conveyor", 3);
         else if (nextTarget != null)
@@ -156,5 +147,7 @@ public class Conveyor : Building
             animator.SetInteger("Conveyor", 1);
         else
             animator.SetInteger("Conveyor", 0);
+
+        animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 }
