@@ -16,12 +16,14 @@ public class BuildingHandler : NetworkBehaviour
     private static GameObject lastObj;
     private static bool changeSprite;
 
-    public Tile test;
+    // Axis variables
+    public static bool buildPressed;
+    public static float lockAxisX, lockAxisY;
 
     // Sprite values
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private float alphaAdjust;
-    private float alphaHolder;
+    private static SpriteRenderer spriteRenderer;
+    private static float alphaAdjust = 0.005f;
+    private static float alphaHolder;
 
     // Start method grabs tilemap
     private void Start()
@@ -38,9 +40,10 @@ public class BuildingHandler : NetworkBehaviour
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         changeSprite = false;
         lastObj = null;
-        alphaHolder = alphaAdjust;
 
-        SetBuilding(test);
+        // Sets static anim variables
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        alphaHolder = alphaAdjust;
     }
 
     // Update is called once per frame
@@ -52,8 +55,8 @@ public class BuildingHandler : NetworkBehaviour
         // Round to grid
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
-        position = transform.position;
-        rotation = Quaternion.identity;
+        position = active.transform.position;
+        rotation = active.transform.rotation;
 
         AdjustTransparency();
     }
@@ -105,17 +108,54 @@ public class BuildingHandler : NetworkBehaviour
         // Check to make sure the tiles are not being used
         if (!CheckTiles()) return;
 
-        // Create the tile
-        lastObj = Instantiate(selectedTile.obj, position, active.transform.rotation);
-        lastObj.name = selectedTile.obj.name;
+        // Set build pressed
+        if (!buildPressed)
+        {
+            buildPressed = true;
+            InstantiateObj(selectedTile.obj, position, active.transform.rotation);
+        }
+        else if (selectedTile.name == "Conveyor")
+        {
+            if (lockAxisX == -1 && lockAxisY == -1 && lastObj.transform.position.x == position.x)
+            {
+                lockAxisX = position.x;
+                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
+            }
+            else if (lockAxisX == -1 && lockAxisY == -1 && lastObj.transform.position.y == position.y)
+            {
+                lockAxisY = position.y;
+                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
+            }
+
+            // Create the tile
+            if (lockAxisX != -1) InstantiateObj(selectedTile.obj, new Vector2(lockAxisX, position.y), active.transform.rotation);
+            else if (lockAxisY != -1) InstantiateObj(selectedTile.obj, new Vector2(position.x, lockAxisY), active.transform.rotation);
+            else InstantiateObj(selectedTile.obj, position, active.transform.rotation);
+        }
+        else InstantiateObj(selectedTile.obj, position, active.transform.rotation);
 
         // Set the tiles on the grid class
         if (selectedTile.cells.Length > 0)
         {
             foreach (Tile.Cell cell in selectedTile.cells)
-                tileGrid.SetCell(new Vector2(position.x + cell.x, position.y + cell.y), true, selectedTile, lastObj);
+                tileGrid.SetCell(new Vector2(lastObj.transform.position.x + cell.x, lastObj.transform.position.y + cell.y), true, selectedTile, lastObj);
         }
-        else tileGrid.SetCell(position, true, selectedTile, lastObj);
+        else tileGrid.SetCell(lastObj.transform.position, true, selectedTile, lastObj);
+    }
+
+    private static void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation)
+    {
+        // Create the tile
+        lastObj = Instantiate(obj, position, rotation);
+        lastObj.name = obj.name;
+    }
+
+    // Keybind for building released
+    public static void BuildReleased()
+    {
+        buildPressed = false;
+        lockAxisX = -1;
+        lockAxisY = -1;
     }
 
     // Checks to make sure tile(s) isn't occupied

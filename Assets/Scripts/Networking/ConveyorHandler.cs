@@ -21,6 +21,7 @@ public class ConveyorHandler : NetworkBehaviour
         public Entity entity;
         public Transform obj;
         public Conveyor conveyor;
+        public bool isCorner;
     }
     public static List<ConveyorEntity> conveyorEntities;
 
@@ -37,8 +38,14 @@ public class ConveyorHandler : NetworkBehaviour
             a.obj.position = Vector2.MoveTowards(a.obj.position, a.target, a.speed * Time.deltaTime);
             if (a.obj.position == a.target)
             {
-                RemoveConveyorEntity(a);
-                i--;
+                // Check if the conveyor is a corner
+                if (a.conveyor.isCorner && a.obj.position == a.conveyor.transform.position)
+                    a.target = a.conveyor.frontPos.position;
+                else
+                {
+                    RemoveConveyorEntity(a);
+                    i--;
+                }
             }
         }
     }
@@ -46,6 +53,9 @@ public class ConveyorHandler : NetworkBehaviour
     // Registers a new conveyor entity and returns it to the callign script
     public static ConveyorEntity RegisterConveyorEntity(float speed, Vector3 target, Entity entity, Conveyor conveyor)
     {
+        if (conveyor.isCorner && target == conveyor.frontPos.position)
+            target = conveyor.transform.position;
+
         ConveyorEntity newEntity = new ConveyorEntity(speed, target, entity, conveyor);
         conveyorEntities.Add(newEntity);
         return newEntity;
