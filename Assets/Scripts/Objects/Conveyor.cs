@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Conveyor : Building
 {
+    // Animation
+    private Animator animator;
+
     // Containers
-    public Entity frontBin;
-    public Entity rearBin;
+    [HideInInspector] public Entity frontBin;
+    [HideInInspector] public Entity rearBin;
     public Transform frontPos;
     public Transform rearPos;
 
     // Hold a reference to the previous belt
-    public Building nextTarget;
-    public Conveyor previousConveyor;
+    [HideInInspector] public Building nextTarget;
+    [HideInInspector] public Conveyor previousConveyor;
     
     // Speed of the conveyor (temp)
     public float speed;
@@ -32,40 +35,10 @@ public class Conveyor : Building
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         SetRotation();
         CheckNearbyConveyors();
-    }
-
-    private void SetRotation()
-    {
-        // Set rotation
-        switch (transform.rotation.eulerAngles.z)
-        {
-            case 90f:
-                Debug.Log("Checking top tile");
-                frontTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                rearTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                rotation = rotationType.NORTH;
-                break;
-            case 180f:
-                Debug.Log("Checking left tile");
-                frontTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                rearTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                rotation = rotationType.WEST;
-                break;
-            case 270f:
-                Debug.Log("Checking bottom tile");
-                frontTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                rearTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                rotation = rotationType.SOUTH;
-                break;
-            default:
-                Debug.Log("Checking right tile");
-                frontTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                rearTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                rotation = rotationType.EAST;
-                break;
-        }
     }
 
     // Sets a conveyor bin
@@ -101,6 +74,34 @@ public class Conveyor : Building
         }
     }
 
+    private void SetRotation()
+    {
+        // Set rotation
+        switch (transform.rotation.eulerAngles.z)
+        {
+            case 90f:
+                frontTile = new Vector2(transform.position.x, transform.position.y + 5f);
+                rearTile = new Vector2(transform.position.x, transform.position.y - 5f);
+                rotation = rotationType.NORTH;
+                break;
+            case 180f:
+                frontTile = new Vector2(transform.position.x - 5f, transform.position.y);
+                rearTile = new Vector2(transform.position.x + 5f, transform.position.y);
+                rotation = rotationType.WEST;
+                break;
+            case 270f:
+                frontTile = new Vector2(transform.position.x, transform.position.y - 5f);
+                rearTile = new Vector2(transform.position.x, transform.position.y + 5f);
+                rotation = rotationType.SOUTH;
+                break;
+            default:
+                frontTile = new Vector2(transform.position.x + 5f, transform.position.y);
+                rearTile = new Vector2(transform.position.x - 5f, transform.position.y);
+                rotation = rotationType.EAST;
+                break;
+        }
+    }
+
     public void CheckNearbyConveyors()
     {
         // Check the right position
@@ -111,12 +112,19 @@ public class Conveyor : Building
             {
                 conveyor.previousConveyor = this;
                 nextTarget = conveyor;
+
+                updateAnimation();
+                conveyor.updateAnimation();
             }
         }
         else
         {
             Building building = BuildingHandler.TryGetBuilding(frontTile);
-            if (building != null) nextTarget = building;
+            if (building != null)
+            {
+                nextTarget = building;
+                updateAnimation();
+            }
         }
 
         conveyor = BuildingHandler.TryGetConveyor(rearTile);
@@ -125,6 +133,9 @@ public class Conveyor : Building
             conveyor.nextTarget = this;
             conveyor.UpdateBin();
             previousConveyor = conveyor;
+
+            updateAnimation();
+            conveyor.updateAnimation();
         }
     }
 
@@ -133,4 +144,17 @@ public class Conveyor : Building
         entity.SetConveyorTarget(speed, rearPos.position, this);
     }
 
+    private void updateAnimation()
+    {
+        Debug.Log(nextTarget != null && previousConveyor != null);
+
+        if (nextTarget != null && previousConveyor != null)
+            animator.SetInteger("Conveyor", 3);
+        else if (nextTarget != null)
+            animator.SetInteger("Conveyor", 2);
+        else if (previousConveyor != null)
+            animator.SetInteger("Conveyor", 1);
+        else
+            animator.SetInteger("Conveyor", 0);
+    }
 }
