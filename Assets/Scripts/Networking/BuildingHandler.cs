@@ -60,12 +60,17 @@ public class BuildingHandler : NetworkBehaviour
         if (active == null) return;
 
         // Round to grid
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
-        position = active.transform.position;
+        OffsetBuilding();
         rotation = active.transform.rotation;
 
         AdjustTransparency();
+    }
+
+    private static void OffsetBuilding()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
+        position = active.transform.position;
     }
 
     public static void Rotate()

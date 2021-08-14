@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
+  m_Name: Smelter
+  m_EditorClassIdentifier: 
+  name: 
+  description: 
+  maxStackSize: 0
+  recipe: []
+  obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
+  cells:
+  - x: 0
+    y: 0

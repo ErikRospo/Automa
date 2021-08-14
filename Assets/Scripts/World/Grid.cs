@@ -37,6 +37,8 @@ public class Grid
 
     public void SetCell(Vector2 coords, bool occupy, Tile tile, GameObject obj)
     {
+        Debug.Log(coords);
+
         if (cells.TryGetValue(coords, out Cell cell))
         {
             cell.tile = tile;
