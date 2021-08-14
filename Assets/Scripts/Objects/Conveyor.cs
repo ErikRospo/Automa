@@ -5,13 +5,14 @@ using UnityEngine;
 public class Conveyor : Building
 {
     // Animation
-    private Animator animator;
+    public Animator animator;
 
     // Containers
     [HideInInspector] public Entity frontBin;
     [HideInInspector] public Entity rearBin;
     public Transform frontPos;
     public Transform rearPos;
+    private bool frontReserved;
 
     // Hold a reference to the previous belt
     [HideInInspector] public Building nextTarget;
@@ -22,7 +23,7 @@ public class Conveyor : Building
     public bool isCorner;
 
     // Holds positions to the front and back tiles
-    private Vector2 frontTile, rearTile, leftTile, rightTile;
+    private Vector2 frontTile, rearTile;
 
     // Holds the rotation value for comparisons
     public enum rotationType
@@ -36,8 +37,6 @@ public class Conveyor : Building
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
-
         SetRotation();
         CheckNearbyConveyors();
     }
@@ -54,6 +53,16 @@ public class Conveyor : Building
         UpdateBin();
     }
 
+    public void ToggleCorner()
+    {
+        frontPos.localPosition = new Vector2(0, frontPos.localPosition.x);
+
+        isCorner = true;
+        animator.enabled = !animator.enabled;
+        if (!animator.enabled)
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
+    }
+
     public void UpdateBin()
     {
         // Checks the front container
@@ -61,14 +70,16 @@ public class Conveyor : Building
         {
             nextTarget.PassEntity(frontBin);
             frontBin = null;
+            frontReserved = false;
         }
         
         // Check the back container
-        if (rearBin != null && frontBin == null)
+        if (rearBin != null && frontBin == null && !frontReserved)
         {
             rearBin.SetConveyorTarget(speed, frontPos.position, this);
             rearBin = null;
             acceptingEntities = true;
+            frontReserved = true;
 
             if (previousConveyor != null)
                 previousConveyor.UpdateBin();
@@ -83,29 +94,21 @@ public class Conveyor : Building
             case 90f:
                 frontTile = new Vector2(transform.position.x, transform.position.y + 5f);
                 rearTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                leftTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                rightTile = new Vector2(transform.position.x + 5f, transform.position.y);
                 rotation = rotationType.NORTH;
                 break;
             case 180f:
                 frontTile = new Vector2(transform.position.x - 5f, transform.position.y);
                 rearTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                leftTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                rightTile = new Vector2(transform.position.x, transform.position.y + 5f);
                 rotation = rotationType.WEST;
                 break;
             case 270f:
                 frontTile = new Vector2(transform.position.x, transform.position.y - 5f);
                 rearTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                leftTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                rightTile = new Vector2(transform.position.x - 5f, transform.position.y);
                 rotation = rotationType.SOUTH;
                 break;
             default:
                 frontTile = new Vector2(transform.position.x + 5f, transform.position.y);
                 rearTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                leftTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                rightTile = new Vector2(transform.position.x, transform.position.y - 5f);
                 rotation = rotationType.EAST;
                 break;
         }
@@ -122,7 +125,6 @@ public class Conveyor : Building
                 conveyor.previousConveyor = this;
                 nextTarget = conveyor;
             }
-            else CornerCheck(conveyor);
         }
         else
         {
@@ -138,6 +140,7 @@ public class Conveyor : Building
             conveyor.UpdateBin();
             previousConveyor = conveyor;
         }
+        else if (conveyor != null && conveyor.isCorner) CornerCheck(conveyor);
 
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
@@ -145,19 +148,20 @@ public class Conveyor : Building
     private void CornerCheck(Conveyor conveyor)
     {
         // Check to make sure conveyor is not facing the same direction
-        if (conveyor.rotation == rotationType.EAST  && rotation == rotationType.WEST  ||
-            conveyor.rotation == rotationType.NORTH && rotation == rotationType.SOUTH ||
-            conveyor.rotation == rotationType.WEST  && rotation == rotationType.EAST  ||
-            conveyor.rotation == rotationType.SOUTH && rotation == rotationType.NORTH) return;
-
-        // Check to make sure the conveyor does not have a previous conveyor target
-        if (conveyor.previousConveyor != null) return;
-
-        // Setup the rotation
+        if (conveyor.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
+            conveyor.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
+            conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
+            conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
+        {
+            conveyor.nextTarget = this;
+            conveyor.UpdateBin();
+            previousConveyor = conveyor;
+        }
     }
 
     public override void PassEntity(Entity entity)
     {
+        acceptingEntities = false;
         entity.SetConveyorTarget(speed, rearPos.position, this);
     }
 }

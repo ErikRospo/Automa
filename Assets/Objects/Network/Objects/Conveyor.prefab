@@ -81,6 +81,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   acceptingEntities: 1
+  animator: {fileID: 8296687514376543157}
   frontBin: {fileID: 0}
   rearBin: {fileID: 0}
   frontPos: {fileID: 267341909547615522}
@@ -88,6 +89,7 @@ MonoBehaviour:
   nextTarget: {fileID: 0}
   previousConveyor: {fileID: 0}
   speed: 5
+  isCorner: 0
   rotation: 0
 --- !u!114 &6076302020130993081
 MonoBehaviour:
@@ -125,7 +127,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
