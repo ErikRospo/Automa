@@ -62,7 +62,7 @@ public class Controller : NetworkBehaviour
         animator.SetFloat("Speed", speed);
 
         // Update for owner
-        if (!hasAuthority) return;
+        if (!hasAuthority || CameraFollow.freecam) return;
 
         // Rotates player body to mouse
         RotateToMouse();
