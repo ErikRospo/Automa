@@ -781,6 +781,7 @@ MonoBehaviour:
   syncInterval: 0.1
   conveyor: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
   spawner: {fileID: 11400000, guid: 0cf329597955554409a9825ec59aea3c, type: 2}
+  smelter: {fileID: 11400000, guid: dab089c160e88e240be7b336f9d1f7a7, type: 2}
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
   equippedItem: {fileID: 0}

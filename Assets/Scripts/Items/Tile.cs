@@ -8,10 +8,11 @@ public class Tile : Item
     [System.Serializable]
     public struct Cell
     {
-        public int x;
-        public int y;
+        public float x;
+        public float y;
     }
 
     public GameObject obj;
     public Cell[] cells;
+    public Vector2 offset;
 }

@@ -12,6 +12,7 @@ public class BuildingHandler : NetworkBehaviour
     public static BuildingHandler active;
     private static Tile selectedTile;
     private static Vector2 position;
+    private static Vector2 offset;
     private static Quaternion rotation;
     private static GameObject lastObj;
     private static bool changeSprite;
@@ -40,6 +41,7 @@ public class BuildingHandler : NetworkBehaviour
         tileGrid.cells = new Dictionary<Vector2, Grid.Cell>();
         selectedTile = null;
         position = new Vector2(0, 0);
+        offset = new Vector2(0, 0);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         changeSprite = false;
         conveyorOverrideSprite = false;
@@ -69,7 +71,7 @@ public class BuildingHandler : NetworkBehaviour
     private static void OffsetBuilding()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
+        active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
         position = active.transform.position;
     }
 
@@ -160,6 +162,7 @@ public class BuildingHandler : NetworkBehaviour
 
         changeSprite = true;
         selectedTile = tile;
+        offset = tile.offset;
     }
 
     // Creates a building
