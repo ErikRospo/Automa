@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267341909547615522}
   m_Layer: 0
-  m_Name: Front Bin
+  m_Name: Output Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4984206768917162299}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5037051939383339140
 GameObject:
@@ -61,8 +61,8 @@ Transform:
   m_LocalPosition: {x: 2.5, y: 2.5, z: 0}
   m_LocalScale: {x: 1.041667, y: 1.041667, z: 1}
   m_Children:
-  - {fileID: 267341909547615522}
   - {fileID: 7287658446430091751}
+  - {fileID: 267341909547615522}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,14 +81,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   acceptingEntities: 1
+  inputPositions:
+  - {fileID: 7287658446430091751}
+  outputPositions:
+  - {fileID: 267341909547615522}
+  inputReserved: 0
   animator: {fileID: 8296687514376543157}
   frontBin: {fileID: 0}
   rearBin: {fileID: 0}
-  frontPos: {fileID: 267341909547615522}
-  rearPos: {fileID: 7287658446430091751}
   nextTarget: {fileID: 0}
   previousConveyor: {fileID: 0}
-  speed: 5
   isCorner: 0
   rotation: 0
 --- !u!114 &6076302020130993081
@@ -146,7 +148,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1610592287
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 367aaf1b3838d8d4e8f0a6ad93101287, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -188,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7287658446430091751}
   m_Layer: 0
-  m_Name: Rear Bin
+  m_Name: Input Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,5 +208,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4984206768917162299}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

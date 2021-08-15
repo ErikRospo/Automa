@@ -5,18 +5,9 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     public Item item;
-    private ConveyorHandler.ConveyorEntity holder;
 
-    public void SetConveyorTarget(float speed, Vector3 target, Conveyor conveyor)
+    public void MoveTo(float speed, Vector3 target, Building building)
     {
-        holder = ConveyorHandler.RegisterConveyorEntity(speed, target, this, conveyor);
-    }
-
-    public void RemoveConveyorTarget(bool removeEntity)
-    {
-        ConveyorHandler.RemoveConveyorEntity(holder);
-
-        if (removeEntity) Destroy(gameObject);
-        else holder = null;
+        EntityHandler.RegisterMovingEntity(speed, target, this, building);
     }
 }

@@ -10,16 +10,12 @@ public class Conveyor : Building
     // Containers
     [HideInInspector] public Entity frontBin;
     [HideInInspector] public Entity rearBin;
-    public Transform frontPos;
-    public Transform rearPos;
-    private bool frontReserved;
 
     // Hold a reference to the previous belt
     [HideInInspector] public Building nextTarget;
     [HideInInspector] public Conveyor previousConveyor;
     
     // Speed of the conveyor (temp)
-    public float speed;
     public bool isCorner;
 
     // Holds positions to the front and back tiles
@@ -44,7 +40,7 @@ public class Conveyor : Building
     // Sets a conveyor bin
     public void SetBin(Entity entity)
     {
-        if (entity.transform.position == rearPos.position)
+        if (entity.transform.position == inputPositions[0].position)
         {
             rearBin = entity;
             acceptingEntities = false;
@@ -55,7 +51,7 @@ public class Conveyor : Building
 
     public void ToggleCorner()
     {
-        frontPos.localPosition = new Vector2(0, frontPos.localPosition.x);
+        outputPositions[0].localPosition = new Vector2(0, outputPositions[0].localPosition.x);
 
         isCorner = true;
         animator.enabled = !animator.enabled;
@@ -71,17 +67,20 @@ public class Conveyor : Building
             if (nextTarget.PassEntity(frontBin))
             {
                 frontBin = null;
-                frontReserved = false;
+                outputReserved = false;
             }
         }
         
         // Check the back container
-        if (rearBin != null && frontBin == null && !frontReserved)
+        if (rearBin != null && frontBin == null && !outputReserved)
         {
-            rearBin.SetConveyorTarget(speed, frontPos.position, this);
+            if (isCorner) rearBin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
+            else rearBin.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0].position, this);
+
             rearBin = null;
             acceptingEntities = true;
-            frontReserved = true;
+            outputReserved = true;
+            inputReserved = false;
 
             if (previousConveyor != null)
                 previousConveyor.UpdateBin();
@@ -164,7 +163,15 @@ public class Conveyor : Building
     public override bool PassEntity(Entity entity)
     {
         acceptingEntities = false;
-        entity.SetConveyorTarget(speed, rearPos.position, this);
+        inputReserved = true;
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputPositions[0].position, this);
         return true;
+    }
+
+    public override void ReceiveEntity(Entity entity)
+    {
+        if (entity.transform.position == transform.position)
+            entity.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0].position, this);
+        else SetBin(entity);
     }
 }
