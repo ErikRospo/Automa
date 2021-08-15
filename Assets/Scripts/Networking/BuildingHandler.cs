@@ -237,6 +237,9 @@ public class BuildingHandler : NetworkBehaviour
         buildPressed = false;
         lockAxisX = -1;
         lockAxisY = -1;
+
+        spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/"+selectedTile.name);
+        changeSprite = true;
     }
 
     // Checks to make sure tile(s) isn't occupied
