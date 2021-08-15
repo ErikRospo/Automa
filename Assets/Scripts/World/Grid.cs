@@ -20,13 +20,13 @@ public class Grid
 
     // Holds a dictionary of all cells
     // Int represents coords of the tile 
-    public Dictionary<Vector2, Cell> cells;
+    public Dictionary<Vector2Int, Cell> cells;
 
     // Grid values
     public int gridSize;
     public int cellSize;
 
-    public Cell RetrieveCell(Vector2 coords)
+    public Cell RetrieveCell(Vector2Int coords)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {
@@ -35,7 +35,7 @@ public class Grid
         else return null;
     }
 
-    public void SetCell(Vector2 coords, bool occupy, Tile tile, GameObject obj)
+    public void SetCell(Vector2Int coords, bool occupy, Tile tile, GameObject obj)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {

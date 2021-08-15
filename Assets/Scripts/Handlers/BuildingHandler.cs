@@ -38,7 +38,7 @@ public class BuildingHandler : NetworkBehaviour
 
         // Sets static variables on start
         tileGrid = new Grid();
-        tileGrid.cells = new Dictionary<Vector2, Grid.Cell>();
+        tileGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
         selectedTile = null;
         position = new Vector2(0, 0);
         offset = new Vector2(0, 0);
@@ -162,7 +162,7 @@ public class BuildingHandler : NetworkBehaviour
 
         changeSprite = true;
         selectedTile = tile;
-        offset = tile.offset;
+        if (tile != null) offset = tile.offset;
     }
 
     // Creates a building
@@ -174,7 +174,43 @@ public class BuildingHandler : NetworkBehaviour
         // Check to make sure the tiles are not being used
         if (!CheckTiles()) return;
 
-        // Set build pressed
+        // Instantiate the object like usual
+        InstantiateObj(selectedTile.obj, position, active.transform.rotation);
+
+        // Set the tiles on the grid class
+        if (selectedTile.cells.Length > 0)
+        {
+            foreach (Tile.Cell cell in selectedTile.cells)
+                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastObj.transform.position.x + cell.x, lastObj.transform.position.y + cell.y)), true, selectedTile, lastObj);
+        }
+        else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
+    }
+
+    private static void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation, int axisLock = -1)
+    {
+        // Create the tile
+        lastObj = Instantiate(obj, position, rotation);
+        lastObj.name = obj.name;
+
+        if (conveyorOverrideCreation)
+        {
+            Conveyor conveyor = lastObj.GetComponent<Conveyor>();
+            if (conveyor != null)
+            {
+                conveyor.SetupPositions();
+                conveyor.ToggleCorner();
+
+                if (rotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
+                else active.transform.Rotate(new Vector3(0, 0, -90));
+            }
+
+            conveyorOverrideCreation = false;
+            changeSprite = true;
+        }
+    }
+
+    private static void ConveyorCheck()
+    {
         if (!buildPressed)
         {
             buildPressed = true;
@@ -199,36 +235,6 @@ public class BuildingHandler : NetworkBehaviour
             else { BuildReleased(); return; }
         }
         else InstantiateObj(selectedTile.obj, position, active.transform.rotation);
-
-        // Set the tiles on the grid class
-        if (selectedTile.cells.Length > 0)
-        {
-            foreach (Tile.Cell cell in selectedTile.cells)
-                tileGrid.SetCell(new Vector2(lastObj.transform.position.x + cell.x, lastObj.transform.position.y + cell.y), true, selectedTile, lastObj);
-        }
-        else tileGrid.SetCell(lastObj.transform.position, true, selectedTile, lastObj);
-    }
-
-    private static void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation, int axisLock = -1)
-    {
-        // Create the tile
-        lastObj = Instantiate(obj, position, rotation);
-        lastObj.name = obj.name;
-
-        if (conveyorOverrideCreation)
-        {
-            Conveyor conveyor = lastObj.GetComponent<Conveyor>();
-            if (conveyor != null)
-            {
-                conveyor.ToggleCorner();
-
-                if (rotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
-                else active.transform.Rotate(new Vector3(0, 0, -90));
-            }
-
-            conveyorOverrideCreation = false;
-            changeSprite = true;
-        }
     }
 
     // Keybind for building released
@@ -251,17 +257,17 @@ public class BuildingHandler : NetworkBehaviour
         if (selectedTile.cells.Length > 0)
         {
             foreach (Tile.Cell cell in selectedTile.cells)
-                if (tileGrid.RetrieveCell(new Vector2(position.x + cell.x, position.y + cell.y)) != null)
+                if (tileGrid.RetrieveCell(Vector2Int.RoundToInt(new Vector2(position.x + cell.x, position.y + cell.y))) != null)
                     return false;
         }
-        else return tileGrid.RetrieveCell(position) == null;
+        else return tileGrid.RetrieveCell(Vector2Int.RoundToInt(position)) == null;
         return true;
     }
 
     // Attempts to return a building
     public static Building TryGetBuilding(Vector2 position)
     {
-        Grid.Cell cell = tileGrid.RetrieveCell(position);
+        Grid.Cell cell = tileGrid.RetrieveCell(Vector2Int.RoundToInt(position));
         if (cell != null)
         {
             Building building = cell.obj.GetComponent<Building>();
@@ -273,7 +279,7 @@ public class BuildingHandler : NetworkBehaviour
     // Attempts to return a conveyor
     public static Conveyor TryGetConveyor(Vector2 position)
     {
-        Grid.Cell cell = tileGrid.RetrieveCell(position);
+        Grid.Cell cell = tileGrid.RetrieveCell(Vector2Int.RoundToInt(position));
         if (cell != null)
         {
             Conveyor conveyor = cell.obj.GetComponent<Conveyor>();

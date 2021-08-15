@@ -40,7 +40,6 @@ public class Spawner : Building
         if (frameTracker == frameLimit)
         {
             frameTracker = 0;
-            Debug.Log("Attempting to spawn item");
             Building building = BuildingHandler.TryGetBuilding(facingTile);
             if (building != null && building.acceptingEntities)
             {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267341909547615522}
   m_Layer: 0
-  m_Name: Output Position
+  m_Name: Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,6 +29,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4984206768917162299}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4917549279222357969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5611014965483926417}
+  m_Layer: 0
+  m_Name: Input Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5611014965483926417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917549279222357969}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4984206768917162299}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5037051939383339140
 GameObject:
@@ -59,10 +89,12 @@ Transform:
   m_GameObject: {fileID: 5037051939383339140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 2.5, z: 0}
-  m_LocalScale: {x: 1.041667, y: 1.041667, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7287658446430091751}
   - {fileID: 267341909547615522}
+  - {fileID: 5611014965483926417}
+  - {fileID: 2554693357890770115}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,17 +113,23 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   acceptingEntities: 1
-  inputPositions:
+  inputs:
   - {fileID: 7287658446430091751}
-  outputPositions:
+  outputs:
   - {fileID: 267341909547615522}
+  inputTiles:
+  - {fileID: 5611014965483926417}
+  outputTiles:
+  - {fileID: 2554693357890770115}
   inputReserved: 0
+  outputReserved: 0
   animator: {fileID: 8296687514376543157}
   frontBin: {fileID: 0}
   rearBin: {fileID: 0}
   nextTarget: {fileID: 0}
   previousConveyor: {fileID: 0}
   isCorner: 0
+  sizeAdjust: 1.0416666
   rotation: 0
 --- !u!114 &6076302020130993081
 MonoBehaviour:
@@ -190,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7287658446430091751}
   m_Layer: 0
-  m_Name: Input Position
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,4 +247,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4984206768917162299}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8066109214983186454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2554693357890770115}
+  m_Layer: 0
+  m_Name: Output Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2554693357890770115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8066109214983186454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4984206768917162299}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

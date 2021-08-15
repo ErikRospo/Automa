@@ -14,7 +14,7 @@ public class Smelter : Building
         Item input = recipe.input.item;
         if (entity.item == input && holding < input.maxStackSize)
         {
-            EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputPositions[0].position, entity, this);
+            EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputPositions[0], entity, this);
             return true;
         }
         return false;
@@ -24,7 +24,7 @@ public class Smelter : Building
     {
         // Add entity to internal storage and move it to output position
         holding += 1;
-        entity.transform.position = outputPositions[0].position;
+        entity.transform.position = outputPositions[0];
         entitiesInside.Add(entity);
 
         // If enough entities in storage, begin smelting

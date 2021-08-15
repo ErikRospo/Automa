@@ -17,9 +17,7 @@ public class Conveyor : Building
     
     // Speed of the conveyor (temp)
     public bool isCorner;
-
-    // Holds positions to the front and back tiles
-    private Vector2 frontTile, rearTile;
+    public float sizeAdjust;
 
     // Holds the rotation value for comparisons
     public enum rotationType
@@ -33,14 +31,15 @@ public class Conveyor : Building
 
     private void Start()
     {
-        SetRotation();
+        SetupPositions();
+        transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
         CheckNearbyConveyors();
     }
 
     // Sets a conveyor bin
     public void SetBin(Entity entity)
     {
-        if (entity.transform.position == inputPositions[0].position)
+        if (entity.transform.position == inputPositions[0])
         {
             rearBin = entity;
             acceptingEntities = false;
@@ -51,7 +50,7 @@ public class Conveyor : Building
 
     public void ToggleCorner()
     {
-        outputPositions[0].localPosition = new Vector2(0, outputPositions[0].localPosition.x);
+        outputPositions[0] = new Vector2(0, outputPositions[0].x);
 
         isCorner = true;
         animator.enabled = !animator.enabled;
@@ -75,7 +74,7 @@ public class Conveyor : Building
         if (rearBin != null && frontBin == null && !outputReserved)
         {
             if (isCorner) rearBin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
-            else rearBin.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0].position, this);
+            else rearBin.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0], this);
 
             rearBin = null;
             acceptingEntities = true;
@@ -87,38 +86,10 @@ public class Conveyor : Building
         }
     }
 
-    private void SetRotation()
-    {
-        // Set rotation
-        switch (transform.rotation.eulerAngles.z)
-        {
-            case 90f:
-                frontTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                rearTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                rotation = rotationType.NORTH;
-                break;
-            case 180f:
-                frontTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                rearTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                rotation = rotationType.WEST;
-                break;
-            case 270f:
-                frontTile = new Vector2(transform.position.x, transform.position.y - 5f);
-                rearTile = new Vector2(transform.position.x, transform.position.y + 5f);
-                rotation = rotationType.SOUTH;
-                break;
-            default:
-                frontTile = new Vector2(transform.position.x + 5f, transform.position.y);
-                rearTile = new Vector2(transform.position.x - 5f, transform.position.y);
-                rotation = rotationType.EAST;
-                break;
-        }
-    }
-
     public void CheckNearbyConveyors()
     {
         // Check the right position
-        Conveyor conveyor = BuildingHandler.TryGetConveyor(frontTile);
+        Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
         if (conveyor != null)
         {
             if (conveyor.rotation == rotation)
@@ -129,12 +100,12 @@ public class Conveyor : Building
         }
         else
         {
-            Building building = BuildingHandler.TryGetBuilding(frontTile);
+            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
             if (building != null)
                 nextTarget = building;
         }
 
-        conveyor = BuildingHandler.TryGetConveyor(rearTile);
+        conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
         if (conveyor != null && conveyor.rotation == rotation)
         {
             conveyor.nextTarget = this;
@@ -164,14 +135,14 @@ public class Conveyor : Building
     {
         acceptingEntities = false;
         inputReserved = true;
-        entity.MoveTo(ResearchHandler.conveyorSpeed, inputPositions[0].position, this);
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputPositions[0], this);
         return true;
     }
 
     public override void ReceiveEntity(Entity entity)
     {
         if (entity.transform.position == transform.position)
-            entity.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0].position, this);
+            entity.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0], this);
         else SetBin(entity);
     }
 }
