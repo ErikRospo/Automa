@@ -68,9 +68,11 @@ public class Conveyor : Building
         // Checks the front container
         if (frontBin != null && nextTarget != null && nextTarget.acceptingEntities)
         {
-            nextTarget.PassEntity(frontBin);
-            frontBin = null;
-            frontReserved = false;
+            if (nextTarget.PassEntity(frontBin))
+            {
+                frontBin = null;
+                frontReserved = false;
+            }
         }
         
         // Check the back container
@@ -159,9 +161,10 @@ public class Conveyor : Building
         }
     }
 
-    public override void PassEntity(Entity entity)
+    public override bool PassEntity(Entity entity)
     {
         acceptingEntities = false;
         entity.SetConveyorTarget(speed, rearPos.position, this);
+        return true;
     }
 }

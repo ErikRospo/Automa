@@ -46,7 +46,8 @@ public class Spawner : Building
             {
                 Entity lastEntity = Instantiate(entity, transform.position, Quaternion.identity).GetComponent<Entity>();
                 lastEntity.name = entity.name;
-                building.PassEntity(lastEntity);
+                if (!building.PassEntity(lastEntity))
+                    Destroy(lastEntity.transform);
             }
         }
     }

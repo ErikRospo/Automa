@@ -15,9 +15,19 @@ MonoBehaviour:
   name: Smelter
   description: Turns raw ore into ingots for further manufacturing.
   maxStackSize: 10
-  recipe: []
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
+  recipes: []
   cells:
+  - x: -5
+    y: 2.5
   - x: 0
-    y: 0
+    y: 2.5
+  - x: 5
+    y: 2.5
+  - x: -5
+    y: -2.5
+  - x: 0
+    y: -2.5
+  - x: 5
+    y: -2.5
   offset: {x: 0, y: 2.5}

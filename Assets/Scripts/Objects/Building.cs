@@ -5,9 +5,9 @@ using Mirror;
 
 public abstract class Building : NetworkBehaviour, IDamageable
 {
-    public bool acceptingEntities = true;
-    public virtual void PassEntity(Entity entity)
+    public bool acceptingEntities = false;
+    public virtual bool PassEntity(Entity entity)
     {
-        Debug.Log("This building can not receive items");
+        return acceptingEntities;
     }
 }
