@@ -19,6 +19,14 @@ public abstract class Building : NetworkBehaviour, IDamageable
     protected Vector3[] inputTilePositions;
     protected Vector3[] outputTilePositions;
 
+    // Containers
+    [HideInInspector] public Entity frontBin;
+    [HideInInspector] public Entity rearBin;
+
+    // Hold a reference to the previous belt
+    public Building nextTarget;
+    public Building previousTarget;
+
     public bool inputReserved;
     public bool outputReserved;
     private bool positionsSet = false;
@@ -44,6 +52,17 @@ public abstract class Building : NetworkBehaviour, IDamageable
     public virtual void ReceiveEntity(Entity entity)
     {
         Debug.Log("This building cannot receive entities!");
+    }
+
+    // Used to update the bins on a building
+    //
+    // Ex. A conveyor has a front bin which contains the entity sitting at the front side of
+    // the conveyor. If tile the conveyor is on is updated as an input tile (meaning a building
+    // nearby can take entities from that tile), this function will get called. It will continue
+    // being called until all affected buildings are updated.
+    public virtual void UpdateBins()
+    {
+        Debug.Log("This building does not contain bins to update");
     }
 
     // Must be called by each building

@@ -13,20 +13,21 @@ public class ItemHandler : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct SmelterRecipe
+    public struct Recipes
     {
         public string name;
-        public RecipeItem input;
-        public RecipeItem output;
+        public RecipeItem[] input;
+        public RecipeItem[] output;
+        public Building madeIn;
         public int time;
         public bool unlocked;
     }
 
-    public SmelterRecipe[] smelterRecipes;
-    public static SmelterRecipe[] _smelterRecipes;
+    public Recipes[] recipes;
+    public static Recipes[] _recipes;
 
     private void Start()
     {
-        _smelterRecipes = smelterRecipes;
+        _recipes = recipes;
     }
 }

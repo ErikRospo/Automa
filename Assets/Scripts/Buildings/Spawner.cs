@@ -43,8 +43,7 @@ public class Spawner : Building
             Building building = BuildingHandler.TryGetBuilding(facingTile);
             if (building != null && building.acceptingEntities)
             {
-                Entity lastEntity = Instantiate(entity, transform.position, Quaternion.identity).GetComponent<Entity>();
-                lastEntity.name = entity.name;
+                Entity lastEntity = EntityHandler.RegisterEntity(entity, transform.position, Quaternion.identity);
                 if (!building.PassEntity(lastEntity))
                     Destroy(lastEntity.transform);
             }

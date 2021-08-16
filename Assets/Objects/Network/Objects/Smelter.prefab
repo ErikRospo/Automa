@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 97799960630488167}
   m_Layer: 0
-  m_Name: Input Position
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,6 +30,66 @@ Transform:
   m_Father: {fileID: 6177408322010007151}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1297109336321529007
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2124716609463497305}
+  m_Layer: 0
+  m_Name: Output Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2124716609463497305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297109336321529007}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: -2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6177408322010007151}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2280202244154719754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3952345751440692586}
+  m_Layer: 0
+  m_Name: Input Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3952345751440692586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2280202244154719754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6177408322010007151}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6616566450106930778
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7042507410382509445}
   m_Layer: 0
-  m_Name: Output Position
+  m_Name: Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,6 +152,8 @@ Transform:
   m_Children:
   - {fileID: 97799960630488167}
   - {fileID: 7042507410382509445}
+  - {fileID: 3952345751440692586}
+  - {fileID: 2124716609463497305}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -110,25 +172,33 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   acceptingEntities: 1
-  inputPositions:
-  - {fileID: 0}
-  outputPositions:
-  - {fileID: 0}
-  inputReserved: 0
-  recipe:
-    name: 
-    input:
-      name: 
-      item: {fileID: 0}
-      amount: 0
-    output:
-      name: 
-      item: {fileID: 0}
-      amount: 0
-    time: 0
-    unlocked: 0
+  inputs:
+  - {fileID: 97799960630488167}
+  outputs:
+  - {fileID: 7042507410382509445}
+  inputTiles:
+  - {fileID: 3952345751440692586}
+  outputTiles:
+  - {fileID: 2124716609463497305}
+  frontBin: {fileID: 0}
+  rearBin: {fileID: 0}
   nextTarget: {fileID: 0}
-  holding: 0
+  previousTarget: {fileID: 0}
+  inputReserved: 0
+  outputReserved: 0
+  recipe:
+    name: Test Recipe
+    input:
+    - name: Iron Ore
+      item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
+      amount: 5
+    output:
+    - name: Conveyor
+      item: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
+      amount: 1
+    madeIn: {fileID: 2807930650134522245}
+    time: 500
+    unlocked: 1
 --- !u!212 &429302136324394411
 SpriteRenderer:
   m_ObjectHideFlags: 0

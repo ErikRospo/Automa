@@ -43,11 +43,10 @@ public class EntityHandler : NetworkBehaviour
     }
 
     // Registers a new conveyor entity and returns it to the callign script
-    public static MovingEntity RegisterMovingEntity(float speed, Vector3 target, Entity entity, Building building)
+    public static void RegisterMovingEntity(float speed, Vector3 target, Entity entity, Building building)
     {
         MovingEntity newEntity = new MovingEntity(speed, target, entity, building);
         movingEntities.Add(newEntity);
-        return newEntity;
     }
 
     // Removes a conveyor entity
@@ -55,6 +54,20 @@ public class EntityHandler : NetworkBehaviour
     {
         entity.building.ReceiveEntity(entity.entity);
         movingEntities.Remove(entity);
+    }
+
+    public static Entity RegisterEntity(Transform entity, Vector2 position, Quaternion rotation)
+    {
+        Transform obj = Instantiate(entity, position, rotation);
+        Entity lastEntity = obj.GetComponent<Entity>();
+        if (lastEntity == null)
+        {
+            Debug.LogError("The entity you tried to create does not contain an entity script!");
+            Recycler.AddRecyclable(obj);
+            return null;
+        }
+        lastEntity.name = entity.name;
+        return lastEntity;
     }
 
 }

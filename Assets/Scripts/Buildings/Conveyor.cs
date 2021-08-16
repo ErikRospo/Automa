@@ -6,14 +6,6 @@ public class Conveyor : Building
 {
     // Animation
     public Animator animator;
-
-    // Containers
-    [HideInInspector] public Entity frontBin;
-    [HideInInspector] public Entity rearBin;
-
-    // Hold a reference to the previous belt
-    [HideInInspector] public Building nextTarget;
-    [HideInInspector] public Conveyor previousConveyor;
     
     // Speed of the conveyor (temp)
     public bool isCorner;
@@ -45,7 +37,7 @@ public class Conveyor : Building
             acceptingEntities = false;
         }
         else frontBin = entity;
-        UpdateBin();
+        UpdateBins();
     }
 
     public void ToggleCorner()
@@ -58,7 +50,7 @@ public class Conveyor : Building
             GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
     }
 
-    public void UpdateBin()
+    public override void UpdateBins()
     {
         // Checks the front container
         if (frontBin != null && nextTarget != null && nextTarget.acceptingEntities)
@@ -81,20 +73,20 @@ public class Conveyor : Building
             outputReserved = true;
             inputReserved = false;
 
-            if (previousConveyor != null)
-                previousConveyor.UpdateBin();
+            if (previousTarget != null)
+                previousTarget.UpdateBins();
         }
     }
 
     public void CheckNearbyConveyors()
     {
-        // Check the right position
+        // Check the front bin
         Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
         if (conveyor != null)
         {
             if (conveyor.rotation == rotation)
             {
-                conveyor.previousConveyor = this;
+                conveyor.previousTarget = this;
                 nextTarget = conveyor;
             }
         }
@@ -105,14 +97,24 @@ public class Conveyor : Building
                 nextTarget = building;
         }
 
+        // Check the rear bin
         conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
         if (conveyor != null && conveyor.rotation == rotation)
         {
             conveyor.nextTarget = this;
-            conveyor.UpdateBin();
-            previousConveyor = conveyor;
+            conveyor.UpdateBins();
+            previousTarget = conveyor;
         }
         else if (conveyor != null && conveyor.isCorner) CornerCheck(conveyor);
+        else
+        {
+            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+            if (building != null)
+            {
+                building.nextTarget = this;
+                building.UpdateBins();
+            }
+        }
 
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
@@ -126,8 +128,8 @@ public class Conveyor : Building
             conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
         {
             conveyor.nextTarget = this;
-            conveyor.UpdateBin();
-            previousConveyor = conveyor;
+            conveyor.UpdateBins();
+            previousTarget = conveyor;
         }
     }
 
