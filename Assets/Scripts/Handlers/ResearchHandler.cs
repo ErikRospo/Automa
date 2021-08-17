@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ResearchHandler : MonoBehaviour
 {
-    public static float conveyorSpeed = 3f;
+    public static float conveyorSpeed = 5f;
 }
