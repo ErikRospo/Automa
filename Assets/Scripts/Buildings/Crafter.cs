@@ -17,6 +17,7 @@ public class Crafter : Building
         nextTarget = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
     }
 
+    // Adds an item to the internal crafter storage
     public void AddItem(Item itemToInput, int amountToAdd)
     {
         Item input = recipe.input[0].item;
@@ -28,6 +29,7 @@ public class Crafter : Building
         }
     }
 
+    // Crafts the chosen recipe
     public void CraftItem()
     {
         isCrafting = false;
@@ -42,6 +44,7 @@ public class Crafter : Building
         CheckStorage();
     }
 
+    // Check the internal storage. If enough materials, craft the item
     public void CheckStorage()
     {
         if (holding.TryGetValue(recipe.input[0].item, out int amount))
@@ -54,6 +57,7 @@ public class Crafter : Building
         }
     }
 
+    // Update entity bins
     public override void UpdateBins()
     {
         // Checks the front container
@@ -68,6 +72,7 @@ public class Crafter : Building
         }
     }
 
+    // Check for nearby buildings
     public void CheckNearbyBuildings()
     {
         // Check the output tile
@@ -97,7 +102,8 @@ public class Crafter : Building
             }
         }
     }
-
+     
+    // Called when an entity is ready to be sent 
     public override bool PassEntity(Entity entity)
     {
         Item input = recipe.input[0].item;

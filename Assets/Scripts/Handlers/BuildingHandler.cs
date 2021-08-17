@@ -77,12 +77,14 @@ public class BuildingHandler : NetworkBehaviour
         AdjustTransparency();
     }
 
+    // Uses the offset value from the Tile SO to center the object
     private static void OffsetBuilding()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
         position = active.transform.position;
 
+        // Update last conveyor position (for rotating)
         if (lastConveyorPosition != position)
         {
             changeSprite = true;
@@ -91,14 +93,17 @@ public class BuildingHandler : NetworkBehaviour
         }
     }
 
+    // Rotates an object
     public static void Rotate()
     {
         if (selectedTile != null && selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck())
             active.transform.Rotate(0, 0, -90);
     }
 
+    // Automatically applies corner rotation to conveyors
     private static bool ConveyorRotationCheck()
     {
+        // If position has not moved since last check, don't reset target tile
         if (lastConveyorPosition != position)
         {
             Vector2 targetTile;
@@ -118,6 +123,7 @@ public class BuildingHandler : NetworkBehaviour
                     break;
             }
 
+            // If conveyor found, save it and set corner sprite
             lastConveyor = TryGetConveyor(targetTile);
             if (lastConveyor != null)
             {
@@ -129,6 +135,7 @@ public class BuildingHandler : NetworkBehaviour
             conveyorRotateSwitch = false;
         }
 
+        // If the previous conveyor still exists, rotate based off it's orientation
         if (lastConveyor != null)
         {
             if (conveyorRotateSwitch)
@@ -238,6 +245,7 @@ public class BuildingHandler : NetworkBehaviour
         }
     }
 
+    // Handles conveyor axis lock (needs improvement)
     private static void ConveyorCheck()
     {
         if (!buildPressed)

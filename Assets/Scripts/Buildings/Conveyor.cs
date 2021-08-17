@@ -16,7 +16,7 @@ public class Conveyor : Building
         SetupRotation();
         SetupPositions();
         transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
-        CheckNearbyBuildings();
+        CheckNearbyConveyors();
     }
 
     // Togles enabling a corner conveyor
@@ -71,7 +71,7 @@ public class Conveyor : Building
         }
     }
 
-    public void CheckNearbyBuildings()
+    public void CheckNearbyConveyors()
     {
         // Check the front bin
         Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
@@ -115,17 +115,17 @@ public class Conveyor : Building
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
-    public void CornerCheck(Building building)
+    public void CornerCheck(Building conveyor)
     {
         // Check to make sure conveyor is not facing the same direction
-        if (building.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
-            building.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
-            building.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
-            building.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
+        if (conveyor.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
+            conveyor.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
+            conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
+            conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
         {
-            building.nextTarget = this;
-            building.UpdateBins();
-            previousTarget = building;
+            conveyor.nextTarget = this;
+            conveyor.UpdateBins();
+            previousTarget = conveyor;
         }
     }
 

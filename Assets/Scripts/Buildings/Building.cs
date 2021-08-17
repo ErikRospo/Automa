@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -7,37 +5,57 @@ using Mirror;
 //
 // This is the parent script of all buildings. A lot of this functionality
 // has to do with conveyors. You can define buildings to have multiple inputs
-// and outputs, as well as which tiles they should check for other adjacent
-// buildings. This is a very powerful system that allows for creation to be 
-// handled easily through the editor, though additional functionality will
-// need to be handled in seperate scripts.
+// and outputs, as well as which tiles they should check for adjacent buildings.
 
 public abstract class Building : NetworkBehaviour, IDamageable
 {
     public bool acceptingEntities = false;
 
-    // Inputs / outputs get destroyed
+    // Input / output positions
+    //
+    // These are used to define where an entity should travel to and from. For
+    // example, the smelter has a conveyor hole on the top left of the sprite.
+    // To actually tell the system to use that as an input, you'd create a new
+    // transform and align it to how you want it. The system would then recycle
+    // that transform at runtime and save it's position. Same deal for outputs.
+
     public Transform[] inputs;
     public Transform[] outputs;
     protected Vector3[] inputPositions;
     protected Vector3[] outputPositions;
 
-    // Input / output tiles get destroyed
+    // Input / output tiles
+    //
+    // These are used to define where a building should check for other tiles.
+    // Thanks to the grid system, this is as easy as dragging a transform over
+    // to where you wanna check a grid point. The system will then recycle that
+    // transform at runtime and save it's position. Then when a call is made to
+    // the grid system, it will automatically round to the tile you chose. Easy!
+
     public Transform[] inputTiles;
     public Transform[] outputTiles;
     protected Vector3[] inputTilePositions;
     protected Vector3[] outputTilePositions;
 
-    // Containers
+    ///////////////////////////////////////////////
+    //
+    // THESE NEED TO BE MADE INTO ARRAYS
+    //
+    // Entity bins used to store entities.
     [HideInInspector] public Entity frontBin;
     [HideInInspector] public Entity rearBin;
+    //
+    // Targets used to track surrounding tiles
+    [HideInInspector] public Building nextTarget;
+    [HideInInspector] public Building previousTarget;
+    //
+    // Flags to reserve inputs and outputs
+    [HideInInspector] public bool inputReserved;
+    [HideInInspector] public bool outputReserved;
+    //
+    ///////////////////////////////////////////////
 
-    // Hold a reference to the previous belt
-    public Building nextTarget;
-    public Building previousTarget;
-
-    public bool inputReserved;
-    public bool outputReserved;
+    // Just a flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
 
     // Holds the rotation value for comparisons
@@ -109,6 +127,10 @@ public abstract class Building : NetworkBehaviour, IDamageable
     public void SetupPositions()
     {
         if (positionsSet) return;
+
+        // Tell the system how many targets it will need to look for
+        // inputTargets = new Building[inputTilePositions.Length];
+        // outputTargets = new Building[outputTilePositions.Length];
 
         // Setup input positions
         inputPositions = new Vector3[inputs.Length];
