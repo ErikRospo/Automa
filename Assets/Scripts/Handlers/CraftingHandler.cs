@@ -47,7 +47,6 @@ public class CraftingHandler : MonoBehaviour
 
     private void FinishCrafting(int i)
     {
-        Debug.Log("Finished crafting");
         crafters[i].crafter.CraftItem();
         crafters.RemoveAt(i);
     }

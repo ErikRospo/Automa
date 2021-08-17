@@ -295,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  entityContainer: {fileID: 1748768319241353826, guid: 2bfe5a1c0c54ced49b61ef18658d71fd,
+    type: 3}
 --- !u!4 &482146424
 Transform:
   m_ObjectHideFlags: 0

@@ -186,6 +186,7 @@ MonoBehaviour:
   previousTarget: {fileID: 0}
   inputReserved: 0
   outputReserved: 0
+  rotation: 0
   recipe:
     name: Conveyor
     input:
@@ -193,12 +194,13 @@ MonoBehaviour:
       item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
       amount: 1
     output:
-    - name: Conveyor
-      item: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
+    - name: Iron Plating
+      item: {fileID: 11400000, guid: 4c32efb95481ef9448ae8b4b9d426a08, type: 2}
       amount: 1
     madeIn: {fileID: 2807930650134522245}
-    time: 5000
+    time: 1000
     unlocked: 1
+  isCrafting: 0
 --- !u!212 &429302136324394411
 SpriteRenderer:
   m_ObjectHideFlags: 0

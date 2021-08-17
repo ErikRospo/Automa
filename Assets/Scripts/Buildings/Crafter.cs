@@ -10,6 +10,7 @@ public class Crafter : Building
 
     private void Start()
     {
+        outputReserved = false;
         SetupRotation();
         SetupPositions();
         holding = new Dictionary<Item, int>();
@@ -29,17 +30,13 @@ public class Crafter : Building
 
     public void CraftItem()
     {
-        Debug.Log("Crafting item " + recipe.output[0].item.name);
-
         isCrafting = false;
         holding[recipe.input[0].item] -= recipe.input[0].amount;
 
         if (nextTarget != null)
         {
             frontBin = EntityHandler.RegisterEntity(recipe.output[0].item, outputPositions[0], Quaternion.identity);
-            if (frontBin != null)
-                if (nextTarget == null || !nextTarget.acceptingEntities || !nextTarget.PassEntity(frontBin))
-                    outputReserved = true;
+            if (frontBin != null) UpdateBins();
         }
 
         CheckStorage();
@@ -65,8 +62,9 @@ public class Crafter : Building
             if (nextTarget.PassEntity(frontBin))
             {
                 frontBin = null;
-                outputReserved = false;
+                //outputReserved = false;
             }
+            //else outputReserved = true;
         }
     }
 

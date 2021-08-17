@@ -4,7 +4,6 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public new string name;
-    public string description;
+    [TextArea] public string description;
     public int maxStackSize;
-    public GameObject obj;    
 }

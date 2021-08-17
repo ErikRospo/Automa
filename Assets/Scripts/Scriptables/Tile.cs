@@ -12,6 +12,7 @@ public class Tile : Item
         public float y;
     }
 
+    public GameObject obj;
     public Cell[] cells;
     public Vector2 offset;
 }
