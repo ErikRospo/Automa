@@ -16,6 +16,11 @@ public class BuildingHandler : NetworkBehaviour
     private static Quaternion rotation;
     private static GameObject lastObj;
     private static bool changeSprite;
+
+    // Conveyor variables
+    private static Conveyor lastConveyor;
+    private static Vector2 lastConveyorPosition;
+    private static float conveyorOffset;
     private static bool conveyorOverrideSprite;
     private static bool conveyorOverrideCreation;
 
@@ -27,7 +32,7 @@ public class BuildingHandler : NetworkBehaviour
     private static SpriteRenderer spriteRenderer;
     private static float alphaAdjust = 0.005f;
     private static float alphaHolder;
-    private static bool rotateSwitch;
+    private static bool conveyorRotateSwitch;
 
     // Start method grabs tilemap
     private void Start()
@@ -44,15 +49,19 @@ public class BuildingHandler : NetworkBehaviour
         offset = new Vector2(0, 0);
         rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         changeSprite = false;
+        lastObj = null;
+
+        // Sets static conveyor variables on start
+        lastConveyor = null;
+        lastConveyorPosition = position;
+        conveyorOffset = 0f;
         conveyorOverrideSprite = false;
         conveyorOverrideCreation = false;
-
-        lastObj = null;
+        conveyorRotateSwitch = false;
 
         // Sets static anim variables
         spriteRenderer = GetComponent<SpriteRenderer>();
         alphaHolder = alphaAdjust;
-        rotateSwitch = false;
     }
 
     // Update is called once per frame
@@ -73,52 +82,71 @@ public class BuildingHandler : NetworkBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
         position = active.transform.position;
+
+        if (lastConveyorPosition != position)
+        {
+            changeSprite = true;
+            conveyorOverrideSprite = false;
+            conveyorOverrideCreation = false;
+        }
     }
 
     public static void Rotate()
     {
-        // Set rotation
-        Vector2 targetTile;
-        switch (rotation.eulerAngles.z)
-        {
-            case 90f:
-                targetTile = new Vector2(position.x, position.y - 5f);
-                break;
-            case 180f:
-                targetTile = new Vector2(position.x + 5f, position.y);
-                break;
-            case -90f:
-                targetTile = new Vector2(position.x, position.y + 5f);
-                break;
-            default:
-                targetTile = new Vector2(position.x - 5f, position.y);
-                break;
-        }
-        Conveyor conveyor = TryGetConveyor(targetTile);
+        if (selectedTile != null && selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck())
+            active.transform.Rotate(0, 0, -90);
+    }
 
-        if (conveyor != null && conveyor.transform.rotation == rotation && conveyor.nextTarget == null)
+    private static bool ConveyorRotationCheck()
+    {
+        if (lastConveyorPosition != position)
         {
-            changeSprite = true;
-            conveyorOverrideSprite = true;
-            conveyorOverrideCreation = true;
-
-            // Check to see if rotation should happen
-            if (rotateSwitch)
+            Vector2 targetTile;
+            switch (rotation.eulerAngles.z)
             {
-                active.transform.rotation = lastObj.transform.rotation;
-                active.transform.Rotate(new Vector3(0, 0, -90));
-                rotateSwitch = false;
+                case 90f:
+                    targetTile = new Vector2(position.x, position.y - 5f);
+                    break;
+                case 180f:
+                    targetTile = new Vector2(position.x + 5f, position.y);
+                    break;
+                case 270f:
+                    targetTile = new Vector2(position.x, position.y + 5f);
+                    break;
+                default:
+                    targetTile = new Vector2(position.x - 5f, position.y);
+                    break;
+            }
+
+            lastConveyor = TryGetConveyor(targetTile);
+            if (lastConveyor != null)
+            {
+                changeSprite = true;
+                conveyorOverrideSprite = true;
+                conveyorOverrideCreation = true;
+            }
+            lastConveyorPosition = position;
+            conveyorRotateSwitch = false;
+        }
+
+        if (lastConveyor != null)
+        {
+            if (conveyorRotateSwitch)
+            {
+                active.transform.rotation = lastConveyor.transform.rotation;
+                active.transform.Rotate(new Vector3(0, 0, 90));
+                conveyorOffset = -90f;
+                conveyorRotateSwitch = false;
             }
             else
             {
-                active.transform.rotation = lastObj.transform.rotation;
-                rotateSwitch = true;
+                active.transform.rotation = lastConveyor.transform.rotation;
+                conveyorOffset = 0f;
+                conveyorRotateSwitch = true;
             }
+            return true;
         }
-        else
-        {
-            active.transform.Rotate(0, 0, -90);
-        }
+        return false;
     }
 
     // Adjusts the alpha transparency of the SR component 
@@ -197,13 +225,14 @@ public class BuildingHandler : NetworkBehaviour
             Conveyor conveyor = lastObj.GetComponent<Conveyor>();
             if (conveyor != null)
             {
+                conveyor.ToggleCorner(conveyorRotateSwitch);
                 conveyor.SetupPositions();
-                conveyor.ToggleCorner();
 
-                if (rotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
+                if (conveyorRotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
                 else active.transform.Rotate(new Vector3(0, 0, -90));
             }
 
+            active.transform.Rotate(0, 0, conveyorOffset);
             conveyorOverrideCreation = false;
             changeSprite = true;
         }

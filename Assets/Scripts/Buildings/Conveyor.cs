@@ -23,9 +23,31 @@ public class Conveyor : Building
 
     private void Start()
     {
+        SetupRotation();
         SetupPositions();
         transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
         CheckNearbyConveyors();
+    }
+
+    // Set up a conveyors rotation
+    private void SetupRotation()
+    {
+        if (transform.rotation.eulerAngles.z == 0f) rotation = rotationType.EAST;
+        else if (transform.rotation.eulerAngles.z == 90f) rotation = rotationType.NORTH;
+        else if (transform.rotation.eulerAngles.z == 180f) rotation = rotationType.WEST;
+        else if (transform.rotation.eulerAngles.z == 270f) rotation = rotationType.SOUTH;
+    }
+
+    // Togles enabling a corner conveyor
+    public void ToggleCorner(bool rotateUp)
+    {
+        if (rotateUp) outputs[0].localPosition = new Vector2(0, outputs[0].localPosition.x);
+        else outputs[0].localPosition = new Vector2(0, -outputs[0].localPosition.x);
+
+        isCorner = true;
+        animator.enabled = !animator.enabled;
+        if (!animator.enabled)
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
     }
 
     // Sets a conveyor bin
@@ -38,16 +60,6 @@ public class Conveyor : Building
         }
         else frontBin = entity;
         UpdateBins();
-    }
-
-    public void ToggleCorner()
-    {
-        outputPositions[0] = new Vector2(0, outputPositions[0].x);
-
-        isCorner = true;
-        animator.enabled = !animator.enabled;
-        if (!animator.enabled)
-            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
     }
 
     public override void UpdateBins()
@@ -99,16 +111,19 @@ public class Conveyor : Building
 
         // Check the rear bin
         conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
-        if (conveyor != null && conveyor.rotation == rotation)
+        if (conveyor != null)
         {
-            conveyor.nextTarget = this;
-            conveyor.UpdateBins();
-            previousTarget = conveyor;
+            if (conveyor.rotation == rotation)
+            {
+                conveyor.nextTarget = this;
+                conveyor.UpdateBins();
+                previousTarget = conveyor;
+            }
+            else if (conveyor.isCorner) CornerCheck(conveyor);
         }
-        else if (conveyor != null && conveyor.isCorner) CornerCheck(conveyor);
         else
         {
-            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+            Building building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
             if (building != null)
             {
                 building.nextTarget = this;
@@ -127,6 +142,7 @@ public class Conveyor : Building
             conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
             conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
         {
+            Debug.Log("Setting corner next target");
             conveyor.nextTarget = this;
             conveyor.UpdateBins();
             previousTarget = conveyor;
