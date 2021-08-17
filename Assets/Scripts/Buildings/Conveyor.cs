@@ -11,31 +11,12 @@ public class Conveyor : Building
     public bool isCorner;
     public float sizeAdjust;
 
-    // Holds the rotation value for comparisons
-    public enum rotationType
-    {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
-    }
-    public rotationType rotation;
-
     private void Start()
     {
         SetupRotation();
         SetupPositions();
         transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
-        CheckNearbyConveyors();
-    }
-
-    // Set up a conveyors rotation
-    private void SetupRotation()
-    {
-        if (transform.rotation.eulerAngles.z == 0f) rotation = rotationType.EAST;
-        else if (transform.rotation.eulerAngles.z == 90f) rotation = rotationType.NORTH;
-        else if (transform.rotation.eulerAngles.z == 180f) rotation = rotationType.WEST;
-        else if (transform.rotation.eulerAngles.z == 270f) rotation = rotationType.SOUTH;
+        CheckNearbyBuildings();
     }
 
     // Togles enabling a corner conveyor
@@ -90,7 +71,7 @@ public class Conveyor : Building
         }
     }
 
-    public void CheckNearbyConveyors()
+    public void CheckNearbyBuildings()
     {
         // Check the front bin
         Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
@@ -134,18 +115,17 @@ public class Conveyor : Building
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
-    private void CornerCheck(Conveyor conveyor)
+    public void CornerCheck(Building building)
     {
         // Check to make sure conveyor is not facing the same direction
-        if (conveyor.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
-            conveyor.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
-            conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
-            conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
+        if (building.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
+            building.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
+            building.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
+            building.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
         {
-            Debug.Log("Setting corner next target");
-            conveyor.nextTarget = this;
-            conveyor.UpdateBins();
-            previousTarget = conveyor;
+            building.nextTarget = this;
+            building.UpdateBins();
+            previousTarget = building;
         }
     }
 

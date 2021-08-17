@@ -9,7 +9,7 @@ public class Spawner : Building
     int frameTracker = 0;
     int frameLimit = 1000;
 
-    public Transform entity;
+    public Item item;
 
     public Vector2 facingTile;
 
@@ -43,7 +43,7 @@ public class Spawner : Building
             Building building = BuildingHandler.TryGetBuilding(facingTile);
             if (building != null && building.acceptingEntities)
             {
-                Entity lastEntity = EntityHandler.RegisterEntity(entity, transform.position, Quaternion.identity);
+                Entity lastEntity = EntityHandler.RegisterEntity(item, transform.position, Quaternion.identity);
                 if (!building.PassEntity(lastEntity))
                     Destroy(lastEntity.transform);
             }

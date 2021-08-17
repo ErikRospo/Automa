@@ -166,7 +166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8713355525346585352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5278f9ee48009c4999bb5cb354eb66e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b80cf107b0b8be4f83f7fd80676cdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -187,17 +187,17 @@ MonoBehaviour:
   inputReserved: 0
   outputReserved: 0
   recipe:
-    name: Test Recipe
+    name: Conveyor
     input:
-    - name: Iron Ore
+    - name: Iron
       item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
-      amount: 5
+      amount: 1
     output:
     - name: Conveyor
       item: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
       amount: 1
     madeIn: {fileID: 2807930650134522245}
-    time: 500
+    time: 5000
     unlocked: 1
 --- !u!212 &429302136324394411
 SpriteRenderer:

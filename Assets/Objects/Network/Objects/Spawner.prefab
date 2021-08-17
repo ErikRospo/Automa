@@ -48,7 +48,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   acceptingEntities: 0
-  entity: {fileID: 1748768319241353826, guid: 2bfe5a1c0c54ced49b61ef18658d71fd, type: 3}
+  inputs: []
+  outputs: []
+  inputTiles: []
+  outputTiles: []
+  frontBin: {fileID: 0}
+  rearBin: {fileID: 0}
+  nextTarget: {fileID: 0}
+  previousTarget: {fileID: 0}
+  inputReserved: 0
+  outputReserved: 0
+  rotation: 0
+  item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
   facingTile: {x: 0, y: 0}
 --- !u!114 &-1190917367331746169
 MonoBehaviour:

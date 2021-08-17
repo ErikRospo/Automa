@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+// Buildings script
+//
+// This is the parent script of all buildings. A lot of this functionality
+// has to do with conveyors. You can define buildings to have multiple inputs
+// and outputs, as well as which tiles they should check for other adjacent
+// buildings. This is a very powerful system that allows for creation to be 
+// handled easily through the editor, though additional functionality will
+// need to be handled in seperate scripts.
+
 public abstract class Building : NetworkBehaviour, IDamageable
 {
     public bool acceptingEntities = false;
@@ -30,6 +39,16 @@ public abstract class Building : NetworkBehaviour, IDamageable
     public bool inputReserved;
     public bool outputReserved;
     private bool positionsSet = false;
+
+    // Holds the rotation value for comparisons
+    public enum rotationType
+    {
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST
+    }
+    public rotationType rotation;
 
     // Used to pass another building an entity. 
     //
@@ -64,6 +83,23 @@ public abstract class Building : NetworkBehaviour, IDamageable
     {
         Debug.Log("This building does not contain bins to update");
     }
+
+    // Used to setup the rotation of a building
+    //
+    // Buildings will often need to make rotational checks in order to make sure that the
+    // adjacent tile can pass items on to it. Conveyors have additional built in rotation
+    // functionality that allows them to offset their rotation if the conveyor is on an
+    // angle. This adjustment does not need to be accounted for with this system.
+    //
+    // Only call this if needed. Some buildings may not care which way they're oriented.
+    public void SetupRotation()
+    {
+        if (transform.rotation.eulerAngles.z == 0f) rotation = rotationType.EAST;
+        else if (transform.rotation.eulerAngles.z == 90f) rotation = rotationType.NORTH;
+        else if (transform.rotation.eulerAngles.z == 180f) rotation = rotationType.WEST;
+        else if (transform.rotation.eulerAngles.z == 270f) rotation = rotationType.SOUTH;
+    }
+
 
     // Must be called by each building
     // 

@@ -6,10 +6,13 @@ public class Crafter : Building
 {
     public ItemHandler.Recipes recipe;
     public Dictionary<Item, int> holding;
+    public bool isCrafting = false;
 
     private void Start()
     {
+        SetupRotation();
         SetupPositions();
+        holding = new Dictionary<Item, int>();
         nextTarget = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
     }
 
@@ -18,28 +21,39 @@ public class Crafter : Building
         Item input = recipe.input[0].item;
         if (itemToInput == input)
         {
-            int amount = amountToAdd;
-            if (holding.TryGetValue(itemToInput, out amount)) amount += amountToAdd;
-            else holding.Add(itemToInput, amount);
-
-            Debug.Log(amount + " | " + recipe.input[0].amount);
-
-            // If enough entities in storage, begin smelting
-            if (amount == recipe.input[0].amount && frontBin == null)
-                CraftingHandler.RegisterCrafting(this);
+            if (holding.ContainsKey(itemToInput)) holding[itemToInput] += amountToAdd;
+            else holding.Add(itemToInput, amountToAdd);
+            CheckStorage();
         }
     }
 
     public void CraftItem()
     {
-        holding = new Dictionary<Item, int>();
+        Debug.Log("Crafting item " + recipe.output[0].item.name);
+
+        isCrafting = false;
+        holding[recipe.input[0].item] -= recipe.input[0].amount;
 
         if (nextTarget != null)
         {
-            frontBin = EntityHandler.RegisterEntity(recipe.input[0].item.obj.transform, transform.position, Quaternion.identity);
+            frontBin = EntityHandler.RegisterEntity(recipe.output[0].item, outputPositions[0], Quaternion.identity);
             if (frontBin != null)
                 if (nextTarget == null || !nextTarget.acceptingEntities || !nextTarget.PassEntity(frontBin))
                     outputReserved = true;
+        }
+
+        CheckStorage();
+    }
+
+    public void CheckStorage()
+    {
+        if (holding.TryGetValue(recipe.input[0].item, out int amount))
+        {
+            if (amount >= recipe.input[0].amount && frontBin == null && !isCrafting)
+            {
+                CraftingHandler.RegisterCrafting(this);
+                isCrafting = true;
+            }
         }
     }
 
@@ -56,12 +70,42 @@ public class Crafter : Building
         }
     }
 
+    public void CheckNearbyBuildings()
+    {
+        // Check the output tile
+        Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+        if (building != null)
+            nextTarget = building;
+
+        // Check the input tile
+        Conveyor conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
+        if (conveyor != null)
+        {
+            if (conveyor.transform.rotation == transform.rotation)
+            {
+                conveyor.nextTarget = this;
+                conveyor.UpdateBins();
+                previousTarget = conveyor;
+            }
+            else if (conveyor.isCorner) conveyor.CornerCheck(this);
+        }
+        else
+        {
+            building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
+            if (building != null)
+            {
+                building.nextTarget = this;
+                building.UpdateBins();
+            }
+        }
+    }
+
     public override bool PassEntity(Entity entity)
     {
         Item input = recipe.input[0].item;
         if (entity.item == input)
         {
-            if (!holding.TryGetValue(entity.item, out int amount) || amount < input.maxStackSize)
+            if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < input.maxStackSize))
             {
                 EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputPositions[0], entity, this);
                 return true;

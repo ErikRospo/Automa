@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8258520592698830281}
   - component: {fileID: -6077328742828700687}
   m_Layer: 0
-  m_Name: Iron
+  m_Name: Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e64284f4a5b7d04eb4c6f5ed31079d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
+  item: {fileID: 0}
 --- !u!212 &-6077328742828700687
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -83,9 +83,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -430872219
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 8fcaa1ff1a39a3f42a6d22717c3f5fbe, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,6 +93,6 @@ SpriteRenderer:
   m_Size: {x: 3.8, y: 3.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
