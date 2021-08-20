@@ -6,13 +6,13 @@ public class CraftingHandler : MonoBehaviour
 {
     public class ActiveCrafters
     {
-        public ActiveCrafters(Crafter crafter, int time)
+        public ActiveCrafters(Constructor crafter, int time)
         {
             this.crafter = crafter;
             this.time = time;
         }
 
-        public Crafter crafter;
+        public Constructor crafter;
         public int time;
     }
     public static List<ActiveCrafters> crafters;
@@ -40,7 +40,7 @@ public class CraftingHandler : MonoBehaviour
         }
     }
 
-    public static void RegisterCrafting(Crafter crafter)
+    public static void RegisterCrafting(Constructor crafter)
     {
         crafters.Add(new ActiveCrafters(crafter, crafter.recipe.time));
     }

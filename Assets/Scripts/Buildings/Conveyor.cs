@@ -13,10 +13,13 @@ public class Conveyor : Building
 
     private void Start()
     {
+        transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
+
         SetupRotation();
         SetupPositions();
-        transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
-        CheckNearbyConveyors();
+        CheckNearbyBuildings();
+
+        animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
     // Togles enabling a corner conveyor
@@ -69,50 +72,6 @@ public class Conveyor : Building
             if (previousTarget != null)
                 previousTarget.UpdateBins();
         }
-    }
-
-    public void CheckNearbyConveyors()
-    {
-        // Check the front bin
-        Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
-        if (conveyor != null)
-        {
-            if (conveyor.rotation == rotation)
-            {
-                conveyor.previousTarget = this;
-                nextTarget = conveyor;
-            }
-        }
-        else
-        {
-            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
-            if (building != null)
-                nextTarget = building;
-        }
-
-        // Check the rear bin
-        conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
-        if (conveyor != null)
-        {
-            if (conveyor.rotation == rotation)
-            {
-                conveyor.nextTarget = this;
-                conveyor.UpdateBins();
-                previousTarget = conveyor;
-            }
-            else if (conveyor.isCorner) CornerCheck(conveyor);
-        }
-        else
-        {
-            Building building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
-            if (building != null)
-            {
-                building.nextTarget = this;
-                building.UpdateBins();
-            }
-        }
-
-        animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
     public void CornerCheck(Building conveyor)

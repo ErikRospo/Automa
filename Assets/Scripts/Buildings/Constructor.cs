@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crafter : Building
+public class Constructor : Building
 {
     public ItemHandler.Recipes recipe;
     public Dictionary<Item, int> holding;
@@ -13,6 +13,7 @@ public class Crafter : Building
         outputReserved = false;
         SetupRotation();
         SetupPositions();
+        CheckNearbyBuildings();
         holding = new Dictionary<Item, int>();
         nextTarget = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
     }
@@ -66,39 +67,6 @@ public class Crafter : Building
             if (nextTarget.PassEntity(frontBin))
             {
                 frontBin = null;
-                //outputReserved = false;
-            }
-            //else outputReserved = true;
-        }
-    }
-
-    // Check for nearby buildings
-    public void CheckNearbyBuildings()
-    {
-        // Check the output tile
-        Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
-        if (building != null)
-            nextTarget = building;
-
-        // Check the input tile
-        Conveyor conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
-        if (conveyor != null)
-        {
-            if (conveyor.transform.rotation == transform.rotation)
-            {
-                conveyor.nextTarget = this;
-                conveyor.UpdateBins();
-                previousTarget = conveyor;
-            }
-            else if (conveyor.isCorner) conveyor.CornerCheck(this);
-        }
-        else
-        {
-            building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
-            if (building != null)
-            {
-                building.nextTarget = this;
-                building.UpdateBins();
             }
         }
     }

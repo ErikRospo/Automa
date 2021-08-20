@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System;
 
 // Buildings script
 //
@@ -37,23 +38,14 @@ public abstract class Building : NetworkBehaviour, IDamageable
     protected Vector3[] inputTilePositions;
     protected Vector3[] outputTilePositions;
 
-    ///////////////////////////////////////////////
-    //
-    // THESE NEED TO BE MADE INTO ARRAYS
-    //
-    // Entity bins used to store entities.
     [HideInInspector] public Entity frontBin;
     [HideInInspector] public Entity rearBin;
-    //
-    // Targets used to track surrounding tiles
+
     [HideInInspector] public Building nextTarget;
     [HideInInspector] public Building previousTarget;
-    //
-    // Flags to reserve inputs and outputs
+
     [HideInInspector] public bool inputReserved;
     [HideInInspector] public bool outputReserved;
-    //
-    ///////////////////////////////////////////////
 
     // Just a flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
@@ -118,6 +110,48 @@ public abstract class Building : NetworkBehaviour, IDamageable
         else if (transform.rotation.eulerAngles.z == 270f) rotation = rotationType.SOUTH;
     }
 
+    // Checks for nearby buildings
+    public void CheckNearbyBuildings()
+    {
+        // Check the front bin
+        Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
+        if (conveyor != null)
+        {
+            if (conveyor.rotation == rotation)
+            {
+                conveyor.previousTarget = this;
+                nextTarget = conveyor;
+            }
+        }
+        else
+        {
+            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+            if (building != null)
+                nextTarget = building;
+        }
+
+        // Check the rear bin
+        conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
+        if (conveyor != null)
+        {
+            if (conveyor.rotation == rotation)
+            {
+                conveyor.nextTarget = this;
+                conveyor.UpdateBins();
+                previousTarget = conveyor;
+            }
+            else if (conveyor.isCorner) conveyor.CornerCheck(this);
+        }
+        else
+        {
+            Building building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
+            if (building != null)
+            {
+                building.nextTarget = this;
+                building.UpdateBins();
+            }
+        }
+    }
 
     // Must be called by each building
     // 
@@ -139,7 +173,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
             inputPositions[i] = inputs[i].position;
             Recycler.AddRecyclable(inputs[i]);
         }
-        inputs = new Transform[0];
+        inputs = Array.Empty<Transform>();
 
         // Setup output positions
         outputPositions = new Vector3[outputs.Length];
@@ -148,7 +182,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
             outputPositions[i] = outputs[i].position;
             Recycler.AddRecyclable(outputs[i]);
         }
-        outputs = new Transform[0];
+        outputs = Array.Empty<Transform>();
 
         // Setup input positions
         inputTilePositions = new Vector3[inputTiles.Length];
@@ -157,7 +191,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
             inputTilePositions[i] = inputTiles[i].position;
             Recycler.AddRecyclable(inputTiles[i]);
         }
-        inputTiles = new Transform[0];
+        inputTiles = Array.Empty<Transform>();
 
         // Setup input positions
         outputTilePositions = new Vector3[outputTiles.Length];
@@ -166,7 +200,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
             outputTilePositions[i] = outputTiles[i].position;
             Recycler.AddRecyclable(outputTiles[i]);
         }
-        outputTiles = new Transform[0];
+        outputTiles = Array.Empty<Transform>();
 
         positionsSet = true;
     }
