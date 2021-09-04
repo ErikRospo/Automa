@@ -4976,21 +4976,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  acceptingEntities: 1
   inputs:
-  - {fileID: 97799960630488167}
+  - target: {fileID: 0}
+    transform: {fileID: 97799960630488167}
+    tile: {fileID: 3952345751440692586}
+    bin: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    tilePosition: {x: 0, y: 0, z: 0}
+    reserved: 0
   outputs:
-  - {fileID: 7042507410382509445}
-  inputTiles:
-  - {fileID: 3952345751440692586}
-  outputTiles:
-  - {fileID: 2124716609463497305}
-  frontBin: {fileID: 0}
-  rearBin: {fileID: 0}
-  nextTarget: {fileID: 0}
-  previousTarget: {fileID: 0}
-  inputReserved: 0
-  outputReserved: 0
+  - target: {fileID: 0}
+    transform: {fileID: 7042507410382509445}
+    tile: {fileID: 2124716609463497305}
+    bin: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    tilePosition: {x: 0, y: 0, z: 0}
+    reserved: 0
+  acceptingEntities: 1
   rotation: 0
   recipe:
     name: Conveyor

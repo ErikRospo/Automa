@@ -10,44 +10,14 @@ using System;
 
 public abstract class Building : NetworkBehaviour, IDamageable
 {
+    // Next / previous targets
+    public Inputs[] inputs;
+    public Outputs[] outputs;
+
+    // Flag to determine if the building should be accepting entites
     public bool acceptingEntities = false;
 
-    // Input / output positions
-    //
-    // These are used to define where an entity should travel to and from. For
-    // example, the smelter has a conveyor hole on the top left of the sprite.
-    // To actually tell the system to use that as an input, you'd create a new
-    // transform and align it to how you want it. The system would then recycle
-    // that transform at runtime and save it's position. Same deal for outputs.
-
-    public Transform[] inputs;
-    public Transform[] outputs;
-    protected Vector3[] inputPositions;
-    protected Vector3[] outputPositions;
-
-    // Input / output tiles
-    //
-    // These are used to define where a building should check for other tiles.
-    // Thanks to the grid system, this is as easy as dragging a transform over
-    // to where you wanna check a grid point. The system will then recycle that
-    // transform at runtime and save it's position. Then when a call is made to
-    // the grid system, it will automatically round to the tile you chose. Easy!
-
-    public Transform[] inputTiles;
-    public Transform[] outputTiles;
-    protected Vector3[] inputTilePositions;
-    protected Vector3[] outputTilePositions;
-
-    [HideInInspector] public Entity frontBin;
-    [HideInInspector] public Entity rearBin;
-
-    [HideInInspector] public Building nextTarget;
-    [HideInInspector] public Building previousTarget;
-
-    [HideInInspector] public bool inputReserved;
-    [HideInInspector] public bool outputReserved;
-
-    // Just a flag to tell the system the transforms on the object have been recycled.
+    // Flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
 
     // Holds the rotation value for comparisons
@@ -58,7 +28,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
         SOUTH,
         WEST
     }
-    public rotationType rotation;
+    [HideInInspector] public rotationType rotation;
 
     // Used to pass another building an entity. 
     //
@@ -94,6 +64,21 @@ public abstract class Building : NetworkBehaviour, IDamageable
         Debug.Log("This building does not contain bins to update");
     }
 
+    // Used to pass a target to another building
+    //
+    // It is important to note that this can be an array of size 1. The next building may only
+    // have one input and output. That is why this method exists, so that each building can
+    // decide what to do with the targets it receives.
+    public virtual void SetInputTarget(Building target, int index = -1)
+    {
+        Debug.Log("This building cannot be passed input targets!");
+    }
+
+    public virtual void SetOutputTarget(Building target, int index = -1)
+    {
+        Debug.Log("This building cannot be passed output targets!");
+    }
+
     // Used to setup the rotation of a building
     //
     // Buildings will often need to make rotational checks in order to make sure that the
@@ -113,42 +98,39 @@ public abstract class Building : NetworkBehaviour, IDamageable
     // Checks for nearby buildings
     public void CheckNearbyBuildings()
     {
-        // Check the front bin
-        Conveyor conveyor = BuildingHandler.TryGetConveyor(outputTilePositions[0]);
-        if (conveyor != null)
+        // Loop through each output 
+        for (int i = 0; i < inputs.Length; i++)
         {
-            if (conveyor.rotation == rotation)
-            {
-                conveyor.previousTarget = this;
-                nextTarget = conveyor;
-            }
-        }
-        else
-        {
-            Building building = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+            Building building = BuildingHandler.TryGetBuilding(outputs[i].tilePosition);
+
             if (building != null)
-                nextTarget = building;
+            {
+                if (building.rotation == rotation)
+                {
+                    building.SetInputTarget(this);
+                    SetOutputTarget(building, i);
+                    UpdateBins();
+                }
+            }
         }
 
-        // Check the rear bin
-        conveyor = BuildingHandler.TryGetConveyor(inputTilePositions[0]);
-        if (conveyor != null)
+        // Loop through each input
+        for (int i = 0; i < inputs.Length; i++)
         {
-            if (conveyor.rotation == rotation)
-            {
-                conveyor.nextTarget = this;
-                conveyor.UpdateBins();
-                previousTarget = conveyor;
-            }
-            else if (conveyor.isCorner) conveyor.CornerCheck(this);
-        }
-        else
-        {
-            Building building = BuildingHandler.TryGetBuilding(inputTilePositions[0]);
+            Building building = BuildingHandler.TryGetConveyor(inputs[i].tilePosition);
             if (building != null)
             {
-                building.nextTarget = this;
-                building.UpdateBins();
+                if (building.rotation == rotation)
+                {
+                    building.SetOutputTarget(this);
+                    building.UpdateBins();
+                    SetInputTarget(building, i);
+                }
+                else
+                {
+                    Conveyor conveyor = building.GetComponent<Conveyor>();
+                    if (conveyor != null && conveyor.isCorner) conveyor.CornerCheck(this);
+                } 
             }
         }
     }
@@ -162,45 +144,23 @@ public abstract class Building : NetworkBehaviour, IDamageable
     {
         if (positionsSet) return;
 
-        // Tell the system how many targets it will need to look for
-        // inputTargets = new Building[inputTilePositions.Length];
-        // outputTargets = new Building[outputTilePositions.Length];
-
         // Setup input positions
-        inputPositions = new Vector3[inputs.Length];
         for (int i = 0; i < inputs.Length; i++)
         {
-            inputPositions[i] = inputs[i].position;
-            Recycler.AddRecyclable(inputs[i]);
+            inputs[i].position = inputs[i].transform.position;
+            inputs[i].tilePosition = inputs[i].tile.position;
+            Recycler.AddRecyclable(inputs[i].transform);
+            Recycler.AddRecyclable(inputs[i].tile);
         }
-        inputs = Array.Empty<Transform>();
 
         // Setup output positions
-        outputPositions = new Vector3[outputs.Length];
         for (int i = 0; i < outputs.Length; i++)
         {
-            outputPositions[i] = outputs[i].position;
-            Recycler.AddRecyclable(outputs[i]);
+            outputs[i].position = outputs[i].transform.position;
+            outputs[i].tilePosition = outputs[i].tile.position;
+            Recycler.AddRecyclable(outputs[i].transform);
+            Recycler.AddRecyclable(outputs[i].tile);
         }
-        outputs = Array.Empty<Transform>();
-
-        // Setup input positions
-        inputTilePositions = new Vector3[inputTiles.Length];
-        for (int i = 0; i < inputTiles.Length; i++)
-        {
-            inputTilePositions[i] = inputTiles[i].position;
-            Recycler.AddRecyclable(inputTiles[i]);
-        }
-        inputTiles = Array.Empty<Transform>();
-
-        // Setup input positions
-        outputTilePositions = new Vector3[outputTiles.Length];
-        for (int i = 0; i < outputTiles.Length; i++)
-        {
-            outputTilePositions[i] = outputTiles[i].position;
-            Recycler.AddRecyclable(outputTiles[i]);
-        }
-        outputTiles = Array.Empty<Transform>();
 
         positionsSet = true;
     }

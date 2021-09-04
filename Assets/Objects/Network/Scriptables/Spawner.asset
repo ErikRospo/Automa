@@ -15,6 +15,6 @@ MonoBehaviour:
   name: Spawner
   description: Creates items (ALPHA ONLY)
   maxStackSize: 1
-  recipe: []
   obj: {fileID: 6147068497244908113, guid: 0685f90c72ff41f429949da1627020eb, type: 3}
   cells: []
+  offset: {x: 0, y: 0}

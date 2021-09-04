@@ -112,25 +112,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  acceptingEntities: 1
   inputs:
-  - {fileID: 7287658446430091751}
+  - target: {fileID: 0}
+    transform: {fileID: 7287658446430091751}
+    tile: {fileID: 5611014965483926417}
+    bin: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    tilePosition: {x: 0, y: 0, z: 0}
+    reserved: 0
   outputs:
-  - {fileID: 267341909547615522}
-  inputTiles:
-  - {fileID: 5611014965483926417}
-  outputTiles:
-  - {fileID: 2554693357890770115}
-  inputReserved: 0
-  outputReserved: 0
+  - target: {fileID: 0}
+    transform: {fileID: 267341909547615522}
+    tile: {fileID: 2554693357890770115}
+    bin: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    tilePosition: {x: 0, y: 0, z: 0}
+    reserved: 0
+  acceptingEntities: 1
+  rotation: 0
   animator: {fileID: 8296687514376543157}
-  frontBin: {fileID: 0}
-  rearBin: {fileID: 0}
-  nextTarget: {fileID: 0}
-  previousConveyor: {fileID: 0}
   isCorner: 0
   sizeAdjust: 1.0416666
-  rotation: 0
 --- !u!114 &6076302020130993081
 MonoBehaviour:
   m_ObjectHideFlags: 0

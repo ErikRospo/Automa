@@ -6,16 +6,16 @@ public class Constructor : Building
 {
     public ItemHandler.Recipes recipe;
     public Dictionary<Item, int> holding;
-    public bool isCrafting = false;
+    [HideInInspector] public bool isCrafting = false;
 
     private void Start()
     {
-        outputReserved = false;
+        outputs[0].reserved = false;
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
         holding = new Dictionary<Item, int>();
-        nextTarget = BuildingHandler.TryGetBuilding(outputTilePositions[0]);
+        outputs[0].target = BuildingHandler.TryGetBuilding(outputs[0].position);
     }
 
     // Adds an item to the internal crafter storage
@@ -36,10 +36,10 @@ public class Constructor : Building
         isCrafting = false;
         holding[recipe.input[0].item] -= recipe.input[0].amount;
 
-        if (nextTarget != null)
+        if (outputs[0].target != null)
         {
-            frontBin = EntityHandler.RegisterEntity(recipe.output[0].item, outputPositions[0], Quaternion.identity);
-            if (frontBin != null) UpdateBins();
+            outputs[0].bin = EntityHandler.RegisterEntity(recipe.output[0].item, outputs[0].position, Quaternion.identity);
+            if (outputs[0].bin != null) UpdateBins();
         }
 
         CheckStorage();
@@ -50,7 +50,7 @@ public class Constructor : Building
     {
         if (holding.TryGetValue(recipe.input[0].item, out int amount))
         {
-            if (amount >= recipe.input[0].amount && frontBin == null && !isCrafting)
+            if (amount >= recipe.input[0].amount && outputs[0].bin == null && !isCrafting)
             {
                 CraftingHandler.RegisterCrafting(this);
                 isCrafting = true;
@@ -62,11 +62,11 @@ public class Constructor : Building
     public override void UpdateBins()
     {
         // Checks the front container
-        if (frontBin != null && nextTarget != null && nextTarget.acceptingEntities)
+        if (outputs[0].bin != null && outputs[0].target != null && outputs[0].target.acceptingEntities)
         {
-            if (nextTarget.PassEntity(frontBin))
+            if (outputs[0].target.PassEntity(outputs[0].bin))
             {
-                frontBin = null;
+                outputs[0].bin = null;
             }
         }
     }
@@ -79,7 +79,7 @@ public class Constructor : Building
         {
             if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < input.maxStackSize))
             {
-                EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputPositions[0], entity, this);
+                EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0].position, entity, this);
                 return true;
             }
         }

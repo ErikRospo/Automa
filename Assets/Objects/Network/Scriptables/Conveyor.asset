@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Conveyor
   description: Transports items around the world.
   maxStackSize: 100
-  recipe: []
   obj: {fileID: 5037051939383339140, guid: d36f843401a43764d8298626da129b4c, type: 3}
   cells:
   - x: 0
     y: 0
+  offset: {x: 0, y: 0}

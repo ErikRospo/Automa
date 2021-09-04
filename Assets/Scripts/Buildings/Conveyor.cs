@@ -25,8 +25,8 @@ public class Conveyor : Building
     // Togles enabling a corner conveyor
     public void ToggleCorner(bool rotateUp)
     {
-        if (rotateUp) outputs[0].localPosition = new Vector2(0, outputs[0].localPosition.x);
-        else outputs[0].localPosition = new Vector2(0, -outputs[0].localPosition.x);
+        if (rotateUp) outputs[0].position = new Vector2(0, outputs[0].position.x);
+        else outputs[0].position = new Vector2(0, -outputs[0].position.x);
 
         isCorner = true;
         animator.enabled = !animator.enabled;
@@ -37,40 +37,40 @@ public class Conveyor : Building
     // Sets a conveyor bin
     public void SetBin(Entity entity)
     {
-        if (entity.transform.position == inputPositions[0])
+        if (entity.transform.position == inputs[0].position)
         {
-            rearBin = entity;
+            inputs[0].bin = entity;
             acceptingEntities = false;
         }
-        else frontBin = entity;
+        else outputs[0].bin = entity;
         UpdateBins();
     }
 
     public override void UpdateBins()
     {
         // Checks the front container
-        if (frontBin != null && nextTarget != null && nextTarget.acceptingEntities)
+        if (outputs[0].bin != null && outputs[0].target != null && outputs[0].target.acceptingEntities)
         {
-            if (nextTarget.PassEntity(frontBin))
+            if (outputs[0].target.PassEntity(outputs[0].bin))
             {
-                frontBin = null;
-                outputReserved = false;
+                outputs[0].bin = null;
+                outputs[0].reserved = false;
             }
         }
         
         // Check the back container
-        if (rearBin != null && frontBin == null && !outputReserved)
+        if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
-            if (isCorner) rearBin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
-            else rearBin.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0], this);
+            if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
+            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this);
 
-            rearBin = null;
+            inputs[0].bin = null;
             acceptingEntities = true;
-            outputReserved = true;
-            inputReserved = false;
+            outputs[0].reserved = true;
+            inputs[0].reserved = false;
 
-            if (previousTarget != null)
-                previousTarget.UpdateBins();
+            if (inputs[0].target != null)
+                inputs[0].target.UpdateBins();
         }
     }
 
@@ -82,24 +82,24 @@ public class Conveyor : Building
             conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
             conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
         {
-            conveyor.nextTarget = this;
+            conveyor.outputs[0].target = this;
             conveyor.UpdateBins();
-            previousTarget = conveyor;
+            inputs[0].target = conveyor;
         }
     }
 
     public override bool PassEntity(Entity entity)
     {
         acceptingEntities = false;
-        inputReserved = true;
-        entity.MoveTo(ResearchHandler.conveyorSpeed, inputPositions[0], this);
+        inputs[0].reserved = true;
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
         return true;
     }
 
     public override void ReceiveEntity(Entity entity)
     {
         if (entity.transform.position == transform.position)
-            entity.MoveTo(ResearchHandler.conveyorSpeed, outputPositions[0], this);
+            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this);
         else SetBin(entity);
     }
 }
