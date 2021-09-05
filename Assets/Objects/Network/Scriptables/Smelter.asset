@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Smelter
   description: Turns raw ore into ingots for further manufacturing.
   maxStackSize: 10
+  icon: {fileID: 21300000, guid: 44b6ba72de7b13b4895949bb9682bf7d, type: 3}
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
   cells:
   - x: -5
@@ -30,3 +31,4 @@ MonoBehaviour:
   - x: 5
     y: -2.5
   offset: {x: 0, y: 2.5}
+  image: {fileID: 21300000, guid: 44b6ba72de7b13b4895949bb9682bf7d, type: 3}

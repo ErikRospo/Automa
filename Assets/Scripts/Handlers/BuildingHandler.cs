@@ -15,18 +15,11 @@ public class BuildingHandler : NetworkBehaviour
     private Vector2 offset;
     private Quaternion rotation;
     private GameObject lastObj;
-    private bool changeSprite;
 
     // Conveyor variables
     private Conveyor lastConveyor;
     private Vector2 lastConveyorPosition;
-    private float conveyorOffset;
-    private bool conveyorOverrideSprite;
     private bool conveyorCorner;
-
-    // Axis variables
-    [HideInInspector] public bool buildPressed;
-    [HideInInspector] public float lockAxisX, lockAxisY;
 
     // Sprite values
     private SpriteRenderer spriteRenderer;
@@ -40,6 +33,8 @@ public class BuildingHandler : NetworkBehaviour
         // Grabs active component if it exists
         if (this != null) active = this;
         else active = null;
+
+        if (active) spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Sets static variables on start
         tileGrid = new Grid();
@@ -67,10 +62,9 @@ public class BuildingHandler : NetworkBehaviour
         position = active.transform.position;
 
         // Update last conveyor position (for rotating)
-        if (lastConveyorPosition != position)
+        if (conveyorCorner == true && lastConveyorPosition != position)
         {
-            changeSprite = true;
-            conveyorOverrideSprite = false;
+            spriteRenderer.sprite = Sprites.GetSprite(selectedTile.name);
             conveyorCorner = false;
         }
     }
@@ -109,8 +103,7 @@ public class BuildingHandler : NetworkBehaviour
             lastConveyor = TryGetConveyor(targetTile);
             if (lastConveyor != null)
             {
-                changeSprite = true;
-                conveyorOverrideSprite = true;
+                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
                 conveyorCorner = true;
             }
             lastConveyorPosition = position;
@@ -122,15 +115,12 @@ public class BuildingHandler : NetworkBehaviour
         {
             if (conveyorRotateSwitch)
             {
-                active.transform.rotation = lastConveyor.transform.rotation;
-                active.transform.Rotate(new Vector3(0, 0, 90));
-                conveyorOffset = -90f;
+                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
                 conveyorRotateSwitch = false;
             }
             else
             {
-                active.transform.rotation = lastConveyor.transform.rotation;
-                conveyorOffset = 0f;
+                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnLeft");
                 conveyorRotateSwitch = true;
             }
             return true;
@@ -141,26 +131,6 @@ public class BuildingHandler : NetworkBehaviour
     // Adjusts the alpha transparency of the SR component 
     private void AdjustTransparency()
     {
-        // Check if building changed
-        if (changeSprite)
-        {
-            try
-            {
-                if (conveyorOverrideSprite)
-                {
-                    conveyorOverrideSprite = false;
-                    spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
-                }
-                else if (selectedTile != null) spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + selectedTile.name);
-                else spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
-            }
-            catch
-            {
-                Debug.LogError("Sprite could not be retrieved. Please check you have placed the sprite in resources with the correct name!");
-            }
-            changeSprite = false;
-        }
-
         // Switches
         if (spriteRenderer.color.a >= 1f)
             alphaHolder = -alphaAdjust;
@@ -176,10 +146,14 @@ public class BuildingHandler : NetworkBehaviour
     {
         // Check if active is null
         if (active == null) return;
-
-        changeSprite = true;
         selectedTile = tile;
-        if (tile != null) offset = tile.offset;
+
+        if (tile != null)
+        {
+            spriteRenderer.sprite = Sprites.GetSprite(tile.name);
+            offset = tile.offset;
+        }
+        else spriteRenderer.sprite = Sprites.GetSprite("Empty");
     }
 
     // Creates a building
@@ -221,57 +195,6 @@ public class BuildingHandler : NetworkBehaviour
                 else active.transform.Rotate(new Vector3(0, 0, -90));
             }
             conveyor.Setup();
-        }
-
-        // Disable corner flag if set to true
-        if (conveyorCorner)
-        {
-            active.transform.Rotate(0, 0, conveyorOffset);
-            conveyorCorner = false;
-            changeSprite = true;
-        }
-    }
-
-    // Handles conveyor axis lock (needs improvement)
-    private void ConveyorCheck()
-    {
-        if (!buildPressed)
-        {
-            buildPressed = true;
-            InstantiateObj(selectedTile.obj, position, active.transform.rotation);
-        }
-        else if (selectedTile.name == "Conveyor")
-        {
-            if (lockAxisX == -1 && lockAxisY == -1 && lastObj.transform.position.x == position.x)
-            {
-                lockAxisX = position.x;
-                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
-            }
-            else if (lockAxisX == -1 && lockAxisY == -1 && lastObj.transform.position.y == position.y)
-            {
-                lockAxisY = position.y;
-                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Interface/Empty");
-            }
-
-            // Create the tile
-            if (lockAxisX != -1) InstantiateObj(selectedTile.obj, new Vector2(lockAxisX, position.y), active.transform.rotation, 0);
-            else if (lockAxisY != -1) InstantiateObj(selectedTile.obj, new Vector2(position.x, lockAxisY), active.transform.rotation, 1);
-            else { BuildReleased(); return; }
-        }
-        else InstantiateObj(selectedTile.obj, position, active.transform.rotation);
-    }
-
-    // Keybind for building released
-    public void BuildReleased()
-    {
-        buildPressed = false;
-        lockAxisX = -1;
-        lockAxisY = -1;
-
-        if (selectedTile != null)
-        {
-            spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Buildings/" + selectedTile.name);
-            changeSprite = true;
         }
     }
 

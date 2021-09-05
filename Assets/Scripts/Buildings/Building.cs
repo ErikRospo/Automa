@@ -101,7 +101,6 @@ public abstract class Building : NetworkBehaviour, IDamageable
         // Loop through each input
         for (int i = 0; i < inputs.Length; i++)
         {
-            Debug.Log(inputs[i].tilePosition);
             Building building = BuildingHandler.active.TryGetBuilding(inputs[i].tilePosition);
             if (building != null)
             {
@@ -154,8 +153,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             inputs[i].position = inputs[i].transform.position;
             inputs[i].tilePosition = inputs[i].tile.position;
-            Recycler.AddRecyclable(inputs[i].transform);
-            Recycler.AddRecyclable(inputs[i].tile);
+            //Recycler.AddRecyclable(inputs[i].transform);
+            //Recycler.AddRecyclable(inputs[i].tile);
         }
 
         // Setup output positions
@@ -163,8 +162,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             outputs[i].position = outputs[i].transform.position;
             outputs[i].tilePosition = outputs[i].tile.position;
-            Recycler.AddRecyclable(outputs[i].transform);
-            Recycler.AddRecyclable(outputs[i].tile);
+            //Recycler.AddRecyclable(outputs[i].transform);
+            //Recycler.AddRecyclable(outputs[i].tile);
         }
 
         positionsSet = true;

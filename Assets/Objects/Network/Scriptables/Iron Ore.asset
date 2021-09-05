@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Iron Ore
   description: Mined from surface deposits around the planet
   maxStackSize: 100
+  icon: {fileID: 21300000, guid: 8fcaa1ff1a39a3f42a6d22717c3f5fbe, type: 3}

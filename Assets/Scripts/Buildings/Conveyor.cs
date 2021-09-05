@@ -58,14 +58,19 @@ public class Conveyor : Building
             else if (rotation == RotationType.SOUTH) corner = RotationType.WEST;
             else if (rotation == RotationType.WEST) corner = RotationType.NORTH;
 
-            outputs[0].transform.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
-            outputs[0].tile.localPosition = new Vector2(0, outputs[0].tile.localPosition.x);
+            //inputs[0].transform.localPosition = new Vector2(0, -inputs[0].transform.localPosition.x);
+            //inputs[0].tile.localPosition = new Vector2(0, -inputs[0].tile.localPosition.x);
+            //outputs[0].transform.localPosition = new Vector2(-outputs[0].transform.localPosition.x, 0);
+            //outputs[0].tile.localPosition = new Vector2(-outputs[0].tile.localPosition.x, 0);
         }
 
         isCorner = true;
         animator.enabled = !animator.enabled;
         if (!animator.enabled)
-            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurn");
+        {
+            if (rotateUp) GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurnLeft");
+            else GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurnRight");
+        }
     }
 
     // Sets a conveyor bin

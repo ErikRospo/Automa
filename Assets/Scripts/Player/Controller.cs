@@ -95,8 +95,6 @@ public class Controller : NetworkBehaviour
         // Clicking input check
         if (Input.GetKey(Keybinds.shoot))
             BuildingHandler.active.CmdCreateBuilding();
-        else if (Input.GetKeyUp(Keybinds.shoot))
-            BuildingHandler.active.BuildReleased();
         else if (Input.GetKeyDown(Keybinds.rotate))
             BuildingHandler.active.Rotate();
         else if (Input.GetKeyDown(Keybinds.deselect) || Input.GetKeyDown(Keybinds.escape))

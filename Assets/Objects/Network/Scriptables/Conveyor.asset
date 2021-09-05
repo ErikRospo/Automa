@@ -15,8 +15,10 @@ MonoBehaviour:
   name: Conveyor
   description: Transports items around the world.
   maxStackSize: 100
+  icon: {fileID: 21300000, guid: a8d174f0d71923d4fa02e316ef40b21d, type: 3}
   obj: {fileID: 5037051939383339140, guid: d36f843401a43764d8298626da129b4c, type: 3}
   cells:
   - x: 0
     y: 0
   offset: {x: 0, y: 0}
+  image: {fileID: 21300000, guid: c517e5d8292a35346802cfd7a8d48b7b, type: 3}
