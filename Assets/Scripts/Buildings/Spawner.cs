@@ -40,7 +40,7 @@ public class Spawner : Building
         if (frameTracker == frameLimit)
         {
             frameTracker = 0;
-            Building building = BuildingHandler.TryGetBuilding(facingTile);
+            Building building = BuildingHandler.active.TryGetBuilding(facingTile);
             if (building != null && building.acceptingEntities)
             {
                 Entity lastEntity = EntityHandler.RegisterEntity(item, transform.position, Quaternion.identity);

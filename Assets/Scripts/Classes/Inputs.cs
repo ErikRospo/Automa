@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Inputs
 {
-    [HideInInspector] public Building target;
+    public Building target;
 
     public Transform transform;
     public Transform tile;

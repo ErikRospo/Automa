@@ -80,7 +80,7 @@ public class EntityHandler : NetworkBehaviour
             return null;
         }
 
-        Sprite img = Resources.Load<Sprite>("Sprites/Entities/" + item.name);
+        Sprite img = Resources.Load<Sprite>("Sprites/Items/" + item.name);
         if (img == null)
         {
             Debug.LogError("The entity you tried to create does not contain an image in the resources folder!");

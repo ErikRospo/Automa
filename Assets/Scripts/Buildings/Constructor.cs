@@ -15,7 +15,7 @@ public class Constructor : Building
         SetupPositions();
         CheckNearbyBuildings();
         holding = new Dictionary<Item, int>();
-        outputs[0].target = BuildingHandler.TryGetBuilding(outputs[0].position);
+        outputs[0].target = BuildingHandler.active.TryGetBuilding(outputs[0].position);
     }
 
     // Adds an item to the internal crafter storage

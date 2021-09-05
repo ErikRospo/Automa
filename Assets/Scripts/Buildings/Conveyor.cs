@@ -10,23 +10,57 @@ public class Conveyor : Building
     // Speed of the conveyor (temp)
     public bool isCorner;
     public float sizeAdjust;
+    public bool isSetup = false;
 
-    private void Start()
+    // Rotation for corners
+    private RotationType corner;
+
+    public void Start()
     {
-        transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
-
-        SetupRotation();
-        SetupPositions();
-        CheckNearbyBuildings();
-
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+    }
+
+    // Called externally from building script, since corners need to override the
+    // creation process. Still trying to figure out a way to make this an internal call
+    public void Setup()
+    {
+        if (!isSetup)
+        {
+            isSetup = true;
+
+            if (rotation == 0) SetupRotation();
+            SetupPositions();
+            CheckNearbyBuildings();
+
+            transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
+        }
     }
 
     // Togles enabling a corner conveyor
     public void ToggleCorner(bool rotateUp)
     {
-        if (rotateUp) outputs[0].position = new Vector2(0, outputs[0].position.x);
-        else outputs[0].position = new Vector2(0, -outputs[0].position.x);
+        SetupRotation();
+
+        if (rotateUp)
+        {
+            if (rotation == RotationType.NORTH) corner = RotationType.WEST;
+            else if (rotation == RotationType.EAST) corner = RotationType.NORTH;
+            else if (rotation == RotationType.SOUTH) corner = RotationType.EAST;
+            else if (rotation == RotationType.WEST) corner = RotationType.SOUTH;
+
+            outputs[0].transform.localPosition = new Vector2(0, outputs[0].transform.localPosition.x);
+            outputs[0].tile.localPosition = new Vector2(0, outputs[0].tile.localPosition.x);
+        }
+        else
+        {
+            if (rotation == RotationType.NORTH) corner = RotationType.EAST;
+            else if (rotation == RotationType.EAST) corner = RotationType.SOUTH;
+            else if (rotation == RotationType.SOUTH) corner = RotationType.WEST;
+            else if (rotation == RotationType.WEST) corner = RotationType.NORTH;
+
+            outputs[0].transform.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
+            outputs[0].tile.localPosition = new Vector2(0, outputs[0].tile.localPosition.x);
+        }
 
         isCorner = true;
         animator.enabled = !animator.enabled;
@@ -74,18 +108,28 @@ public class Conveyor : Building
         }
     }
 
-    public void CornerCheck(Building conveyor)
+    public void CornerCheck(Building building)
     {
-        // Check to make sure conveyor is not facing the same direction
-        if (conveyor.rotation == rotationType.NORTH && rotation == rotationType.WEST ||
-            conveyor.rotation == rotationType.EAST && rotation == rotationType.NORTH ||
-            conveyor.rotation == rotationType.SOUTH && rotation == rotationType.EAST ||
-            conveyor.rotation == rotationType.WEST && rotation == rotationType.SOUTH)
+        Debug.Log("Corner check | " + building.rotation + " = " + corner);
+
+        // If the target is ahead of this conveyor, do the required check
+        if (corner != 0 && building.rotation == corner)
         {
-            conveyor.outputs[0].target = this;
-            conveyor.UpdateBins();
-            inputs[0].target = conveyor;
+            SetOutputTarget(building);
+            building.SetInputTarget(this);
+            building.UpdateBins();
         }
+    }
+
+    public override void SetInputTarget(Building target, int index = -1)
+    {
+        inputs[0].target = target;
+    }
+
+    public override void SetOutputTarget(Building target, int index = -1)
+    {
+        outputs[0].target = target;
+        UpdateBins();
     }
 
     public override bool PassEntity(Entity entity)

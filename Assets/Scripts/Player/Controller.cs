@@ -94,13 +94,13 @@ public class Controller : NetworkBehaviour
 
         // Clicking input check
         if (Input.GetKey(Keybinds.shoot))
-            BuildingHandler.CmdCreateBuilding();
+            BuildingHandler.active.CmdCreateBuilding();
         else if (Input.GetKeyUp(Keybinds.shoot))
-            BuildingHandler.BuildReleased();
+            BuildingHandler.active.BuildReleased();
         else if (Input.GetKeyDown(Keybinds.rotate))
-            BuildingHandler.Rotate();
+            BuildingHandler.active.Rotate();
         else if (Input.GetKeyDown(Keybinds.deselect) || Input.GetKeyDown(Keybinds.escape))
-            BuildingHandler.SetBuilding(null);
+            BuildingHandler.active.SetBuilding(null);
 
         // Interacting input check
         if (Input.GetKeyDown(Keybinds.equip)) 
@@ -135,9 +135,9 @@ public class Controller : NetworkBehaviour
     [ClientCallback]
     private void CheckHotbarInput()
     {
-        if (Input.GetKeyDown(Keybinds.hotbar_1)) BuildingHandler.SetBuilding(conveyor);
-        else if (Input.GetKeyDown(Keybinds.hotbar_2)) BuildingHandler.SetBuilding(spawner);
-        else if (Input.GetKeyDown(Keybinds.hotbar_3)) BuildingHandler.SetBuilding(smelter);
+        if (Input.GetKeyDown(Keybinds.hotbar_1)) BuildingHandler.active.SetBuilding(conveyor);
+        else if (Input.GetKeyDown(Keybinds.hotbar_2)) BuildingHandler.active.SetBuilding(spawner);
+        else if (Input.GetKeyDown(Keybinds.hotbar_3)) BuildingHandler.active.SetBuilding(smelter);
         else if (Input.GetKeyDown(Keybinds.hotbar_4)) Debug.Log("Press number 4");
         else if (Input.GetKeyDown(Keybinds.hotbar_5)) Debug.Log("Press number 5");
         else if (Input.GetKeyDown(Keybinds.hotbar_6)) Debug.Log("Press number 6");

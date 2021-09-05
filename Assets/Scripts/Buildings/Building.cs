@@ -21,14 +21,14 @@ public abstract class Building : NetworkBehaviour, IDamageable
     private bool positionsSet = false;
 
     // Holds the rotation value for comparisons
-    public enum rotationType
+    public enum RotationType
     {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
+        NORTH = 1,
+        EAST = 2,
+        SOUTH = 3,
+        WEST = 4
     }
-    [HideInInspector] public rotationType rotation;
+    [HideInInspector] public RotationType rotation;
 
     // Used to pass another building an entity. 
     //
@@ -89,37 +89,24 @@ public abstract class Building : NetworkBehaviour, IDamageable
     // Only call this if needed. Some buildings may not care which way they're oriented.
     public void SetupRotation()
     {
-        if (transform.rotation.eulerAngles.z == 0f) rotation = rotationType.EAST;
-        else if (transform.rotation.eulerAngles.z == 90f) rotation = rotationType.NORTH;
-        else if (transform.rotation.eulerAngles.z == 180f) rotation = rotationType.WEST;
-        else if (transform.rotation.eulerAngles.z == 270f) rotation = rotationType.SOUTH;
+        if (transform.rotation.eulerAngles.z == 0f) rotation = RotationType.EAST;
+        else if (transform.rotation.eulerAngles.z == 90f) rotation = RotationType.NORTH;
+        else if (transform.rotation.eulerAngles.z == 180f) rotation = RotationType.WEST;
+        else if (transform.rotation.eulerAngles.z == 270f) rotation = RotationType.SOUTH;
     }
 
     // Checks for nearby buildings
     public void CheckNearbyBuildings()
     {
-        // Loop through each output 
-        for (int i = 0; i < inputs.Length; i++)
-        {
-            Building building = BuildingHandler.TryGetBuilding(outputs[i].tilePosition);
-
-            if (building != null)
-            {
-                if (building.rotation == rotation)
-                {
-                    building.SetInputTarget(this);
-                    SetOutputTarget(building, i);
-                    UpdateBins();
-                }
-            }
-        }
-
         // Loop through each input
         for (int i = 0; i < inputs.Length; i++)
         {
-            Building building = BuildingHandler.TryGetConveyor(inputs[i].tilePosition);
+            Debug.Log(inputs[i].tilePosition);
+            Building building = BuildingHandler.active.TryGetBuilding(inputs[i].tilePosition);
             if (building != null)
             {
+                Debug.Log(rotation + " = " + building.rotation);
+
                 if (building.rotation == rotation)
                 {
                     building.SetOutputTarget(this);
@@ -131,6 +118,24 @@ public abstract class Building : NetworkBehaviour, IDamageable
                     Conveyor conveyor = building.GetComponent<Conveyor>();
                     if (conveyor != null && conveyor.isCorner) conveyor.CornerCheck(this);
                 } 
+            }
+        }
+
+        // Loop through each output 
+        for (int i = 0; i < outputs.Length; i++)
+        {
+            Building building = BuildingHandler.active.TryGetBuilding(outputs[i].tilePosition);
+
+            if (building != null)
+            {
+                Debug.Log(building.name);
+
+                if (building.rotation == rotation)
+                {
+                    building.SetInputTarget(this);
+                    SetOutputTarget(building, i);
+                    UpdateBins();
+                }
             }
         }
     }

@@ -6,33 +6,33 @@ using Mirror;
 public class BuildingHandler : NetworkBehaviour
 {
     // Grid variable
-    public static Grid tileGrid;
+    [HideInInspector] public Grid tileGrid;
 
     // Building variables
     public static BuildingHandler active;
-    private static Tile selectedTile;
-    private static Vector2 position;
-    private static Vector2 offset;
-    private static Quaternion rotation;
-    private static GameObject lastObj;
-    private static bool changeSprite;
+    private Tile selectedTile;
+    private Vector2 position;
+    private Vector2 offset;
+    private Quaternion rotation;
+    private GameObject lastObj;
+    private bool changeSprite;
 
     // Conveyor variables
-    private static Conveyor lastConveyor;
-    private static Vector2 lastConveyorPosition;
-    private static float conveyorOffset;
-    private static bool conveyorOverrideSprite;
-    private static bool conveyorOverrideCreation;
+    private Conveyor lastConveyor;
+    private Vector2 lastConveyorPosition;
+    private float conveyorOffset;
+    private bool conveyorOverrideSprite;
+    private bool conveyorCorner;
 
     // Axis variables
-    public static bool buildPressed;
-    public static float lockAxisX, lockAxisY;
+    [HideInInspector] public bool buildPressed;
+    [HideInInspector] public float lockAxisX, lockAxisY;
 
     // Sprite values
-    private static SpriteRenderer spriteRenderer;
-    private static float alphaAdjust = 0.005f;
-    private static float alphaHolder;
-    private static bool conveyorRotateSwitch;
+    private SpriteRenderer spriteRenderer;
+    private float alphaAdjust = 0.005f;
+    private float alphaHolder;
+    private bool conveyorRotateSwitch;
 
     // Start method grabs tilemap
     private void Start()
@@ -44,24 +44,6 @@ public class BuildingHandler : NetworkBehaviour
         // Sets static variables on start
         tileGrid = new Grid();
         tileGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
-        selectedTile = null;
-        position = new Vector2(0, 0);
-        offset = new Vector2(0, 0);
-        rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        changeSprite = false;
-        lastObj = null;
-
-        // Sets static conveyor variables on start
-        lastConveyor = null;
-        lastConveyorPosition = position;
-        conveyorOffset = 0f;
-        conveyorOverrideSprite = false;
-        conveyorOverrideCreation = false;
-        conveyorRotateSwitch = false;
-
-        // Sets static anim variables
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        alphaHolder = alphaAdjust;
     }
 
     // Update is called once per frame
@@ -78,7 +60,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Uses the offset value from the Tile SO to center the object
-    private static void OffsetBuilding()
+    private void OffsetBuilding()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
@@ -89,19 +71,19 @@ public class BuildingHandler : NetworkBehaviour
         {
             changeSprite = true;
             conveyorOverrideSprite = false;
-            conveyorOverrideCreation = false;
+            conveyorCorner = false;
         }
     }
 
     // Rotates an object
-    public static void Rotate()
+    public void Rotate()
     {
-        if (selectedTile != null && selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck())
+        if (selectedTile != null && (selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck()))
             active.transform.Rotate(0, 0, -90);
     }
 
     // Automatically applies corner rotation to conveyors
-    private static bool ConveyorRotationCheck()
+    private bool ConveyorRotationCheck()
     {
         // If position has not moved since last check, don't reset target tile
         if (lastConveyorPosition != position)
@@ -129,7 +111,7 @@ public class BuildingHandler : NetworkBehaviour
             {
                 changeSprite = true;
                 conveyorOverrideSprite = true;
-                conveyorOverrideCreation = true;
+                conveyorCorner = true;
             }
             lastConveyorPosition = position;
             conveyorRotateSwitch = false;
@@ -190,7 +172,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Sets the selected building
-    public static void SetBuilding(Tile tile)
+    public void SetBuilding(Tile tile)
     {
         // Check if active is null
         if (active == null) return;
@@ -201,7 +183,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Creates a building
-    public static void CmdCreateBuilding()
+    public void CmdCreateBuilding()
     {
         // Check if active is null
         if (active == null || selectedTile == null) return;
@@ -221,32 +203,37 @@ public class BuildingHandler : NetworkBehaviour
         else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
     }
 
-    private static void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation, int axisLock = -1)
+    private void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation, int axisLock = -1)
     {
         // Create the tile
         lastObj = Instantiate(obj, position, rotation);
         lastObj.name = obj.name;
 
-        if (conveyorOverrideCreation)
+        // Conveyor override creation
+        Conveyor conveyor = lastObj.GetComponent<Conveyor>();
+        if (conveyor != null)
         {
-            Conveyor conveyor = lastObj.GetComponent<Conveyor>();
-            if (conveyor != null)
+            if (conveyorCorner)
             {
                 conveyor.ToggleCorner(conveyorRotateSwitch);
-                conveyor.SetupPositions();
 
                 if (conveyorRotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
                 else active.transform.Rotate(new Vector3(0, 0, -90));
             }
+            conveyor.Setup();
+        }
 
+        // Disable corner flag if set to true
+        if (conveyorCorner)
+        {
             active.transform.Rotate(0, 0, conveyorOffset);
-            conveyorOverrideCreation = false;
+            conveyorCorner = false;
             changeSprite = true;
         }
     }
 
     // Handles conveyor axis lock (needs improvement)
-    private static void ConveyorCheck()
+    private void ConveyorCheck()
     {
         if (!buildPressed)
         {
@@ -275,7 +262,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Keybind for building released
-    public static void BuildReleased()
+    public void BuildReleased()
     {
         buildPressed = false;
         lockAxisX = -1;
@@ -289,7 +276,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Checks to make sure tile(s) isn't occupied
-    public static bool CheckTiles()
+    public bool CheckTiles()
     {
         if (selectedTile.cells.Length > 0)
         {
@@ -302,7 +289,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Attempts to return a building
-    public static Building TryGetBuilding(Vector2 position)
+    public Building TryGetBuilding(Vector2 position)
     {
         Grid.Cell cell = tileGrid.RetrieveCell(Vector2Int.RoundToInt(position));
         if (cell != null)
@@ -314,7 +301,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Attempts to return a conveyor
-    public static Conveyor TryGetConveyor(Vector2 position)
+    public Conveyor TryGetConveyor(Vector2 position)
     {
         Grid.Cell cell = tileGrid.RetrieveCell(Vector2Int.RoundToInt(position));
         if (cell != null)
