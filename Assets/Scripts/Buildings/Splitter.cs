@@ -77,13 +77,6 @@ public class Splitter : Building
 
     public override void OutputEntity(Entity entity)
     {
-        if (index == -1 || outputs.Length <= index)
-            Debug.Log("This building does not have an output with index " + index);
-        else
-        {
-            outputs[index].bin = entity;
-            if (outputs[index].target != null && outputs[index].target.InputEntity(entity))
-                outputs[index].bin = null;
-        }
+        
     }
 }
