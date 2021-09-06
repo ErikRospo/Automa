@@ -58,10 +58,8 @@ public class Conveyor : Building
             else if (rotation == RotationType.SOUTH) corner = RotationType.WEST;
             else if (rotation == RotationType.WEST) corner = RotationType.NORTH;
 
-            //inputs[0].transform.localPosition = new Vector2(0, -inputs[0].transform.localPosition.x);
-            //inputs[0].tile.localPosition = new Vector2(0, -inputs[0].tile.localPosition.x);
-            //outputs[0].transform.localPosition = new Vector2(-outputs[0].transform.localPosition.x, 0);
-            //outputs[0].tile.localPosition = new Vector2(-outputs[0].tile.localPosition.x, 0);
+            outputs[0].transform.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
+            outputs[0].tile.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
         }
 
         isCorner = true;
@@ -126,12 +124,12 @@ public class Conveyor : Building
         }
     }
 
-    public override void SetInputTarget(Building target, int index = -1)
+    public override void SetInputTarget(Building target)
     {
         inputs[0].target = target;
     }
 
-    public override void SetOutputTarget(Building target, int index = -1)
+    public override void SetOutputTarget(Building target)
     {
         outputs[0].target = target;
         UpdateBins();

@@ -11,8 +11,8 @@ using System;
 public abstract class Building : NetworkBehaviour, IDamageable
 {
     // Next / previous targets
-    public Inputs[] inputs;
-    public Outputs[] outputs;
+    public IOClass[] inputs;
+    public IOClass[] outputs;
 
     // Flag to determine if the building should be accepting entites
     public bool acceptingEntities = false;
@@ -69,12 +69,12 @@ public abstract class Building : NetworkBehaviour, IDamageable
     // It is important to note that this can be an array of size 1. The next building may only
     // have one input and output. That is why this method exists, so that each building can
     // decide what to do with the targets it receives.
-    public virtual void SetInputTarget(Building target, int index = -1)
+    public virtual void SetInputTarget(Building target)
     {
         Debug.Log("This building cannot be passed input targets!");
     }
 
-    public virtual void SetOutputTarget(Building target, int index = -1)
+    public virtual void SetOutputTarget(Building target)
     {
         Debug.Log("This building cannot be passed output targets!");
     }
@@ -110,7 +110,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
                 {
                     building.SetOutputTarget(this);
                     building.UpdateBins();
-                    SetInputTarget(building, i);
+                    SetInputTarget(building);
                 }
                 else
                 {
@@ -132,7 +132,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
                 if (building.rotation == rotation)
                 {
                     building.SetInputTarget(this);
-                    SetOutputTarget(building, i);
+                    SetOutputTarget(building);
                     UpdateBins();
                 }
             }
@@ -153,8 +153,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             inputs[i].position = inputs[i].transform.position;
             inputs[i].tilePosition = inputs[i].tile.position;
-            //Recycler.AddRecyclable(inputs[i].transform);
-            //Recycler.AddRecyclable(inputs[i].tile);
+            Recycler.AddRecyclable(inputs[i].transform);
+            Recycler.AddRecyclable(inputs[i].tile);
         }
 
         // Setup output positions
@@ -162,8 +162,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             outputs[i].position = outputs[i].transform.position;
             outputs[i].tilePosition = outputs[i].tile.position;
-            //Recycler.AddRecyclable(outputs[i].transform);
-            //Recycler.AddRecyclable(outputs[i].tile);
+            Recycler.AddRecyclable(outputs[i].transform);
+            Recycler.AddRecyclable(outputs[i].tile);
         }
 
         positionsSet = true;
