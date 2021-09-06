@@ -19,15 +19,32 @@ public class Splitter : Building
 
     public void SplitEntity(Entity entity)
     {
-        Debug.Log(outputIndex);
-        inputs[0].bin = entity;
+        Debug.Log("Beginning split task with index " + outputIndex);
 
-        IOClass output = outputs[outputIndex];
-        if (output.bin == null)
+        int indexHolder = 0;
+        if (outputIndex != maxIndex - 1)
+            indexHolder = outputIndex + 1;
+
+        Debug.Log(indexHolder + " | " + maxIndex);
+
+        while (indexHolder != outputIndex)
         {
-            entity.transform.position = transform.position;
-            EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, output.position, entity, this);
+            IOClass output = outputs[outputIndex];
+            if (output.bin == null)
+            {
+                inputs[0].reserved = false;
+                entity.transform.position = transform.position;
+                entity.MoveTo(ResearchHandler.conveyorSpeed, output, this, true);
+            }
+
+            if (indexHolder != maxIndex - 1)
+                indexHolder += 1;
+            else indexHolder = 0;
         }
+
+        outputIndex += 1;
+        if (outputIndex == maxIndex - 1)
+            outputIndex = 0;
     }
 
     public override void SetInputTarget(Building target)
@@ -47,14 +64,26 @@ public class Splitter : Building
     // Called when an entity is ready to be sent 
     public override bool InputEntity(Entity entity)
     {
-
-        EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0].position, entity, this);
+        inputs[0].reserved = true;
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0], this);
         return true;
-
     }
 
     public override void ReceiveEntity(Entity entity)
     {
+        inputs[0].bin = entity;
         SplitEntity(entity);
+    }
+
+    public override void OutputEntity(Entity entity)
+    {
+        if (index == -1 || outputs.Length <= index)
+            Debug.Log("This building does not have an output with index " + index);
+        else
+        {
+            outputs[index].bin = entity;
+            if (outputs[index].target != null && outputs[index].target.InputEntity(entity))
+                outputs[index].bin = null;
+        }
     }
 }

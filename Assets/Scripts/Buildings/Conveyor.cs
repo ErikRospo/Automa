@@ -100,8 +100,7 @@ public class Conveyor : Building
         // Check the back container
         if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
-            if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this, true);
-            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
+            inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0], this, true);
 
             inputs[0].bin = null;
             acceptingEntities = true;
@@ -141,7 +140,7 @@ public class Conveyor : Building
     {
         acceptingEntities = false;
         inputs[0].reserved = true;
-        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0], this);
         return true;
     }
 

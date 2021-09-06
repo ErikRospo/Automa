@@ -108,7 +108,7 @@ public class Constructor : Building
         {
             if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
             {
-                EntityHandler.active.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0].position, entity, this);
+                EntityHandler.active.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0], entity, this);
                 return true;
             }
         }
@@ -120,10 +120,5 @@ public class Constructor : Building
         // Add entity to internal storage and move it to output position
         AddItem(entity.item, 1);
         Recycler.AddRecyclable(entity.transform);
-    }
-
-    public override void OutputEntity(Entity entity)
-    {
-        
     }
 }
