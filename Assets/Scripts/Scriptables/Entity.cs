@@ -6,8 +6,8 @@ public class Entity : MonoBehaviour
 {
     public Item item;
 
-    public void MoveTo(float speed, Vector3 target, Building building)
+    public void MoveTo(float speed, Vector3 target, Building building, bool output = false)
     {
-        EntityHandler.RegisterMovingEntity(speed, target, this, building);
+        EntityHandler.active.RegisterMovingEntity(speed, target, this, building, output);
     }
 }

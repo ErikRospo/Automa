@@ -30,27 +30,23 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
     [HideInInspector] public RotationType rotation;
 
-    // Used to pass another building an entity. 
-    //
-    // Ex. A conveyor has an entity in the front bin and wants to get rid of it. It will
-    // look at the next building in front of it and call it's pass entity method. That
-    // building can then choose what to do with it, but if it returns false then the entity
-    // will stay put with the conveyor until it gets called again.
-    public virtual bool PassEntity(Entity entity)
+    // Called by another building to input an entity
+    public virtual bool InputEntity(Entity entity)
     {
-        Debug.Log("This building cannot be passed entities!");
+        Debug.Log("This building cannot input entities!");
         return false;
     }
 
-    // Used to tell a building what to do with an entity once it has it
-    //
-    // Ex. A conveyor has passed a building an entity. The entity has just arrived at the 
-    // input position. This method will then determine what to do with the entity at that time.
-    // Similar to PassEntity(), but it waits until the entity is at the input position first.
-    // For conveyors, this is used to update the entity bins.
+    // Called once an entity gets to the input position
     public virtual void ReceiveEntity(Entity entity)
     {
         Debug.Log("This building cannot receive entities!");
+    }
+
+    // Called once an entity is ready to be output
+    public virtual void OutputEntity(Entity entity)
+    {
+        Debug.Log("This building cannot output entities!");
     }
 
     // Used to update the bins on a building

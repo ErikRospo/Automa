@@ -72,14 +72,16 @@ public class Conveyor : Building
     }
 
     // Sets a conveyor bin
-    public void SetBin(Entity entity)
+    public void SetInputBin(Entity entity)
     {
-        if (entity.transform.position == inputs[0].position)
-        {
-            inputs[0].bin = entity;
-            acceptingEntities = false;
-        }
-        else outputs[0].bin = entity;
+        inputs[0].bin = entity;
+        acceptingEntities = false;
+        UpdateBins();
+    }
+
+    public void SetOutputBin(Entity entity)
+    {
+        outputs[0].bin = entity;
         UpdateBins();
     }
 
@@ -88,7 +90,7 @@ public class Conveyor : Building
         // Checks the front container
         if (outputs[0].bin != null && outputs[0].target != null && outputs[0].target.acceptingEntities)
         {
-            if (outputs[0].target.PassEntity(outputs[0].bin))
+            if (outputs[0].target.InputEntity(outputs[0].bin))
             {
                 outputs[0].bin = null;
                 outputs[0].reserved = false;
@@ -98,8 +100,8 @@ public class Conveyor : Building
         // Check the back container
         if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
-            if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
-            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this);
+            if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this, true);
+            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
 
             inputs[0].bin = null;
             acceptingEntities = true;
@@ -135,7 +137,7 @@ public class Conveyor : Building
         UpdateBins();
     }
 
-    public override bool PassEntity(Entity entity)
+    public override bool InputEntity(Entity entity)
     {
         acceptingEntities = false;
         inputs[0].reserved = true;
@@ -145,8 +147,11 @@ public class Conveyor : Building
 
     public override void ReceiveEntity(Entity entity)
     {
-        if (entity.transform.position == transform.position)
-            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this);
-        else SetBin(entity);
+        SetInputBin(entity);
+    }
+
+    public override void OutputEntity(Entity entity)
+    {
+        SetOutputBin(entity);
     }
 }

@@ -7,28 +7,30 @@ public class EntityHandler : NetworkBehaviour
 {
     public class MovingEntity
     {
-        public MovingEntity(float speed, Vector3 target, Entity entity, Building building)
+        public MovingEntity(float speed, Vector3 target, Entity entity, Building building, bool output = false)
         {
             this.speed = speed;
             this.target = target;
             this.entity = entity;
             this.building = building;
+            this.output = output;
         }
 
         public float speed;
         public Vector3 target;
         public Entity entity;
         public Building building;
+        public bool output;
     }
-    public static List<MovingEntity> movingEntities;
-
-    public static Transform _entityContainer;
+    public List<MovingEntity> movingEntities = new List<MovingEntity>();
     public Transform entityContainer;
 
-    private void Start()
+    public static EntityHandler active;
+
+    public void Start()
     {
-        _entityContainer = entityContainer;
-        movingEntities = new List<MovingEntity>();
+        if (this != null)
+            active = this;
     }
 
     private void Update()
@@ -47,22 +49,23 @@ public class EntityHandler : NetworkBehaviour
     }
 
     // Registers a new conveyor entity and returns it to the callign script
-    public static void RegisterMovingEntity(float speed, Vector3 target, Entity entity, Building building)
+    public void RegisterMovingEntity(float speed, Vector3 target, Entity entity, Building building, bool output = false)
     {
-        MovingEntity newEntity = new MovingEntity(speed, target, entity, building);
+        MovingEntity newEntity = new MovingEntity(speed, target, entity, building, output);
         movingEntities.Add(newEntity);
     }
 
     // Removes a conveyor entity
-    public static void RemoveMovingEntity(MovingEntity entity)
+    public void RemoveMovingEntity(MovingEntity entity)
     {
-        entity.building.ReceiveEntity(entity.entity);
+        if (entity.output) entity.building.OutputEntity(entity.entity);
+        else entity.building.ReceiveEntity(entity.entity);
         movingEntities.Remove(entity);
     }
 
-    public static Entity RegisterEntity(Item item, Vector2 position, Quaternion rotation)
+    public Entity RegisterEntity(Item item, Vector2 position, Quaternion rotation)
     {
-        Transform obj = Instantiate(_entityContainer, position, rotation);
+        Transform obj = Instantiate(entityContainer, position, rotation);
 
         Entity lastEntity = obj.GetComponent<Entity>();
         if (lastEntity == null)

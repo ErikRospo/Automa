@@ -36,7 +36,7 @@ public class Constructor : Building
         for (int i = 0; i < recipe.output.Length; i++)
         {
             IOClass output = outputs[recipe.output[i].index];
-            output.bin = EntityHandler.RegisterEntity(recipe.output[i].item, 
+            output.bin = EntityHandler.active.RegisterEntity(recipe.output[i].item, 
                 output.position, Quaternion.identity);
             if (output.bin != null) UpdateBins();
         }
@@ -68,9 +68,10 @@ public class Constructor : Building
         // Checks the front container
         if (outputs[0].bin != null && outputs[0].target != null && outputs[0].target.acceptingEntities)
         {
-            if (outputs[0].target.PassEntity(outputs[0].bin))
+            if (outputs[0].target.InputEntity(outputs[0].bin))
             {
                 outputs[0].bin = null;
+                outputs[0].reserved = false;
             }
         }
     }
@@ -101,13 +102,13 @@ public class Constructor : Building
     }
 
     // Called when an entity is ready to be sent 
-    public override bool PassEntity(Entity entity)
+    public override bool InputEntity(Entity entity)
     {
         if (CheckItem(entity.item))
         {
             if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
             {
-                EntityHandler.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0].position, entity, this);
+                EntityHandler.active.RegisterMovingEntity(ResearchHandler.conveyorSpeed, inputs[0].position, entity, this);
                 return true;
             }
         }
@@ -119,5 +120,10 @@ public class Constructor : Building
         // Add entity to internal storage and move it to output position
         AddItem(entity.item, 1);
         Recycler.AddRecyclable(entity.transform);
+    }
+
+    public override void OutputEntity(Entity entity)
+    {
+        
     }
 }

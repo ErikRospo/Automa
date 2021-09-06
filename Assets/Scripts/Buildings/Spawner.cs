@@ -44,7 +44,7 @@ public class Spawner : Building
             if (building != null && building.acceptingEntities)
             {
                 Entity lastEntity = EntityHandler.RegisterEntity(item, transform.position, Quaternion.identity);
-                if (!building.PassEntity(lastEntity))
+                if (!building.InputEntity(lastEntity))
                     Destroy(lastEntity.transform);
             }
         }
