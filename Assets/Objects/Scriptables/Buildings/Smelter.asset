@@ -9,26 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
+  m_Script: {fileID: 11500000, guid: f2e537290b6a292469efc6fd279a4a32, type: 3}
   m_Name: Smelter
   m_EditorClassIdentifier: 
   name: Smelter
-  description: Turns raw ore into ingots for further manufacturing.
+  description: Smelts raw ore into refined materials, almost as refined as ur mums
+    ass amiright boys lets fucking GOOOOOOOOO
   maxStackSize: 10
-  icon: {fileID: 21300000, guid: 44b6ba72de7b13b4895949bb9682bf7d, type: 3}
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
   cells:
-  - x: -5
+  - x: 5
     y: 2.5
   - x: 0
     y: 2.5
-  - x: 5
-    y: 2.5
   - x: -5
+    y: 2.5
+  - x: 5
     y: -2.5
   - x: 0
     y: -2.5
-  - x: 5
+  - x: -5
     y: -2.5
   offset: {x: 0, y: 2.5}
-  image: {fileID: 21300000, guid: 44b6ba72de7b13b4895949bb9682bf7d, type: 3}
+  recipes:
+  - {fileID: 11400000, guid: 891b00cba83f5a142a34f610b80d3236, type: 2}

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Constructor : Building
 {
-    public Recipe recipe;
+    public Crafter crafter;
+    [HideInInspector] public Recipe recipe;
     public Dictionary<Item, int> holding;
     [HideInInspector] public bool isCrafting = false;
 
     private void Start()
     {
+        recipe = crafter.recipes[0];
+
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
