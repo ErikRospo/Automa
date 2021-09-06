@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "New Building", menuName = "Items/Tile")]
+[CreateAssetMenu(fileName = "New Building", menuName = "Buildings/Tile")]
 public class Tile : Item
 {
     [System.Serializable]

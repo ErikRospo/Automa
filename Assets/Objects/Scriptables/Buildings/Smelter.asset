@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Smelter
   m_EditorClassIdentifier: 
   name: Smelter
-  description: Smelts raw ore into refined materials, almost as refined as ur mums
-    ass amiright boys lets fucking GOOOOOOOOO
+  description: Smelts raw ore into refined materials
   maxStackSize: 10
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
   cells:
