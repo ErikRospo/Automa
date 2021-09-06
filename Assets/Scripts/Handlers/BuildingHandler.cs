@@ -15,6 +15,11 @@ public class BuildingHandler : NetworkBehaviour
     private Vector2 offset;
     private Quaternion rotation;
     private GameObject lastObj;
+    public bool holdingMouse;
+
+    // Axis Lock variables
+    private SnapAxis snapAxis;
+    private Vector3 snapPos;
 
     // Conveyor variables
     private Conveyor lastConveyor;
@@ -59,6 +64,12 @@ public class BuildingHandler : NetworkBehaviour
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
+        
+        // If active is a axisSnappable and mouse is held, snap axis
+        if (selectedTile.axisSnappable && holdingMouse)
+        {
+            Snapping(active.transform.position, snapPos, snapAxis);
+        }
         position = active.transform.position;
 
         // Update last conveyor position (for rotating)
@@ -165,6 +176,19 @@ public class BuildingHandler : NetworkBehaviour
         // Check to make sure the tiles are not being used
         if (!CheckTiles()) return;
 
+        // Check that conveyors are being placed in axis if mouse is being held down
+        if (lastObj != null)
+        {
+            Conveyor lastConveyor = lastObj.GetComponent<Conveyor>(); ;
+            if (holdingMouse && lastConveyor != null)
+            {
+                Vector2 nextPositon = new Vector2(lastConveyor.outputs[0].tilePosition.x, lastConveyor.outputs[0].tilePosition.y);
+                Vector2 previousPostion = new Vector2(lastConveyor.inputs[0].tilePosition.x, lastConveyor.inputs[0].tilePosition.y);
+                Debug.Log(previousPostion.ToString() + " | " + position.ToString());
+                if (nextPositon != position && previousPostion != position) return;
+            }
+        }
+
         // Instantiate the object like usual
         InstantiateObj(selectedTile.obj, position, active.transform.rotation);
 
@@ -182,6 +206,8 @@ public class BuildingHandler : NetworkBehaviour
         // Create the tile
         lastObj = Instantiate(obj, position, rotation);
         lastObj.name = obj.name;
+        SpriteRenderer spriteRenderer = lastObj.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null) spriteRenderer.sprite = Sprites.GetSprite(obj.name);
 
         // Conveyor override creation
         Conveyor conveyor = lastObj.GetComponent<Conveyor>();
