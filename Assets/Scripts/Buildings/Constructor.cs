@@ -23,7 +23,7 @@ public class Constructor : Building
         { 
             if (holding.ContainsKey(itemToInput)) holding[itemToInput] += amountToAdd;
             else holding.Add(itemToInput, amountToAdd);
-            CheckStorage();
+            if (!isCrafting) CheckStorage();
         }
     }
 
@@ -33,14 +33,12 @@ public class Constructor : Building
         for (int i = 0; i < recipe.output.Length; i++)
         {
             IOClass output = outputs[recipe.output[i].index];
-            if (output.target != null)
-            {
-                output.bin = EntityHandler.RegisterEntity(recipe.output[i].item,
-                    output.position, Quaternion.identity);
-                if (output.bin != null) UpdateBins();
-            }
+            output.bin = EntityHandler.RegisterEntity(recipe.output[i].item, 
+                output.position, Quaternion.identity);
+            if (output.bin != null) UpdateBins();
         }
 
+        isCrafting = false;
         CheckStorage();
     }
 
