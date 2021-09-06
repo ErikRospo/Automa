@@ -100,6 +100,10 @@ public class Controller : NetworkBehaviour
         else if (Input.GetKeyDown(Keybinds.deselect) || Input.GetKeyDown(Keybinds.escape))
             BuildingHandler.active.SetBuilding(null);
 
+        // Update BuildingHandler holdingMouse flag
+        if (Input.GetKeyDown(Keybinds.shoot)) BuildingHandler.active.holdingMouse = true;
+        else if (Input.GetKeyUp(Keybinds.shoot)) BuildingHandler.active.holdingMouse = false;
+
         // Interacting input check
         if (Input.GetKeyDown(Keybinds.equip)) 
             Debug.Log(transform.name + " pressed equip button");

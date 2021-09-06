@@ -68,7 +68,7 @@ public class BuildingHandler : NetworkBehaviour
         // If active is a axisSnappable and mouse is held, snap axis
         if (selectedTile.axisSnappable && holdingMouse)
         {
-            Snapping(active.transform.position, snapPos, snapAxis);
+            Snapping.Snap(active.transform.position, snapPos, snapAxis);
         }
         position = active.transform.position;
 

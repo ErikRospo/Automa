@@ -15,4 +15,5 @@ public class Tile : Item
     public GameObject obj;
     public Cell[] cells;
     public Vector2 offset;
+    public bool axisSnappable;
 }
