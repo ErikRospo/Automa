@@ -71,20 +71,6 @@ public class Conveyor : Building
         }
     }
 
-    // Sets a conveyor bin
-    public void SetInputBin(Entity entity)
-    {
-        inputs[0].bin = entity;
-        acceptingEntities = false;
-        UpdateBins();
-    }
-
-    public void SetOutputBin(Entity entity)
-    {
-        outputs[0].bin = entity;
-        UpdateBins();
-    }
-
     public override void UpdateBins()
     {
         // Checks the front container
@@ -100,8 +86,12 @@ public class Conveyor : Building
         // Check the back container
         if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
+            Debug.Log(inputs[0].bin.name);
+
             if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this, true);
             else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
+
+            Debug.Log("Moving entity");
 
             inputs[0].bin = null;
             acceptingEntities = true;
@@ -147,13 +137,21 @@ public class Conveyor : Building
 
     public override void ReceiveEntity(Entity entity)
     {
-        SetInputBin(entity);
+        inputs[0].bin = entity;
+        acceptingEntities = false;
+        UpdateBins();
     }
 
     public override void OutputEntity(Entity entity)
     {
         if (entity.transform.position == transform.position)
+        {
             entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
-        else SetOutputBin(entity);
+        }
+        else
+        {
+            outputs[0].bin = entity;
+            UpdateBins();
+        }
     }
 }

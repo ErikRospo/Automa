@@ -31,7 +31,9 @@ public class Splitter : Building
             IOClass output = outputs[outputIndex];
             if (output.bin == null)
             {
+                acceptingEntities = true;
                 inputs[0].reserved = false;
+                inputs[0].bin = null;
                 output.reserved = true;
                 entity.outputIndex = outputIndex;
                 entity.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
@@ -68,6 +70,16 @@ public class Splitter : Building
         UpdateBins();
     }
 
+    public override void SetOutputTarget(IOClass output, Building target)
+    {
+        if (output != null)
+        {
+            output.target = target;
+            UpdateBins();
+        }
+        else SetOutputTarget(target);
+    }
+
     // Called when an entity is ready to be sent 
     public override bool InputEntity(Entity entity)
     {
@@ -85,6 +97,7 @@ public class Splitter : Building
         else
         {
             inputs[0].bin = entity;
+            acceptingEntities = false;
             SplitEntity(entity);
         }
     }
@@ -102,7 +115,13 @@ public class Splitter : Building
             {
                 output.bin = null;
                 output.reserved = false;
+                entity.outputIndex = -1;
             }
+        }
+        else
+        {
+            Debug.LogError("Issue while splitting entity");
+            Recycler.AddRecyclable(entity.transform);
         }
     }
 }

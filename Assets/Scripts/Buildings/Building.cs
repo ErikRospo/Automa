@@ -76,6 +76,16 @@ public abstract class Building : NetworkBehaviour, IDamageable
         Debug.Log("This building cannot be passed output targets!");
     }
 
+    public virtual void SetInputTarget(IOClass input, Building target)
+    {
+        SetInputTarget(target);
+    }
+
+    public virtual void SetOutputTarget(IOClass output, Building target)
+    {
+        SetOutputTarget(target);
+    }
+
     // Used to setup the rotation of a building
     //
     // Buildings will often need to make rotational checks in order to make sure that the
@@ -107,7 +117,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
                 {
                     building.SetOutputTarget(this);
                     building.UpdateBins();
-                    SetInputTarget(building);
+                    SetInputTarget(inputs[i], building);
                 }
                 else
                 {
@@ -126,10 +136,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipRotationCheck || building.skipRotationCheck || building.rotation == rotation)
                 {
-                    Debug.Log("Got a building bro " + building.name);
-
                     building.SetInputTarget(this);
-                    SetOutputTarget(building);
+                    SetOutputTarget(outputs[i], building);
                     UpdateBins();
                 }
             }
