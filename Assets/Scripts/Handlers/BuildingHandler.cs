@@ -18,7 +18,8 @@ public class BuildingHandler : NetworkBehaviour
     public bool holdingMouse;
 
     // Axis Lock variables
-    private SnapAxis snapAxis;
+    enum Axis { X, Y, NONE }
+    private Axis snapAxis = Axis.NONE; // replace with snapaxis none eventually
     private Vector3 snapPos;
 
     // Conveyor variables
@@ -64,12 +65,34 @@ public class BuildingHandler : NetworkBehaviour
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
-        
+
         // If active is a axisSnappable and mouse is held, snap axis
-        if (selectedTile.axisSnappable && holdingMouse)
+        /*if (selectedTile.axisSnappable)
         {
-            Snapping.Snap(active.transform.position, snapPos, snapAxis);
-        }
+            // Update snapping data
+            snapPos = active.transform.position;
+            switch (active.transform.rotation.eulerAngles.z)
+            {
+                case 0:
+                case 180f:
+                    snapAxis = Axis.Y;
+                    break;
+                case 90f:
+                case 270f:
+                    snapAxis = Axis.X;
+                    break;
+            }
+            // 
+            if (holdingMouse)
+            {
+                if (snapAxis == Axis.X)
+                    active.transform.position = new Vector3(snapPos.x, active.transform.position.y, active.transform.position.z);
+                else if (snapAxis == Axis.Y)
+                    active.transform.position = new Vector3(active.transform.position.x, snapPos.y, active.transform.position.z);
+                else
+                    Debug.Log("Missing Snap Axis");
+            }
+        }*/
         position = active.transform.position;
 
         // Update last conveyor position (for rotating)
@@ -177,7 +200,7 @@ public class BuildingHandler : NetworkBehaviour
         if (!CheckTiles()) return;
 
         // Check that conveyors are being placed in axis if mouse is being held down
-        if (lastObj != null)
+        /*if (lastObj != null)
         {
             Conveyor lastConveyor = lastObj.GetComponent<Conveyor>(); ;
             if (holdingMouse && lastConveyor != null)
@@ -187,7 +210,7 @@ public class BuildingHandler : NetworkBehaviour
                 Debug.Log(previousPostion.ToString() + " | " + position.ToString());
                 if (nextPositon != position && previousPostion != position) return;
             }
-        }
+        }*/
 
         // Instantiate the object like usual
         InstantiateObj(selectedTile.obj, position, active.transform.rotation);
