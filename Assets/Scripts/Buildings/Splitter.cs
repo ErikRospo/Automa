@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Splitter : Building
 {
-    public Tile tile;
     public int outputIndex = 0;
     private int maxIndex;
 
@@ -33,6 +32,7 @@ public class Splitter : Building
             if (output.bin == null)
             {
                 inputs[0].reserved = false;
+                output.reserved = true;
                 entity.transform.position = transform.position;
                 entity.MoveTo(ResearchHandler.conveyorSpeed, output, this, true);
             }
@@ -45,6 +45,13 @@ public class Splitter : Building
         outputIndex += 1;
         if (outputIndex == maxIndex - 1)
             outputIndex = 0;
+    }
+
+    public override void UpdateBins()
+    {
+        foreach (IOClass holder in outputs)
+            OutputEntity(holder.bin);
+        if (inputs[0].bin != null) SplitEntity(inputs[0].bin);
     }
 
     public override void SetInputTarget(Building target)
@@ -77,6 +84,13 @@ public class Splitter : Building
 
     public override void OutputEntity(Entity entity)
     {
-        
+        entity.holder.bin = entity;
+        if (entity.holder.target != null &&
+            entity.holder.target.acceptingEntities &&
+            entity.holder.target.InputEntity(entity))
+        {
+            entity.holder.bin = null;
+            entity.holder.reserved = false;
+        }
     }
 }
