@@ -16,6 +16,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
 
     // Flag to determine if the building should be accepting entites
     public bool acceptingEntities = false;
+    public bool skipRotationCheck = false;
 
     // Flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
@@ -123,10 +124,10 @@ public abstract class Building : NetworkBehaviour, IDamageable
 
             if (building != null)
             {
-                Debug.Log(building.name);
-
-                if (building.rotation == rotation)
+                if (skipRotationCheck || building.skipRotationCheck || building.rotation == rotation)
                 {
+                    Debug.Log("Got a building bro " + building.name);
+
                     building.SetInputTarget(this);
                     SetOutputTarget(building);
                     UpdateBins();

@@ -20,37 +20,37 @@ public class Splitter : Building
     {
         Debug.Log("Beginning split task with index " + outputIndex);
 
-        int indexHolder = 0;
-        if (outputIndex != maxIndex - 1)
-            indexHolder = outputIndex + 1;
+        // Set index
+        int holder = outputIndex;
+        outputIndex += 1;
+        if (outputIndex == maxIndex)
+            outputIndex = 0;
 
-        Debug.Log(indexHolder + " | " + maxIndex);
-
-        while (indexHolder != outputIndex)
+        while (outputIndex != holder)
         {
             IOClass output = outputs[outputIndex];
             if (output.bin == null)
             {
                 inputs[0].reserved = false;
                 output.reserved = true;
-                entity.transform.position = transform.position;
-                entity.MoveTo(ResearchHandler.conveyorSpeed, output, this, true);
+                entity.outputIndex = outputIndex;
+                entity.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
+                break;
             }
-
-            if (indexHolder != maxIndex - 1)
-                indexHolder += 1;
-            else indexHolder = 0;
+            else
+            {
+                outputIndex += 1;
+                if (outputIndex == maxIndex)
+                    outputIndex = 0;
+            }
         }
-
-        outputIndex += 1;
-        if (outputIndex == maxIndex - 1)
-            outputIndex = 0;
     }
 
     public override void UpdateBins()
     {
         foreach (IOClass holder in outputs)
-            OutputEntity(holder.bin);
+            if (holder.bin != null)
+                OutputEntity(holder.bin);
         if (inputs[0].bin != null) SplitEntity(inputs[0].bin);
     }
 
@@ -72,25 +72,37 @@ public class Splitter : Building
     public override bool InputEntity(Entity entity)
     {
         inputs[0].reserved = true;
-        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0], this);
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
         return true;
     }
 
     public override void ReceiveEntity(Entity entity)
     {
-        inputs[0].bin = entity;
-        SplitEntity(entity);
+        if (entity.transform.position == transform.position)
+        {
+            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[entity.outputIndex].position, this, true);
+        }
+        else
+        {
+            inputs[0].bin = entity;
+            SplitEntity(entity);
+        }
     }
 
     public override void OutputEntity(Entity entity)
     {
-        entity.holder.bin = entity;
-        if (entity.holder.target != null &&
-            entity.holder.target.acceptingEntities &&
-            entity.holder.target.InputEntity(entity))
+        IOClass output = outputs[entity.outputIndex];
+
+        if (output != null)
         {
-            entity.holder.bin = null;
-            entity.holder.reserved = false;
+            output.bin = entity;
+            if (output.target != null &&
+                output.target.acceptingEntities &&
+                output.target.InputEntity(entity))
+            {
+                output.bin = null;
+                output.reserved = false;
+            }
         }
     }
 }

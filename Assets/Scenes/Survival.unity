@@ -36679,7 +36679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191c5739b2de3b049bba64b42f173599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes: []
 --- !u!4 &1892984276
 Transform:
   m_ObjectHideFlags: 0
@@ -36778,6 +36777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  holdingMouse: 0
 --- !u!4 &1905279624
 Transform:
   m_ObjectHideFlags: 0

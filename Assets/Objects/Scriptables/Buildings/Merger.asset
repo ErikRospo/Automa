@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
   m_Name: Merger
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  maxStackSize: 0
+  name: Merger
+  description: Merges items on a conveyor
+  maxStackSize: 20
   obj: {fileID: 0}
   cells: []
   offset: {x: 0, y: 0}
+  axisSnappable: 0

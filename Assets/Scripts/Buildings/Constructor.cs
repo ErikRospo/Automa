@@ -108,7 +108,7 @@ public class Constructor : Building
         {
             if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
             {
-                entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0], this);
+                entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
                 return true;
             }
         }

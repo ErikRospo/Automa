@@ -101,7 +101,7 @@ public class Conveyor : Building
         if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
             if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this, true);
-            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0], this, true);
+            else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
 
             inputs[0].bin = null;
             acceptingEntities = true;
@@ -153,7 +153,7 @@ public class Conveyor : Building
     public override void OutputEntity(Entity entity)
     {
         if (entity.transform.position == transform.position)
-            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0], this, true);
+            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
         else SetOutputBin(entity);
     }
 }

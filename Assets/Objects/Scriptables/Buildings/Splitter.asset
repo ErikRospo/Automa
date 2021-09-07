@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
   m_Name: Splitter
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  maxStackSize: 0
-  obj: {fileID: 0}
+  name: Splitter
+  description: 'Splits items on a conveyor '
+  maxStackSize: 20
+  obj: {fileID: 2815248319985988235, guid: 22145e20cdb5e934789a9e8fbe0823f0, type: 3}
   cells: []
   offset: {x: 0, y: 0}
+  axisSnappable: 0

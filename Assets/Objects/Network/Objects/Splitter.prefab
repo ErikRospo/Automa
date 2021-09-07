@@ -227,8 +227,8 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     tilePosition: {x: 0, y: 0, z: 0}
   acceptingEntities: 1
+  skipRotationCheck: 1
   rotation: 0
-  tile: {fileID: 0}
   outputIndex: 0
 --- !u!212 &7743680321898476986
 SpriteRenderer:
