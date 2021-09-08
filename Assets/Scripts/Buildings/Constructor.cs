@@ -87,6 +87,8 @@ public class Constructor : Building
 
     public override void SetInputTarget(Building target)
     {
+        Debug.Log("Reee?");
+
         for (int i = 0; i < inputs.Length; i++)
             if (target.transform.position == inputs[i].tilePosition)
                 inputs[i].target = target;
@@ -94,6 +96,8 @@ public class Constructor : Building
 
     public override void SetOutputTarget(Building target)
     {
+        Debug.Log("Reee213123?");
+
         for (int i = 0; i < outputs.Length; i++)
             if (target.transform.position == outputs[i].tilePosition)
                 outputs[i].target = target;

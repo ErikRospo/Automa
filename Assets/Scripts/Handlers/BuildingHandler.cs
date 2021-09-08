@@ -199,21 +199,8 @@ public class BuildingHandler : NetworkBehaviour
         // Check to make sure the tiles are not being used
         if (!CheckTiles()) return;
 
-        // Check that conveyors are being placed in axis if mouse is being held down
-        /*if (lastObj != null)
-        {
-            Conveyor lastConveyor = lastObj.GetComponent<Conveyor>(); ;
-            if (holdingMouse && lastConveyor != null)
-            {
-                Vector2 nextPositon = new Vector2(lastConveyor.outputs[0].tilePosition.x, lastConveyor.outputs[0].tilePosition.y);
-                Vector2 previousPostion = new Vector2(lastConveyor.inputs[0].tilePosition.x, lastConveyor.inputs[0].tilePosition.y);
-                Debug.Log(previousPostion.ToString() + " | " + position.ToString());
-                if (nextPositon != position && previousPostion != position) return;
-            }
-        }*/
-
         // Instantiate the object like usual
-        InstantiateObj(selectedTile.obj, position, active.transform.rotation);
+        InstantiateObj(selectedTile, position, active.transform.rotation);
 
         // Set the tiles on the grid class
         if (selectedTile.cells.Length > 0)
@@ -224,13 +211,11 @@ public class BuildingHandler : NetworkBehaviour
         else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
     }
 
-    private void InstantiateObj(GameObject obj, Vector2 position, Quaternion rotation, int axisLock = -1)
+    private void InstantiateObj(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
     {
         // Create the tile
-        lastObj = Instantiate(obj, position, rotation);
-        lastObj.name = obj.name;
-        SpriteRenderer spriteRenderer = lastObj.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null) spriteRenderer.sprite = Sprites.GetSprite(obj.name);
+        lastObj = Instantiate(tile.obj, position, rotation);
+        lastObj.name = tile.name;
 
         // Conveyor override creation
         Conveyor conveyor = lastObj.GetComponent<Conveyor>();
