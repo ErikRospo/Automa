@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Splitter : Building
 {
-    public int outputIndex = 0;
+    public int index = 0;
     private int maxIndex;
 
     public void Start()
@@ -18,32 +18,27 @@ public class Splitter : Building
 
     public void SplitEntity(Entity entity)
     {
-        Debug.Log("Beginning split task with index " + outputIndex);
-
         // Set index
-        int holder = outputIndex;
-        outputIndex += 1;
-        if (outputIndex == maxIndex)
-            outputIndex = 0;
+        int holder = index;
+        index += 1;
+        if (index == maxIndex)
+            index = 0;
 
-        while (outputIndex != holder)
+        while (index != holder)
         {
-            IOClass output = outputs[outputIndex];
-            if (output.bin == null)
+            IOClass output = outputs[index];
+            if (output.bin == null && output.target != null)
             {
-                acceptingEntities = true;
-                inputs[0].reserved = false;
-                inputs[0].bin = null;
-                output.reserved = true;
-                entity.outputIndex = outputIndex;
+                MoveInput(inputs[0], output);
+                entity.outputIndex = index;
                 entity.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
                 break;
             }
             else
             {
-                outputIndex += 1;
-                if (outputIndex == maxIndex)
-                    outputIndex = 0;
+                index += 1;
+                if (index == maxIndex)
+                    index = 0;
             }
         }
     }
@@ -113,8 +108,7 @@ public class Splitter : Building
                 output.target.acceptingEntities &&
                 output.target.InputEntity(entity))
             {
-                output.bin = null;
-                output.reserved = false;
+                MoveOutput(output);
                 entity.outputIndex = -1;
             }
         }

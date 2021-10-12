@@ -51,6 +51,21 @@ public abstract class Building : NetworkBehaviour, IDamageable
         Debug.Log("This building cannot output entities!");
     }
 
+    public void MoveInput(IOClass input, IOClass output)
+    {
+        acceptingEntities = true;
+        input.reserved = false;
+        input.bin = null;
+        output.reserved = true;
+        input.target.UpdateBins();
+    }
+
+    public void MoveOutput(IOClass output)
+    {
+        output.reserved = false;
+        output.bin = null;
+    }
+
     // Used to update the bins on a building
     //
     // Ex. A conveyor has a front bin which contains the entity sitting at the front side of
