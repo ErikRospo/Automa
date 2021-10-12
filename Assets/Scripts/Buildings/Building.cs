@@ -8,7 +8,7 @@ using System;
 // has to do with conveyors. You can define buildings to have multiple inputs
 // and outputs, as well as which tiles they should check for adjacent buildings.
 
-public abstract class Building : NetworkBehaviour, IDamageable
+public abstract class Building : MonoBehaviour, IDamageable
 {
     // Next / previous targets
     public IOClass[] inputs;
