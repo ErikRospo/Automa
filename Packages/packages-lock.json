@@ -109,6 +109,34 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.dots.editor": {
+      "version": "0.12.0-preview.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.entities": "0.17.0-preview.41",
+        "com.unity.properties": "1.6.0-preview",
+        "com.unity.serialization": "1.6.1-preview",
+        "com.unity.properties.ui": "1.6.1-preview",
+        "com.unity.jobs": "0.8.0-preview.23",
+        "com.unity.burst": "1.4.1",
+        "com.unity.test-framework.performance": "2.3.1-preview"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.dots.runtime": {
+      "version": "0.32.0-preview.54",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.4.1",
+        "com.unity.entities": "0.17.0-preview.41",
+        "com.unity.platforms": "0.10.0-preview.10",
+        "com.unity.nuget.mono-cecil": "0.1.6-preview.2",
+        "nuget.moq": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.entities": {
       "version": "0.17.0-preview.42",
       "depth": 0,
@@ -154,7 +182,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.3",
+      "version": "1.2.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -207,7 +235,7 @@
     },
     "com.unity.properties": {
       "version": "1.6.0-preview",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.nuget.mono-cecil": "0.1.6-preview.2",
@@ -309,7 +337,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.27",
+      "version": "1.1.29",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -369,11 +397,37 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.visualeffectgraph": {
+      "version": "10.6.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "10.6.0",
+        "com.unity.render-pipelines.core": "10.6.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "nuget.castle-core": {
+      "version": "1.0.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "nuget.mono-cecil": {
       "version": "0.1.6-preview",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "nuget.moq": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "nuget.castle-core": "1.0.1"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.modules.ai": {
