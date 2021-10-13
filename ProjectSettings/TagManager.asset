@@ -59,6 +59,9 @@ TagManager:
   - name: Building
     uniqueID: 3651887703
     locked: 0
+  - name: Glow
+    uniqueID: 362706735
+    locked: 0
   - name: Particle
     uniqueID: 727966669
     locked: 0
