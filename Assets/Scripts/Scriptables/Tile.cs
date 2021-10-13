@@ -16,4 +16,5 @@ public class Tile : Item
     public Cell[] cells;
     public Vector2 offset;
     public bool axisSnappable;
+    public bool rotatable;
 }

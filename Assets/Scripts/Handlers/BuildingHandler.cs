@@ -65,34 +65,6 @@ public class BuildingHandler : NetworkBehaviour
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
-
-        // If active is a axisSnappable and mouse is held, snap axis
-        /*if (selectedTile.axisSnappable)
-        {
-            // Update snapping data
-            snapPos = active.transform.position;
-            switch (active.transform.rotation.eulerAngles.z)
-            {
-                case 0:
-                case 180f:
-                    snapAxis = Axis.Y;
-                    break;
-                case 90f:
-                case 270f:
-                    snapAxis = Axis.X;
-                    break;
-            }
-            // 
-            if (holdingMouse)
-            {
-                if (snapAxis == Axis.X)
-                    active.transform.position = new Vector3(snapPos.x, active.transform.position.y, active.transform.position.z);
-                else if (snapAxis == Axis.Y)
-                    active.transform.position = new Vector3(active.transform.position.x, snapPos.y, active.transform.position.z);
-                else
-                    Debug.Log("Missing Snap Axis");
-            }
-        }*/
         position = active.transform.position;
 
         // Update last conveyor position (for rotating)
@@ -106,8 +78,11 @@ public class BuildingHandler : NetworkBehaviour
     // Rotates an object
     public void Rotate()
     {
-        if (selectedTile != null && (selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck()))
+        if (selectedTile != null && selectedTile.rotatable &&
+            (selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck()))
+        {
             active.transform.Rotate(0, 0, -90);
+        }
     }
 
     // Automatically applies corner rotation to conveyors
@@ -186,6 +161,9 @@ public class BuildingHandler : NetworkBehaviour
         {
             spriteRenderer.sprite = Sprites.GetSprite(tile.name);
             offset = tile.offset;
+
+            if (!tile.rotatable)
+                active.transform.rotation = Quaternion.identity;
         }
         else spriteRenderer.sprite = Sprites.GetSprite("Empty");
     }
@@ -209,6 +187,11 @@ public class BuildingHandler : NetworkBehaviour
                 tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastObj.transform.position.x + cell.x, lastObj.transform.position.y + cell.y)), true, selectedTile, lastObj);
         }
         else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
+    }
+
+    private void ConveyorCheck()
+    {
+
     }
 
     private void InstantiateObj(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
