@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Spawner
   description: Creates items (ALPHA ONLY)
   maxStackSize: 1
-  icon: {fileID: 21300000, guid: 200501662505eba47bfa4e4b707a71b7, type: 3}
   obj: {fileID: 6147068497244908113, guid: 0685f90c72ff41f429949da1627020eb, type: 3}
   cells: []
   offset: {x: 0, y: 0}
-  image: {fileID: 21300000, guid: 200501662505eba47bfa4e4b707a71b7, type: 3}
+  axisSnappable: 0
+  rotatable: 1

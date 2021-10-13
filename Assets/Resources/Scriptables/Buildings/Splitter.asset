@@ -19,3 +19,4 @@ MonoBehaviour:
   cells: []
   offset: {x: 0, y: 0}
   axisSnappable: 0
+  rotatable: 1

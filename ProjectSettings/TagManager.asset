@@ -53,11 +53,11 @@ TagManager:
   - name: Item
     uniqueID: 3864095077
     locked: 0
-  - name: Player
-    uniqueID: 3061068595
-    locked: 0
   - name: Building
     uniqueID: 3651887703
+    locked: 0
+  - name: Player
+    uniqueID: 3061068595
     locked: 0
   - name: Glow
     uniqueID: 362706735
