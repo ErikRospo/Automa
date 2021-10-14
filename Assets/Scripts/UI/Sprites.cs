@@ -15,10 +15,7 @@ public class Sprites : MonoBehaviour
         List<Sprite> sprites = Resources.LoadAll("Sprites/Buildings", typeof(Sprite)).Cast<Sprite>().ToList();
 
         foreach (Sprite sprite in sprites) 
-        {
-            Debug.Log(sprite.name);
             library.Add(sprite.name, sprite);
-        }
     }
 
     public static Sprite GetSprite(string name)
