@@ -5,9 +5,11 @@ using TMPro;
 
 public class BuildingUI : MonoBehaviour
 {
+    // temp reference
     public Manager manager;
-
+    public TextMeshProUGUI buildingInfo;
     public TMP_Dropdown recipeSelector;
+
     [HideInInspector] public List<string> recipesToAdd;
     [HideInInspector] public List<Recipe> recipes;
 

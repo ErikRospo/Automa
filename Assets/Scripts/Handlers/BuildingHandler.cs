@@ -178,9 +178,13 @@ public class BuildingHandler : NetworkBehaviour
         if (selectedTile == null)
         {
             // Check for object
-            Constructor constructor = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position)).GetComponent<Constructor>();
-            if (constructor != null)
-                UIEvents.active.ConstructorClicked(constructor);
+            GameObject obj = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position));
+            if (obj != null)
+            {
+                Constructor constructor = obj.GetComponent<Constructor>();
+                if (constructor != null)
+                    UIEvents.active.ConstructorClicked(constructor);
+            }
             return;
         }
 
