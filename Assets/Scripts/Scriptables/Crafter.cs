@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New xX_Cr4ft3r_Xx", menuName = "Buildings/Crafter")]
 public class Crafter : Tile
 {
-    public Recipe[] recipes;
+    public List<Recipe> recipes;
 }

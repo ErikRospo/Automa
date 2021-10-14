@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Smelter Atlas
+  m_Name: Constructor
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -31,22 +31,22 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: ca6f4837a46dc5047ac467d19d0f7db8, type: 3}
-    - {fileID: 2800000, guid: da814275c5634c848bef294398e73655, type: 3}
-    - {fileID: 2800000, guid: ff1bc2e3dcfa35a4fb478ffa4471030f, type: 3}
-    totalSpriteSurfaceArea: 3014400
+    - {fileID: 2800000, guid: 52f42f0e7b7a86c4dadc7764f572940e, type: 3}
+    - {fileID: 2800000, guid: 8f6a805c565de664a83d036e5847a9d6, type: 3}
+    - {fileID: 2800000, guid: d362dd9ff87c2fd49b4c41d358f60482, type: 3}
+    totalSpriteSurfaceArea: 4516900
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: ff1bc2e3dcfa35a4fb478ffa4471030f, type: 3}
-  - {fileID: 21300000, guid: da814275c5634c848bef294398e73655, type: 3}
-  - {fileID: 21300000, guid: ca6f4837a46dc5047ac467d19d0f7db8, type: 3}
+  - {fileID: 21300000, guid: 8f6a805c565de664a83d036e5847a9d6, type: 3}
+  - {fileID: 21300000, guid: 52f42f0e7b7a86c4dadc7764f572940e, type: 3}
+  - {fileID: 21300000, guid: d362dd9ff87c2fd49b4c41d358f60482, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Smelter Glow
-  - Smelter Fan
-  - Smelter Base
+  - Constructor Glow
+  - Constructor Base
+  - Constructor Fan
   m_RenderDataMap: {}
-  m_Tag: Smelter Atlas
+  m_Tag: Constructor
   m_IsVariant: 0

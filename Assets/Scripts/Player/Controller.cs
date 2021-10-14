@@ -16,6 +16,7 @@ public class Controller : NetworkBehaviour
     public Tile smelter;
     public Tile splitter;
     public Tile merger;
+    public Tile constructor;
 
     // GameObject child transforms
     private Rigidbody2D body;
@@ -142,9 +143,9 @@ public class Controller : NetworkBehaviour
         if (Input.GetKeyDown(Keybinds.hotbar_1)) BuildingHandler.active.SetBuilding(conveyor);
         else if (Input.GetKeyDown(Keybinds.hotbar_2)) BuildingHandler.active.SetBuilding(spawner);
         else if (Input.GetKeyDown(Keybinds.hotbar_3)) BuildingHandler.active.SetBuilding(smelter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_4)) BuildingHandler.active.SetBuilding(splitter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_5)) BuildingHandler.active.SetBuilding(merger);
-        else if (Input.GetKeyDown(Keybinds.hotbar_6)) Debug.Log("Press number 6");
+        else if (Input.GetKeyDown(Keybinds.hotbar_4)) BuildingHandler.active.SetBuilding(constructor);
+        else if (Input.GetKeyDown(Keybinds.hotbar_5)) BuildingHandler.active.SetBuilding(splitter);
+        else if (Input.GetKeyDown(Keybinds.hotbar_6)) BuildingHandler.active.SetBuilding(merger);
         else if (Input.GetKeyDown(Keybinds.hotbar_7)) Debug.Log("Press number 7");
         else if (Input.GetKeyDown(Keybinds.hotbar_8)) Debug.Log("Press number 8");
         else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");

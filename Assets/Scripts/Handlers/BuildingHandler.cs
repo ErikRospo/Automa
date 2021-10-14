@@ -189,11 +189,6 @@ public class BuildingHandler : NetworkBehaviour
         else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
     }
 
-    private void ConveyorCheck()
-    {
-
-    }
-
     private void InstantiateObj(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
     {
         // Create the tile
@@ -212,6 +207,23 @@ public class BuildingHandler : NetworkBehaviour
                 else active.transform.Rotate(new Vector3(0, 0, -90));
             }
             conveyor.Setup();
+        }
+
+        // Crafter override creation
+        Constructor constructor = lastObj.GetComponent<Constructor>();
+        if (constructor != null)
+        {
+            Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
+            if (constructor.crafter.recipes.Contains(temp))
+            {
+                constructor.recipe = temp;
+                Debug.Log("Setting recipe to " + constructor.recipe.name);
+            }
+            else
+            {
+                Debug.Log("The recipe " + temp + " can not be applied to " + lastObj.name + 
+                    "\nDefaulting to " + constructor.recipe.name);
+            }
         }
     }
 
