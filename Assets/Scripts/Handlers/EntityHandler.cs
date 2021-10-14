@@ -85,7 +85,7 @@ public class EntityHandler : NetworkBehaviour
         Sprite img = Resources.Load<Sprite>("Sprites/Items/" + item.name);
         if (img == null)
         {
-            Debug.LogError("The entity you tried to create does not contain an image in the resources folder!");
+            Debug.LogError("The entity " + item.name + " does not contain an image in the resources folder!");
             Recycler.AddRecyclable(obj);
             return null;
         }

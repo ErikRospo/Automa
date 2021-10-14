@@ -6,14 +6,14 @@ public class CraftingHandler : MonoBehaviour
 {
     public class ActiveCrafters
     {
-        public ActiveCrafters(Constructor crafter, int time)
+        public ActiveCrafters(Constructor crafter, float time)
         {
             this.crafter = crafter;
             this.time = time;
         }
 
         public Constructor crafter;
-        public int time;
+        public float time;
     }
     public static List<ActiveCrafters> crafters;
 
@@ -29,8 +29,8 @@ public class CraftingHandler : MonoBehaviour
         {
             if (CheckBuilding(i))
             {
-                crafters[i].time -= 1;
-                if (crafters[i].time < 1)
+                crafters[i].time -= Time.deltaTime;
+                if (crafters[i].time <= 0)
                 {
                     FinishCrafting(i);
                     i--;

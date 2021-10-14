@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f4a864adaeaff47a5c6feac556fb01, type: 3}
   m_Name: Iron Bar
   m_EditorClassIdentifier: 
-  name: Iron Rod
+  name: Iron Bar
   description: 'A long rod made of iron. '
   maxStackSize: 100
