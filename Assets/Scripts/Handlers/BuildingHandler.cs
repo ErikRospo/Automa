@@ -17,11 +17,6 @@ public class BuildingHandler : NetworkBehaviour
     private GameObject lastObj;
     public bool holdingMouse;
 
-    // Axis Lock variables
-    enum Axis { X, Y, NONE }
-    private Axis snapAxis = Axis.NONE; // replace with snapaxis none eventually
-    private Vector3 snapPos;
-
     // Conveyor variables
     private Conveyor lastConveyor;
     private Vector2 lastConveyorPosition;

@@ -105,8 +105,6 @@ public class Conveyor : Building
 
     public void CornerCheck(Building building)
     {
-        Debug.Log("Corner check | " + building.rotation + " = " + corner);
-
         // If the target is ahead of this conveyor, do the required check
         if (corner != 0 && building.rotation == corner)
         {
