@@ -677,7 +677,7 @@ MonoBehaviour:
   skipInputCheck: 0
   skipOutputCheck: 0
   rotation: 0
-  crafter: {fileID: 11400000, guid: 454dcdecfbf43744bac6945641ecd9c6, type: 2}
+  machine: {fileID: 11400000, guid: 454dcdecfbf43744bac6945641ecd9c6, type: 2}
   recipe: {fileID: 11400000, guid: 3a4430ad3fe1c1545b25bd720c21da0c, type: 2}
   isCrafting: 0
 --- !u!212 &429302136324394411

@@ -32,7 +32,7 @@ public class BuildingUI : MonoBehaviour
 
     public void DisplayConstructorInfo(Constructor constructor)
     {
-
+        buildingInfo.text = "[b]";
     }
 
     // Adds a recipe on startup

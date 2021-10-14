@@ -6,7 +6,8 @@ public class Constructor : Building
 {
     public Machine machine;
     public Recipe recipe;
-    public Dictionary<Item, int> holding;
+    public Dictionary<Item, int> inputHolding;
+    public Dictionary<Item, int> outputHolding;
     [HideInInspector] public bool isCrafting = false;
 
     private void Start()
@@ -14,7 +15,7 @@ public class Constructor : Building
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
-        holding = new Dictionary<Item, int>();
+        inputHolding = new Dictionary<Item, int>();
     }
 
     // Adds an item to the internal crafter storage
@@ -22,8 +23,8 @@ public class Constructor : Building
     {
         if (CheckItem(itemToInput))
         { 
-            if (holding.ContainsKey(itemToInput)) holding[itemToInput] += amountToAdd;
-            else holding.Add(itemToInput, amountToAdd);
+            if (inputHolding.ContainsKey(itemToInput)) inputHolding[itemToInput] += amountToAdd;
+            else inputHolding.Add(itemToInput, amountToAdd);
             if (!isCrafting) CheckStorage();
         }
     }
@@ -33,7 +34,7 @@ public class Constructor : Building
     {
         for (int i = 0; i < recipe.output.Length; i++)
         {
-            IOClass output = outputs[recipe.output[i].index];
+            IOClass output = outputs[i];
             output.bin = EntityHandler.active.RegisterEntity(recipe.output[i].item, 
                 output.position, Quaternion.identity);
             if (output.bin != null) UpdateBins();
@@ -48,12 +49,12 @@ public class Constructor : Building
     {
         // Check the outputs of this building
         for(int i = 0; i < recipe.output.Length; i++)
-            if (outputs[recipe.output[i].index].binAmount + recipe.output[i].amount 
-                >= recipe.output[i].item.maxStackSize) return;
+            if (outputHolding.TryGetValue(recipe.output[i].item, out int amount)
+                && amount + recipe.output[i].amount >= recipe.output[i].item.maxStackSize) return;
 
         // Check holding to see if there's enough to craft an item
         for (int i = 0; i < recipe.input.Length; i++)
-            if (!holding.TryGetValue(recipe.input[i].item, out int amount) 
+            if (!inputHolding.TryGetValue(recipe.input[i].item, out int amount) 
                 || amount < recipe.input[i].amount) return;
 
         CraftingHandler.RegisterCrafting(this);
@@ -104,15 +105,20 @@ public class Constructor : Building
     {
         if (CheckItem(entity.item))
         {
-            if (!holding.ContainsKey(entity.item) || (holding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
+            if (!inputHolding.ContainsKey(entity.item) || (inputHolding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
             {
-                entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    if (inputs[i].target == entity.lastBuilding)
+                        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[i].position, this);
+                }
                 return true;
             }
         }
         return false;
     }
 
+    // Called when entity arrives at input bin
     public override void ReceiveEntity(Entity entity)
     {
         // Add entity to internal storage and move it to output position

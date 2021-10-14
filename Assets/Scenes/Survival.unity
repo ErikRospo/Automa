@@ -1231,6 +1231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 285876876}
+  buildingInfo: {fileID: 0}
   recipeSelector: {fileID: 1641867814}
   recipesToAdd: []
   recipes: []
