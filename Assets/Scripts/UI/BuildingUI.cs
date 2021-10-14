@@ -27,6 +27,11 @@ public class BuildingUI : MonoBehaviour
         manager.GenerateRecipes();
     }
 
+    public void DisplayInfo(Constructor constructor)
+    {
+
+    }
+
     // Adds a recipe on startup
     public void AddRecipe(Recipe recipe)
     {

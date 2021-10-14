@@ -224,7 +224,7 @@ public class BuildingHandler : NetworkBehaviour
         if (constructor != null)
         {
             Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
-            if (constructor.crafter.recipes.Contains(temp))
+            if (constructor.machine.recipes.Contains(temp))
             {
                 constructor.recipe = temp;
                 Debug.Log("Setting recipe to " + constructor.recipe.name);

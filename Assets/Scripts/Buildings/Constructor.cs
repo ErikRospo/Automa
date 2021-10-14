@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Constructor : Building
 {
-    public Crafter crafter;
+    public Machine machine;
     public Recipe recipe;
     public Dictionary<Item, int> holding;
     [HideInInspector] public bool isCrafting = false;
