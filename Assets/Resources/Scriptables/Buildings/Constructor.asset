@@ -14,10 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Constructor
   description: 'Assembles basic materials for further production. '
-  maxStackSize: 0
-  obj: {fileID: 0}
-  cells: []
+  maxStackSize: 10
+  obj: {fileID: 8713355525346585352, guid: 9250930591628a94f850848df3369363, type: 3}
+  cells:
+  - x: 5
+    y: 5
+  - x: -5
+    y: 5
+  - x: 0
+    y: 5
+  - x: 5
+    y: 0
+  - x: -5
+    y: 0
+  - x: 0
+    y: 0
+  - x: 5
+    y: -5
+  - x: -5
+    y: -5
+  - x: 0
+    y: -5
   offset: {x: 0, y: 0}
   axisSnappable: 0
-  rotatable: 0
-  recipes: []
+  rotatable: 1
+  recipes:
+  - {fileID: 11400000, guid: 3a4430ad3fe1c1545b25bd720c21da0c, type: 2}
+  - {fileID: 11400000, guid: aa8c067106699b841b28c53fbf7a107c, type: 2}

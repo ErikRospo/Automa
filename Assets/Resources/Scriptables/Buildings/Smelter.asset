@@ -13,11 +13,24 @@ MonoBehaviour:
   m_Name: Smelter
   m_EditorClassIdentifier: 
   name: Smelter
-  description: 
+  description: Turns raw ore into refined materials for further processing.
   maxStackSize: 10
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
-  cells: []
+  cells:
+  - x: 5
+    y: 2.5
+  - x: 0
+    y: 2.5
+  - x: -5
+    y: 2.5
+  - x: 5
+    y: -2.5
+  - x: 0
+    y: -2.5
+  - x: -5
+    y: -2.5
   offset: {x: 0, y: 2.5}
   axisSnappable: 0
   rotatable: 0
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: 891b00cba83f5a142a34f610b80d3236, type: 2}

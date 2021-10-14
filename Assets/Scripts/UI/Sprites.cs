@@ -32,8 +32,6 @@ public class Sprites : MonoBehaviour
     public void CreateDefaultSprite()
     {
         Texture2D tex = new Texture2D(256, 256);
-        tex.alphaIsTransparency = true;
-
         Color c = Color.red;
 
         for (int x = 120; x <= 130; x++)
