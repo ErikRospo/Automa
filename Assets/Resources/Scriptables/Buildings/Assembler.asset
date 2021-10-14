@@ -17,9 +17,31 @@ MonoBehaviour:
   maxStackSize: 10
   obj: {fileID: 8713355525346585352, guid: 4eb12c3be9ae10a43895b228a52249cd, type: 3}
   cells:
-  - x: 0
+  - x: 7.5
+    y: 5
+  - x: 2.5
+    y: 5
+  - x: -2.5
+    y: 5
+  - x: -7.5
+    y: 5
+  - x: 7.5
     y: 0
-  offset: {x: 0, y: 0}
+  - x: 2.5
+    y: 0
+  - x: -2.5
+    y: 0
+  - x: -7.5
+    y: 0
+  - x: 7.5
+    y: -5
+  - x: 2.5
+    y: -5
+  - x: -2.5
+    y: -5
+  - x: -7.5
+    y: -5
+  offset: {x: -2.5, y: 0}
   axisSnappable: 0
   rotatable: 0
   recipes: []

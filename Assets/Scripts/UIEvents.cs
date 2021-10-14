@@ -26,4 +26,12 @@ public class UIEvents : MonoBehaviour
         if (onBakeRecipes != null)
             onBakeRecipes();
     }
+
+    // Invoked when a building is clicked
+    public event Action<Constructor> onBuildingClicked;
+    public void BuildingClicked(Constructor constructor)
+    {
+        if (onBuildingClicked != null)
+            onBuildingClicked(constructor); 
+    }
 }

@@ -26,6 +26,15 @@ public class Grid
     public int gridSize;
     public int cellSize;
 
+    public GameObject RetrieveObject(Vector2Int coords)
+    {
+        if (cells.TryGetValue(coords, out Cell cell))
+        {
+            return cell.obj;
+        }
+        else return null;
+    }
+
     public Cell RetrieveCell(Vector2Int coords)
     {
         if (cells.TryGetValue(coords, out Cell cell))

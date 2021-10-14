@@ -172,7 +172,17 @@ public class BuildingHandler : NetworkBehaviour
     public void CmdCreateBuilding()
     {
         // Check if active is null
-        if (active == null || selectedTile == null) return;
+        if (active == null) return;
+
+        // Check if anything selected
+        if (selectedTile == null)
+        {
+            // Check for object
+            Constructor constructor = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position)).GetComponent<Constructor>();
+            if (constructor != null)
+                UIEvents.active.BuildingClicked(constructor);
+            return;
+        }
 
         // Check to make sure the tiles are not being used
         if (!CheckTiles()) return;
