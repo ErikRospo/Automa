@@ -32,7 +32,16 @@ public class BuildingUI : MonoBehaviour
 
     public void DisplayConstructorInfo(Constructor constructor)
     {
-        buildingInfo.text = "[b]";
+        string text = "";
+
+        foreach (var item in constructor.inputHolding)
+            text += item.Key.name + ": " + item.Value + "\n";
+        text += "\n" + constructor.recipe.output[0].item.name + ": " + constructor.outputHolding;
+
+        if (constructor.crafter != null)
+            text += "\nTime Left: " + constructor.crafter.time + "s";
+
+        buildingInfo.text = text;
     }
 
     // Adds a recipe on startup

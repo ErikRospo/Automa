@@ -40,9 +40,11 @@ public class CraftingHandler : MonoBehaviour
         }
     }
 
-    public static void RegisterCrafting(Constructor crafter)
+    public static ActiveCrafters RegisterCrafting(Constructor crafter)
     {
-        crafters.Add(new ActiveCrafters(crafter, crafter.recipe.time));
+        ActiveCrafters activeCrafter = new ActiveCrafters(crafter, crafter.recipe.time);
+        crafters.Add(activeCrafter);
+        return activeCrafter;
     }
 
     private void FinishCrafting(int i)
