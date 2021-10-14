@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Spawner", menuName = "Buildings/Spawner")]
 public class Spawner : Building
 {
     int frameTracker = 0;
