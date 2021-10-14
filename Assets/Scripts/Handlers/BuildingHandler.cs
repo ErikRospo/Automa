@@ -180,7 +180,7 @@ public class BuildingHandler : NetworkBehaviour
             // Check for object
             Constructor constructor = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position)).GetComponent<Constructor>();
             if (constructor != null)
-                UIEvents.active.BuildingClicked(constructor);
+                UIEvents.active.ConstructorClicked(constructor);
             return;
         }
 

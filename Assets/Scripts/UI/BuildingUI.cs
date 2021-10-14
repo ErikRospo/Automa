@@ -20,6 +20,7 @@ public class BuildingUI : MonoBehaviour
 
         UIEvents.active.onAddRecipe += AddRecipe;
         UIEvents.active.onBakeRecipes += BakeRecipes;
+        UIEvents.active.onConstructorClicked += DisplayConstructorInfo;
 
         recipesToAdd = new List<string>();
         recipes = new List<Recipe>();
@@ -27,7 +28,7 @@ public class BuildingUI : MonoBehaviour
         manager.GenerateRecipes();
     }
 
-    public void DisplayInfo(Constructor constructor)
+    public void DisplayConstructorInfo(Constructor constructor)
     {
 
     }
