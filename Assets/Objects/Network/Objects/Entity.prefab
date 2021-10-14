@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 20
   m_IsActive: 1
 --- !u!4 &1748768319241353826
 Transform:
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  lastBuilding: {fileID: 0}
+  outputIndex: 0
 --- !u!212 &-6077328742828700687
 SpriteRenderer:
   m_ObjectHideFlags: 0

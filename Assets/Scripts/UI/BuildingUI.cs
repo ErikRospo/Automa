@@ -9,6 +9,7 @@ public class BuildingUI : MonoBehaviour
     public Manager manager;
     public TextMeshProUGUI buildingInfo;
     public TMP_Dropdown recipeSelector;
+    private Constructor constructor;
 
     [HideInInspector] public List<string> recipesToAdd;
     [HideInInspector] public List<Recipe> recipes;
@@ -30,8 +31,10 @@ public class BuildingUI : MonoBehaviour
         manager.GenerateRecipes();
     }
 
-    public void DisplayConstructorInfo(Constructor constructor)
+    public void Update()
     {
+        if (constructor == null) return;
+
         string text = "";
 
         foreach (var item in constructor.inputHolding)
@@ -39,9 +42,14 @@ public class BuildingUI : MonoBehaviour
         text += "\n" + constructor.recipe.output[0].item.name + ": " + constructor.outputHolding;
 
         if (constructor.crafter != null)
-            text += "\nTime Left: " + constructor.crafter.time + "s";
+            text += "\n\nTime Left: " + (int)constructor.crafter.time + "s";
 
         buildingInfo.text = text;
+    }
+
+    public void DisplayConstructorInfo(Constructor constructor)
+    {
+        this.constructor = constructor;
     }
 
     // Adds a recipe on startup

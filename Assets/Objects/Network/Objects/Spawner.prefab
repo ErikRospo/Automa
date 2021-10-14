@@ -45,19 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10117496fef4d0840b58ae923b5e7266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  acceptingEntities: 0
   inputs: []
   outputs: []
-  inputTiles: []
-  outputTiles: []
-  frontBin: {fileID: 0}
-  rearBin: {fileID: 0}
-  nextTarget: {fileID: 0}
-  previousTarget: {fileID: 0}
-  inputReserved: 0
-  outputReserved: 0
+  acceptingEntities: 0
+  skipInputCheck: 0
+  skipOutputCheck: 0
   rotation: 0
   item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
   facingTile: {x: 0, y: 0}

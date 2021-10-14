@@ -3,7 +3,7 @@ using UnityEngine;
 public class Spawner : Building
 {
     int frameTracker = 0;
-    int frameLimit = 1000;
+    int frameLimit = 50;
 
     public Item item;
 

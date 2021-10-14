@@ -128,10 +128,13 @@ public class Constructor : Building
     // Called when an entity is ready to be sent 
     public override bool InputEntity(Entity entity)
     {
+        Debug.Log(entity.name);
         if (CheckItem(entity.item))
         {
+            Debug.Log("Preliminary check passed");
             if (!inputHolding.ContainsKey(entity.item) || (inputHolding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
             {
+                Debug.Log("Holding check passed");
                 for (int i = 0; i < inputs.Length; i++)
                 {
                     if (inputs[i].target == entity.lastBuilding)

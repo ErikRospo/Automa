@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2126404632480263892
 Transform:
@@ -112,7 +112,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2396286765405161759
 Transform:
@@ -208,7 +208,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &1522504547341988562
 Transform:
@@ -424,7 +424,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2159574755709766807
 Transform:
@@ -520,7 +520,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2721658372173297787
 Transform:
@@ -679,6 +679,7 @@ MonoBehaviour:
   rotation: 0
   machine: {fileID: 11400000, guid: 454dcdecfbf43744bac6945641ecd9c6, type: 2}
   recipe: {fileID: 11400000, guid: 3a4430ad3fe1c1545b25bd720c21da0c, type: 2}
+  outputHolding: 0
   isCrafting: 0
 --- !u!212 &429302136324394411
 SpriteRenderer:
