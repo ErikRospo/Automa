@@ -11,7 +11,9 @@ public class Constructor : Building
 
     private void Start()
     {
-        recipe = crafter.recipes[0];
+        // Get the current selected recipe (TEMPORARY)
+        recipe = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
+        Debug.Log("Setting recipe to " + recipe.name);
 
         SetupRotation();
         SetupPositions();

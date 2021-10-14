@@ -6,12 +6,6 @@ public class Manager : MonoBehaviour
 {
     public string path = "Scriptables/Recipes";
 
-    // Start is called before the first frame update
-    public void Start()
-    {
-        GenerateRecipes();
-    }
-
     // Generates recipes on run
     public void GenerateRecipes()
     {

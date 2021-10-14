@@ -5,18 +5,26 @@ using TMPro;
 
 public class BuildingUI : MonoBehaviour
 {
+    public Manager manager;
+
     public TMP_Dropdown recipeSelector;
-    private List<string> recipesToAdd;
-    private List<Recipe> recipes;
+    [HideInInspector] public List<string> recipesToAdd;
+    [HideInInspector] public List<Recipe> recipes;
+
+    public static BuildingUI active;
 
     // Start is called before the first frame update
     public void Start()
     {
-        UIEvents.active.addRecipe += AddRecipe;
-        UIEvents.active.bakeRecipes += BakeRecipes;
+        if (this != null) active = this;
+
+        UIEvents.active.onAddRecipe += AddRecipe;
+        UIEvents.active.onBakeRecipes += BakeRecipes;
 
         recipesToAdd = new List<string>();
         recipes = new List<Recipe>();
+
+        manager.GenerateRecipes();
     }
 
     // Adds a recipe on startup

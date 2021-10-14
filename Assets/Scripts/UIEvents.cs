@@ -12,18 +12,18 @@ public class UIEvents : MonoBehaviour
     }
 
     // Invoked when a bullet is fired
-    public event Action<Recipe> addRecipe;
+    public event Action<Recipe> onAddRecipe;
     public void AddRecipe(Recipe recipe)
     {
-        if (addRecipe != null)
-            AddRecipe(recipe);
+        if (onAddRecipe != null)
+            onAddRecipe(recipe);
     }
 
     // Invoked when a bullet is fired
-    public event Action bakeRecipes;
+    public event Action onBakeRecipes;
     public void BakeRecipes()
     {
-        if (bakeRecipes != null)
-            BakeRecipes();
+        if (onBakeRecipes != null)
+            onBakeRecipes();
     }
 }
