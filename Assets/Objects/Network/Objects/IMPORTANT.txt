@@ -1,0 +1,1 @@
+These objects are temporary. Scriptables will eventually create entities at runtime and then use those as references for building.

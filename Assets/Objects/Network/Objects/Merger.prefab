@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4986206128633612134}
   m_Layer: 0
-  m_Name: Output Top
+  m_Name: Input Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563449385336721912
 GameObject:
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8276689337639837110}
   m_Layer: 0
-  m_Name: Output Bottom
+  m_Name: Input Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3658732235102965172}
   m_Layer: 0
-  m_Name: Output Tile Top
+  m_Name: Input Tile Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &983202586242651510
 GameObject:
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2869490442880691878}
   m_Layer: 0
-  m_Name: Input
+  m_Name: Input Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2815248319985988235
 GameObject:
@@ -129,11 +129,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5519472748032342223}
-  - component: {fileID: 5027068806996424016}
+  - component: {fileID: 2879032797997171077}
   - component: {fileID: 3471047990539439114}
   - component: {fileID: 7743680321898476986}
   m_Layer: 0
-  m_Name: Splitter
+  m_Name: Merger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,18 +150,18 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4986206128633612134}
+  - {fileID: 3658732235102965172}
   - {fileID: 2869490442880691878}
   - {fileID: 1522339391596414303}
-  - {fileID: 4986206128633612134}
-  - {fileID: 5989121471581068284}
   - {fileID: 8276689337639837110}
-  - {fileID: 3658732235102965172}
-  - {fileID: 6064208555580025425}
   - {fileID: 4497842976854511653}
+  - {fileID: 5989121471581068284}
+  - {fileID: 6064208555580025425}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5027068806996424016
+--- !u!114 &2879032797997171077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,19 +170,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2815248319985988235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5513956d09b284abd37bc55f16be98, type: 3}
+  m_Script: {fileID: 11500000, guid: e651d416466bd7749b79b36867644936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputs:
-  - transform: {fileID: 2869490442880691878}
-    tile: {fileID: 1522339391596414303}
-    bin: {fileID: 0}
-    binAmount: 0
-    target: {fileID: 0}
-    reserved: 0
-    position: {x: 0, y: 0, z: 0}
-    tilePosition: {x: 0, y: 0, z: 0}
-  outputs:
   - transform: {fileID: 4986206128633612134}
     tile: {fileID: 3658732235102965172}
     bin: {fileID: 0}
@@ -191,8 +182,8 @@ MonoBehaviour:
     reserved: 0
     position: {x: 0, y: 0, z: 0}
     tilePosition: {x: 0, y: 0, z: 0}
-  - transform: {fileID: 5989121471581068284}
-    tile: {fileID: 6064208555580025425}
+  - transform: {fileID: 2869490442880691878}
+    tile: {fileID: 1522339391596414303}
     bin: {fileID: 0}
     binAmount: 0
     target: {fileID: 0}
@@ -207,9 +198,18 @@ MonoBehaviour:
     reserved: 0
     position: {x: 0, y: 0, z: 0}
     tilePosition: {x: 0, y: 0, z: 0}
+  outputs:
+  - transform: {fileID: 5989121471581068284}
+    tile: {fileID: 6064208555580025425}
+    bin: {fileID: 0}
+    binAmount: 0
+    target: {fileID: 0}
+    reserved: 0
+    position: {x: 0, y: 0, z: 0}
+    tilePosition: {x: 0, y: 0, z: 0}
   acceptingEntities: 1
-  skipInputCheck: 0
-  skipOutputCheck: 1
+  skipInputCheck: 1
+  skipOutputCheck: 0
   rotation: 0
 --- !u!114 &3471047990539439114
 MonoBehaviour:
@@ -226,7 +226,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 22145e20cdb5e934789a9e8fbe0823f0
+  m_AssetId: 625e8afc1b501a1469063f21236cbee1
   hasSpawned: 0
 --- !u!212 &7743680321898476986
 SpriteRenderer:
@@ -265,10 +265,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -643079593
-  m_SortingLayer: 3
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 44498e48e0b42b644a4d81da34ee3b51, type: 3}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: f9215522aa7898b479157fba130a1352, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -289,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6064208555580025425}
   m_Layer: 0
-  m_Name: Output Tile Right
+  m_Name: Output Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +307,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6332457073067096033
 GameObject:
@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1522339391596414303}
   m_Layer: 0
-  m_Name: Input Tile
+  m_Name: Input Tile Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,7 +337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7217748924562838680
 GameObject:
@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5989121471581068284}
   m_Layer: 0
-  m_Name: Output Right
+  m_Name: Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7220928778014851300
 GameObject:
@@ -379,7 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4497842976854511653}
   m_Layer: 0
-  m_Name: Output Tile Bottom
+  m_Name: Input Tile Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,5 +397,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5519472748032342223}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
