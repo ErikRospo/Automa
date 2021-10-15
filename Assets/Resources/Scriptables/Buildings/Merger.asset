@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Merger
   description: Merges items on a conveyor
   maxStackSize: 20
-  obj: {fileID: 0}
+  obj: {fileID: 2815248319985988235, guid: 625e8afc1b501a1469063f21236cbee1, type: 3}
   cells: []
   offset: {x: 0, y: 0}
   axisSnappable: 0

@@ -16,7 +16,9 @@ MonoBehaviour:
   description: 'Splits items on a conveyor '
   maxStackSize: 20
   obj: {fileID: 2815248319985988235, guid: 22145e20cdb5e934789a9e8fbe0823f0, type: 3}
-  cells: []
+  cells:
+  - x: 0
+    y: 0
   offset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
