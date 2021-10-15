@@ -17,11 +17,9 @@ MonoBehaviour:
   - name: Iron Ore
     item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
     amount: 1
-    index: 0
   output:
   - name: Iron Plating
     item: {fileID: 11400000, guid: 4c32efb95481ef9448ae8b4b9d426a08, type: 2}
     amount: 1
-    index: 0
-  time: 6
+  time: 0.05
   unlocked: 1

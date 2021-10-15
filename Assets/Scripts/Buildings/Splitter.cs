@@ -4,118 +4,111 @@ using UnityEngine;
 
 public class Splitter : Building
 {
-    public int index = 0;
-    private int maxIndex;
+    // Holds what output is currently set
+    private enum Outputs
+    {
+        LEFT = 0,
+        TOP = 1,
+        RIGHT = 2
+    }
+    private Outputs output;
 
+    // Setup the building
     public void Start()
     {
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
-
-        maxIndex = outputs.Length;
     }
 
-    public void SplitEntity(Entity entity)
+    // Update bins method (updates input / output bins)
+    public override void UpdateBins()
     {
-        // Set index
-        int holder = index;
-        index += 1;
-        if (index == maxIndex)
-            index = 0;
+        Debug.Log("Updating bins");
 
-        while (index != holder)
+        // Save starting spot
+        Outputs start = output;
+
+        // Move to next output
+        if ((int)output == 2) output = 0;
+        else output += 1;
+
+        // THSI IS INFINTE LOOPA FACK
+
+        // Iterate through all outputs
+        while (output != start)
         {
-            IOClass output = outputs[index];
-            if (output.bin == null && output.target != null)
+            // Grab index of current position
+            int index = (int)output;
+            Debug.Log("Checking output: " + index);
+
+            // Move to next output
+            if ((int)output == 2) output = 0;
+            else output += 1;
+
+            // Attempt to output any entities
+            if (outputs[index].bin != null)
             {
-                MoveInput(inputs[0], output);
-                entity.outputIndex = index;
-                entity.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
-                break;
+                if (outputs[index].target.InputEntity(outputs[index].bin))
+                {
+                    Debug.Log("Splitting output " + index + " and checking input");
+                    outputs[index].bin = null;
+                    outputs[index].reserved = false;
+                    CheckInput(index);
+                }
             }
             else
             {
-                index += 1;
-                if (index == maxIndex)
-                    index = 0;
+                Debug.Log("Output " + index + " is empty, checking input");
+                CheckInput(index);
             }
         }
     }
-
-    public override void UpdateBins()
+    
+    public void CheckInput(int index)
     {
-        foreach (IOClass holder in outputs)
-            if (holder.bin != null)
-                OutputEntity(holder.bin);
-        if (inputs[0].bin != null) SplitEntity(inputs[0].bin);
-    }
-
-    public override void SetInputTarget(Building target)
-    {
-        inputs[0].target = target;
-    }
-
-    public override void SetOutputTarget(Building target)
-    {
-        for (int i = 0; i < outputs.Length; i++)
-            if (target.transform.position == outputs[i].tilePosition)
-                outputs[i].target = target;
-
-        UpdateBins();
-    }
-
-    public override void SetOutputTarget(IOClass output, Building target)
-    {
-        if (output != null)
+        // Check input bin
+        if (inputs[0].bin != null)
         {
-            output.target = target;
-            UpdateBins();
+            inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[index].position, this);
+            inputs[0].bin = null;
+            acceptingEntities = true;
+
+            if (inputs[0].target != null)
+                inputs[0].target.UpdateBins();
         }
-        else SetOutputTarget(target);
     }
 
-    // Called when an entity is ready to be sent 
+    // Input method (called from output buildings)
     public override bool InputEntity(Entity entity)
     {
+        acceptingEntities = false;
         inputs[0].reserved = true;
         entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
         return true;
     }
 
+    // Receive method (called when entity arrives at splitter)
     public override void ReceiveEntity(Entity entity)
     {
-        if (entity.transform.position == transform.position)
-        {
-            entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[entity.outputIndex].position, this, true);
-        }
-        else
-        {
-            inputs[0].bin = entity;
-            acceptingEntities = false;
-            SplitEntity(entity);
-        }
+        inputs[0].bin = entity;
+        acceptingEntities = false;
+        UpdateBins();
     }
 
-    public override void OutputEntity(Entity entity)
-    {
-        IOClass output = outputs[entity.outputIndex];
 
-        if (output != null)
-        {
-            output.bin = entity;
-            if (output.target != null &&
-                output.target.acceptingEntities &&
-                output.target.InputEntity(entity))
-            {
-                MoveOutput(output);
-                entity.outputIndex = -1;
-            }
-        }
-        else
-        {
-            Debug.LogError("Issue while splitting entity");
-            Recycler.AddRecyclable(entity.transform);
-        }
+    // Sets the input target
+    public override void SetInputTarget(Building target)
+    {
+        inputs[0].target = target;
+    }
+
+    // Sets the output target 
+    public override void SetOutputTarget(Building target)
+    {
+        for (int i = 0; i < outputs.Length; i++)
+            if (target.transform.position == outputs[i].tilePosition)
+                outputs[i].target = target;
+        UpdateBins();
     }
 }

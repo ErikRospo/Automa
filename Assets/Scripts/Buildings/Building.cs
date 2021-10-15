@@ -110,7 +110,7 @@ public abstract class Building : MonoBehaviour, IDamageable
     // angle. This adjustment does not need to be accounted for with this system.
     //
     // Only call this if needed. Some buildings may not care which way they're oriented.
-    public void SetupRotation()
+    public virtual void SetupRotation()
     {
         if (transform.rotation.eulerAngles.z == 0f) rotation = RotationType.EAST;
         else if (transform.rotation.eulerAngles.z == 90f) rotation = RotationType.NORTH;
@@ -127,8 +127,6 @@ public abstract class Building : MonoBehaviour, IDamageable
             Building building = BuildingHandler.active.TryGetBuilding(inputs[i].tilePosition);
             if (building != null)
             {
-                Debug.Log(rotation + " = " + building.rotation);
-
                 if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
                 {
                     building.SetOutputTarget(this);

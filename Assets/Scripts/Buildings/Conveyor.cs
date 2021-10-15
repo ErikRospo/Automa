@@ -86,12 +86,8 @@ public class Conveyor : Building
         // Check the back container
         if (inputs[0].bin != null && outputs[0].bin == null && !outputs[0].reserved)
         {
-            Debug.Log(inputs[0].bin.name);
-
             if (isCorner) inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this, true);
             else inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
-
-            Debug.Log("Moving entity");
 
             inputs[0].bin = null;
             acceptingEntities = true;

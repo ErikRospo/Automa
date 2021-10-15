@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Iron Bar
   description: 'A long rod made of iron. '
-  maxStackSize: 100
+  maxStackSize: 50
