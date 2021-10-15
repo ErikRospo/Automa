@@ -5,13 +5,7 @@ using UnityEngine;
 public class Splitter : Building
 {
     // Holds what output is currently set
-    private enum Outputs
-    {
-        LEFT = 0,
-        TOP = 1,
-        RIGHT = 2
-    }
-    private Outputs output;
+    private int output;
 
     // Setup the building
     public void Start()
@@ -24,60 +18,58 @@ public class Splitter : Building
     // Update bins method (updates input / output bins)
     public override void UpdateBins()
     {
-        Debug.Log("Updating bins");
+        for (int i = 0; i < 3; i++)
+        {
+            if (outputs[i].bin != null && // If output bin is not empty
+                outputs[i].target != null && // If target is not null
+                outputs[i].target.acceptingEntities && // If target is accepting entities
+                outputs[i].target.InputEntity(outputs[i].bin)) // If target is able to take entity
+            {
+                outputs[i].bin = null;
+                SplitInput();
+            }
+        }
+    }
 
-        // Save starting spot
-        Outputs start = output;
-
-        // Move to next output
-        if ((int)output == 2) output = 0;
-        else output += 1;
-
-        // THSI IS INFINTE LOOPA FACK
+    // Splits the input into one of the outputs 
+    public void SplitInput()
+    {
+        // Check if there is an entity to split
+        if (inputs[0].bin == null) return;
 
         // Iterate through all outputs
-        while (output != start)
+        for (int i = 0; i < 3; i++)
         {
-            // Grab index of current position
-            int index = (int)output;
-            Debug.Log("Checking output: " + index);
+            // Loop through output
+            output += 1;
+            if (output > 2) output = 0;
 
-            // Move to next output
-            if ((int)output == 2) output = 0;
-            else output += 1;
+            // Check if output bin is available
+            if (outputs[output].bin == null &&
+                !outputs[output].reserved)
+            {
+                // Save reference to output index
+                inputs[0].bin.outputIndex = output;
 
-            // Attempt to output any entities
-            if (outputs[index].bin != null)
-            {
-                if (outputs[index].target.InputEntity(outputs[index].bin))
-                {
-                    Debug.Log("Splitting output " + index + " and checking input");
-                    outputs[index].bin = null;
-                    outputs[index].reserved = false;
-                    CheckInput(index);
-                }
-            }
-            else
-            {
-                Debug.Log("Output " + index + " is empty, checking input");
-                CheckInput(index);
+                // Reserve the output position
+                outputs[output].reserved = true;
+
+                // Move input to output position
+                inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[output].position, this, true);
+                
+                // Open the input position
+                inputs[0].bin = null;
+                acceptingEntities = true;
+
+                // Update input target if one exists
+                if (inputs[0].target != null)
+                    inputs[0].target.UpdateBins();
+
+                break;
             }
         }
     }
     
-    public void CheckInput(int index)
-    {
-        // Check input bin
-        if (inputs[0].bin != null)
-        {
-            inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[index].position, this);
-            inputs[0].bin = null;
-            acceptingEntities = true;
-
-            if (inputs[0].target != null)
-                inputs[0].target.UpdateBins();
-        }
-    }
 
     // Input method (called from output buildings)
     public override bool InputEntity(Entity entity)
@@ -92,10 +84,17 @@ public class Splitter : Building
     public override void ReceiveEntity(Entity entity)
     {
         inputs[0].bin = entity;
-        acceptingEntities = false;
-        UpdateBins();
+        inputs[0].reserved = false;
+        SplitInput();
     }
 
+    // Output method (called when entity arrives at an output
+    public override void OutputEntity(Entity entity)
+    {
+        outputs[entity.outputIndex].bin = entity;
+        outputs[entity.outputIndex].reserved = false;
+        UpdateBins();
+    }
 
     // Sets the input target
     public override void SetInputTarget(Building target)
