@@ -781,7 +781,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   conveyor: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
-  spawner: {fileID: 11400000, guid: 0cf329597955554409a9825ec59aea3c, type: 2}
+  spawner: {fileID: 11400000, guid: 18a26399ca660c24ca5ab96cec22d8a2, type: 2}
   smelter: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
   splitter: {fileID: 11400000, guid: a036963d8f00e3f469cf39770ece8b5b, type: 2}
   merger: {fileID: 11400000, guid: 62829cfc10282dd419504000894daccb, type: 2}
