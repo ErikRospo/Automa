@@ -50,6 +50,7 @@ public class Tablet : MonoBehaviour
             if (constructor.crafter != null)
             {
                 progressBar.currentPercent = ((constructor.recipe.time - constructor.crafter.time) / constructor.recipe.time) * 100;
+                progressBar.UpdateUI();
             }
 
             // Loop through input slots that are needed and set values
