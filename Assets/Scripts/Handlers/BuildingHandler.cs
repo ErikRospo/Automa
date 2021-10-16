@@ -236,6 +236,11 @@ public class BuildingHandler : NetworkBehaviour
         }
     }
 
+    public void DestroyTile()
+    {
+
+    }
+
     // Checks to make sure tile(s) isn't occupied
     public bool CheckTiles()
     {

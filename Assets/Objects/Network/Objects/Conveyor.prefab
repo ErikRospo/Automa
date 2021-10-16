@@ -110,29 +110,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e06f3282778e9a47b25f4db7bfb4ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   inputs:
-  - target: {fileID: 0}
-    transform: {fileID: 7287658446430091751}
+  - transform: {fileID: 7287658446430091751}
     tile: {fileID: 5611014965483926417}
     bin: {fileID: 0}
+    binAmount: 0
+    target: {fileID: 0}
+    reserved: 0
     position: {x: 0, y: 0, z: 0}
     tilePosition: {x: 0, y: 0, z: 0}
-    reserved: 0
   outputs:
-  - target: {fileID: 0}
-    transform: {fileID: 267341909547615522}
+  - transform: {fileID: 267341909547615522}
     tile: {fileID: 2554693357890770115}
     bin: {fileID: 0}
+    binAmount: 0
+    target: {fileID: 0}
+    reserved: 0
     position: {x: 0, y: 0, z: 0}
     tilePosition: {x: 0, y: 0, z: 0}
-    reserved: 0
   acceptingEntities: 1
+  skipInputCheck: 0
+  skipOutputCheck: 0
   rotation: 0
   animator: {fileID: 8296687514376543157}
   isCorner: 0
   sizeAdjust: 1.0416666
+  isSetup: 0
 --- !u!114 &6076302020130993081
 MonoBehaviour:
   m_ObjectHideFlags: 0
