@@ -152,7 +152,7 @@ public class MovementController : NetworkBehaviour
     private void RotateToMouse()
     {
         Vector3 mousePos = Input.mousePosition;
-        Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 objectPos = Camera.main.WorldToScreenPoint(model.position);
 
         mousePos.x -= objectPos.x;
         mousePos.y -= objectPos.y;
@@ -170,13 +170,13 @@ public class MovementController : NetworkBehaviour
         {
             float overShoot = head.localRotation.eulerAngles.z - 30;
             head.localRotation = Quaternion.Euler(new Vector3(0, 0, 30));
-            transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
+            model.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
         else if (headLocalRotation <= -30)
         {
             float overShoot = head.localRotation.eulerAngles.z + 30;
             head.localRotation = Quaternion.Euler(new Vector3(0, 0, -30));
-            transform.Rotate(new Vector3(0, 0, overShoot), Space.World);
+            model.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
     }
 
