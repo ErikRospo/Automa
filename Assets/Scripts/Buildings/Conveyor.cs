@@ -17,8 +17,6 @@ public class Conveyor : Building
     // Sets up the conveyor
     public override void ApplyOptions(int option)
     {
-        Debug.Log("Applying option " + option);
-
         // Setup rotation
         SetupRotation();
 
