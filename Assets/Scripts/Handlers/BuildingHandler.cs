@@ -57,16 +57,6 @@ public class BuildingHandler : NetworkBehaviour
         Building lastBuilding = Instantiate(obj, position, rotation).GetComponent<Building>();
         lastBuilding.name = tile.name;
 
-        // Constructor override creation
-        Constructor constructor = lastBuilding.GetComponent<Constructor>();
-        if (constructor != null)
-        {
-            //Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
-            //if (constructor.machine.recipes.Contains(temp)) constructor.recipe = temp;
-
-            Debug.Log("Recipe setting not added");
-        }
-
         // Set the tiles on the grid class
         if (tile.cells.Length > 0)
         {

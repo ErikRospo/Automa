@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovementController : NetworkBehaviour
 {
     // Object animator 
-    Animator animator;
+    public Animator animator;
 
     // Building controller (attached to child object)
     private BuildingController buildingController;
@@ -55,7 +55,6 @@ public class MovementController : NetworkBehaviour
 
         // Start for everyone
         body = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
         
         // Initialize walk speed

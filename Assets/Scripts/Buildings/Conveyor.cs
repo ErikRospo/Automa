@@ -10,30 +10,19 @@ public class Conveyor : Building
     // Speed of the conveyor (temp)
     public bool isCorner;
     public float sizeAdjust;
-    public bool isSetup = false;
 
     // Rotation for corners
     private RotationType corner;
 
     public void Start()
     {
+        SetupRotation();
+        SetupPositions();
+        CheckNearbyBuildings();
+
+        transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
+
         animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
-    }
-
-    // Called externally from building script, since corners need to override the
-    // creation process. Still trying to figure out a way to make this an internal call
-    public void Setup()
-    {
-        if (!isSetup)
-        {
-            isSetup = true;
-
-            if (rotation == 0) SetupRotation();
-            SetupPositions();
-            CheckNearbyBuildings();
-
-            transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
-        }
     }
 
     // Togles enabling a corner conveyor
