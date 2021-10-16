@@ -1,6 +1,5 @@
 using UnityEngine;
-using Mirror;
-using System;
+using System.Collections.Generic;
 
 // Buildings script
 //
@@ -21,6 +20,9 @@ public abstract class Building : MonoBehaviour, IDamageable
 
     // Flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
+
+    // Hold the cells this building occupies
+    public List<Vector2Int> cells;
 
     // Holds the rotation value for comparisons
     public enum RotationType
@@ -186,5 +188,11 @@ public abstract class Building : MonoBehaviour, IDamageable
         }
 
         positionsSet = true;
+    }
+
+    // Destroys the entity
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 }

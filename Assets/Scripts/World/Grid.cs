@@ -6,7 +6,7 @@ public class Grid
     // Cell class. Holds info about each cell
     public class Cell
     {
-        public Cell(bool occupied, Tile tile, GameObject obj)
+        public Cell(bool occupied, Tile tile, Building obj)
         {
             this.occupied = occupied;
             this.tile = tile;
@@ -15,7 +15,7 @@ public class Grid
 
         public bool occupied;
         public Tile tile;
-        public GameObject obj;
+        public Building obj;
     }
 
     // Holds a dictionary of all cells
@@ -26,7 +26,7 @@ public class Grid
     public int gridSize;
     public int cellSize;
 
-    public GameObject RetrieveObject(Vector2Int coords)
+    public Building RetrieveObject(Vector2Int coords)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {
@@ -44,7 +44,7 @@ public class Grid
         else return null;
     }
 
-    public void SetCell(Vector2Int coords, bool occupy, Tile tile, GameObject obj)
+    public void SetCell(Vector2Int coords, bool occupy, Tile tile, Building obj)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {
@@ -53,5 +53,21 @@ public class Grid
             cell.obj = obj;
         }
         else cells.Add(coords, new Cell(occupy, tile, obj));
+        obj.cells.Add(coords);
+    }
+
+    public void DestroyCell(Vector2Int coords) 
+    {
+        if (cells.TryGetValue(coords, out Cell cell))
+        {
+            Building building = cell.obj.GetComponent<Building>();
+
+            if (building != null)
+            {
+                for (int i = 0; i < building.cells.Count; i++)
+                    cells.Remove(building.cells[i]);
+                building.Kill();
+            }
+        }
     }
 }

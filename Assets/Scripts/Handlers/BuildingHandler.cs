@@ -14,7 +14,7 @@ public class BuildingHandler : NetworkBehaviour
     private Vector2 position;
     private Vector2 offset;
     private Quaternion rotation;
-    private GameObject lastObj;
+    private Building lastBuilding;
     public bool holdingMouse;
 
     // Conveyor variables
@@ -173,7 +173,7 @@ public class BuildingHandler : NetworkBehaviour
         if (selectedTile == null)
         {
             // Check for object
-            GameObject obj = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position));
+            Building obj = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position));
             if (obj != null)
             {
                 Constructor constructor = obj.GetComponent<Constructor>();
@@ -187,25 +187,25 @@ public class BuildingHandler : NetworkBehaviour
         if (!CheckTiles()) return;
 
         // Instantiate the object like usual
-        InstantiateObj(selectedTile, position, active.transform.rotation);
+        InstantiateBuilding(selectedTile, position, active.transform.rotation);
 
         // Set the tiles on the grid class
         if (selectedTile.cells.Length > 0)
         {
             foreach (Tile.Cell cell in selectedTile.cells)
-                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastObj.transform.position.x + cell.x, lastObj.transform.position.y + cell.y)), true, selectedTile, lastObj);
+                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastBuilding.transform.position.x + cell.x, lastBuilding.transform.position.y + cell.y)), true, selectedTile, lastBuilding);
         }
-        else tileGrid.SetCell(Vector2Int.RoundToInt(lastObj.transform.position), true, selectedTile, lastObj);
+        else tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, selectedTile, lastBuilding);
     }
 
-    private void InstantiateObj(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
+    private void InstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
     {
         // Create the tile
-        lastObj = Instantiate(tile.obj, position, rotation);
-        lastObj.name = tile.name;
+        lastBuilding = Instantiate(tile.obj, position, rotation).GetComponent<Building>();
+        lastBuilding.name = tile.name;
 
         // Conveyor override creation
-        Conveyor conveyor = lastObj.GetComponent<Conveyor>();
+        Conveyor conveyor = lastBuilding.GetComponent<Conveyor>();
         if (conveyor != null)
         {
             if (conveyorCorner)
@@ -219,7 +219,7 @@ public class BuildingHandler : NetworkBehaviour
         }
 
         // Crafter override creation
-        Constructor constructor = lastObj.GetComponent<Constructor>();
+        Constructor constructor = lastBuilding.GetComponent<Constructor>();
         if (constructor != null)
         {
             Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
@@ -230,15 +230,16 @@ public class BuildingHandler : NetworkBehaviour
             }
             else
             {
-                Debug.Log("The recipe " + temp + " can not be applied to " + lastObj.name + 
+                Debug.Log("The recipe " + temp + " can not be applied to " + lastBuilding.name + 
                     "\nDefaulting to " + constructor.recipe.name);
             }
         }
     }
 
-    public void DestroyTile()
+    // Destroys a tile
+    public void CmdDestroyBuilding()
     {
-
+        tileGrid.DestroyCell(Vector2Int.RoundToInt(transform.position));
     }
 
     // Checks to make sure tile(s) isn't occupied
