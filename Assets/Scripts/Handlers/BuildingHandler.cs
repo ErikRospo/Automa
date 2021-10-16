@@ -49,19 +49,22 @@ public class BuildingHandler : NetworkBehaviour
     [ClientRpc]
     private void RpcInstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation)
     {
-        Debug.Log("Instantiating " + tile.name);
-        Debug.Log("\nContainer: " + tile.obj.name);
+        // Get game objected from scriptable manager
+        GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
+        if (obj == null) return;
 
         // Create the tile
-        Building lastBuilding = Instantiate(tile.obj, position, rotation).GetComponent<Building>();
+        Building lastBuilding = Instantiate(obj, position, rotation).GetComponent<Building>();
         lastBuilding.name = tile.name;
 
         // Constructor override creation
         Constructor constructor = lastBuilding.GetComponent<Constructor>();
         if (constructor != null)
         {
-            Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
-            if (constructor.machine.recipes.Contains(temp)) constructor.recipe = temp;
+            //Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
+            //if (constructor.machine.recipes.Contains(temp)) constructor.recipe = temp;
+
+            Debug.Log("Recipe setting not added");
         }
 
         // Set the tiles on the grid class

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Sprites : MonoBehaviour
+public class SpritesManager : MonoBehaviour
 {
     public static Dictionary<string, Sprite> library = new Dictionary<string, Sprite>();
     public static Sprite emptySprite;

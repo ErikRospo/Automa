@@ -911,8 +911,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285876875}
-  - component: {fileID: 285876874}
   - component: {fileID: 285876876}
+  - component: {fileID: 285876874}
+  - component: {fileID: 285876877}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -958,7 +959,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0273a1f3242ad548bb1af3b6100a07a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: Scriptables/Recipes
+--- !u!114 &285876877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285876873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0424a3708454cbb47b280181cae70a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingPath: Scriptables/Buildings
+  EnemyPath: Scriptables/Enemies
+  ItemPath: Scriptables/Items
+  RecipePath: Scriptables/Recipes
+  buildings: []
+  items: []
+  recipes: []
 --- !u!1 &301760989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,6 +1989,7 @@ MonoBehaviour:
   manager: {fileID: 285876876}
   buildingInfo: {fileID: 302465208}
   recipeSelector: {fileID: 1641867814}
+  constructor: {fileID: 0}
   recipesToAdd: []
   recipes: []
 --- !u!1 &614685636
@@ -39863,7 +39883,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  holdingMouse: 0
+  buildings:
+  - {fileID: 8713355525346585352, guid: 4eb12c3be9ae10a43895b228a52249cd, type: 3}
+  - {fileID: 8713355525346585352, guid: 9250930591628a94f850848df3369363, type: 3}
+  - {fileID: 5037051939383339140, guid: d36f843401a43764d8298626da129b4c, type: 3}
+  - {fileID: 5670510890034788685, guid: 4ef8fc5d8c0f5814a928658a4fffe8ef, type: 3}
+  - {fileID: 2815248319985988235, guid: 625e8afc1b501a1469063f21236cbee1, type: 3}
+  - {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
+  - {fileID: 6147068497244908113, guid: 0685f90c72ff41f429949da1627020eb, type: 3}
+  - {fileID: 2815248319985988235, guid: 22145e20cdb5e934789a9e8fbe0823f0, type: 3}
 --- !u!4 &1905279624
 Transform:
   m_ObjectHideFlags: 0

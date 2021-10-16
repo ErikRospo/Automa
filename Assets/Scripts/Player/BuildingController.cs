@@ -79,13 +79,13 @@ public class BuildingController : NetworkBehaviour
         if (tile != null)
         {
             // Get the tile sprite and set offset
-            spriteRenderer.sprite = Sprites.GetSprite(tile.name);
+            spriteRenderer.sprite = SpritesManager.GetSprite(tile.name);
 
             // If tile isnt rotatable, reset rotation
             if (!tile.rotatable)
                 hologram.rotation = Quaternion.identity;
         }
-        else spriteRenderer.sprite = Sprites.GetSprite("Empty");
+        else spriteRenderer.sprite = SpritesManager.GetSprite("Empty");
     }
 
     // Uses the offset value from the Tile SO to center the object
@@ -185,7 +185,7 @@ public class BuildingController : NetworkBehaviour
             lastConveyor = BuildingHandler.active.TryGetConveyor(targetTile);
             if (lastConveyor != null)
             {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
+                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnRight");
                 conveyorCorner = true;
             }
             lastConveyorPosition = hologram.position;
@@ -197,12 +197,12 @@ public class BuildingController : NetworkBehaviour
         {
             if (conveyorRotateSwitch)
             {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
+                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnRight");
                 conveyorRotateSwitch = false;
             }
             else
             {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnLeft");
+                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnLeft");
                 conveyorRotateSwitch = true;
             }
             return true;
