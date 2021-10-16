@@ -16,7 +16,17 @@ public class Constructor : Building
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
+        SetRecipe(recipe);
+    }
+
+    // Set the recipe
+    public void SetRecipe(Recipe recipe)
+    {
+        this.recipe = recipe;
         inputHolding = new Dictionary<Item, int>();
+
+        foreach(RecipeItem item in recipe.input)
+            inputHolding.Add(item.item, 0);
     }
 
     // Adds an item to the internal crafter storage

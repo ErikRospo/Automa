@@ -22,8 +22,8 @@ public class InventorySlot : MonoBehaviour
             return;
         }
 
-        Events.current.RegisterInventorySlot(this);
-        Events.current.onRequestInventorySlots += SendInventorySlot;
+        Events.active.RegisterInventorySlot(this);
+        Events.active.onRequestInventorySlots += SendInventorySlot;
     }
 
     // Sends an inventory slot back to the requesting script

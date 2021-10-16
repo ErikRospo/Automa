@@ -13,6 +13,7 @@ public class SpritesManager : MonoBehaviour
         CreateDefaultSprite();
 
         List<Sprite> sprites = Resources.LoadAll("Sprites/Buildings", typeof(Sprite)).Cast<Sprite>().ToList();
+        sprites.AddRange(Resources.LoadAll("Sprites/Items", typeof(Sprite)).Cast<Sprite>().ToList());
 
         foreach (Sprite sprite in sprites) 
             library.Add(sprite.name, sprite);
@@ -23,7 +24,7 @@ public class SpritesManager : MonoBehaviour
         library.TryGetValue(name, out Sprite sprite);
         if (sprite == null)
         {
-            Debug.LogError("Failed to get sprite with name " + name);
+            Debug.Log("Failed to get sprite with name " + name);
             return emptySprite;
         }
         else return sprite;

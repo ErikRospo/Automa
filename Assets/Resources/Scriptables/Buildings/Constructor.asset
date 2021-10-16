@@ -38,6 +38,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
+  hasOptions: 0
   recipes:
   - {fileID: 11400000, guid: 3a4430ad3fe1c1545b25bd720c21da0c, type: 2}
   - {fileID: 11400000, guid: aa8c067106699b841b28c53fbf7a107c, type: 2}

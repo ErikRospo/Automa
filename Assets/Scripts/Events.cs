@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Events : MonoBehaviour
 {
-    public static Events current;
+    public static Events active;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        current = this;
+        active = this;
     }
 
     public event Action onPlaceBuilding;
@@ -18,6 +18,13 @@ public class Events : MonoBehaviour
     {
         if (onPlaceBuilding != null)
             onPlaceBuilding();
+    }
+
+    public event Action<Building> onBuildingClicked;
+    public void BuildingClicked(Building building)
+    {
+        if (onBuildingClicked != null)
+            onBuildingClicked(building);
     }
 
     public event Action<InventorySlot> onRegisterInventorySlot;

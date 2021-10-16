@@ -27,9 +27,9 @@ public class Inventory : NetworkBehaviour
     private void Start()
     {
         // Will grab all the currently available inventory slots
-        Events.current.onRegisterInventorySlot += OnRegisterInventorySlot;
+        Events.active.onRegisterInventorySlot += OnRegisterInventorySlot;
         if (inventorySlots.Count == 0)
-            Events.current.RequestInventorySlots(this);
+            Events.active.RequestInventorySlots(this);
     }
 
     // Inventory slot listener

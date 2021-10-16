@@ -42,7 +42,11 @@ public class BuildingController : NetworkBehaviour
         if (Input.GetKey(Keybinds.shoot))
         {
             if (building != null) CmdCreateBuilding();
-            else Debug.Log("Get tile info");
+            else
+            {
+                Building holder = BuildingHandler.active.TryGetBuilding(hologram.position);
+                if (holder != null) Events.active.BuildingClicked(holder);
+            }
         }
         else if (Input.GetKey(Keybinds.deselect)) CmdDestroyBuilding();
         else if (Input.GetKeyDown(Keybinds.rotate)) RotatePosition();
