@@ -57,6 +57,14 @@ public class BuildingController : NetworkBehaviour
         if (BuildingHandler.active != null)
             BuildingHandler.active.CreateBuilding(building, hologram.position, hologram.rotation, option);
         else Debug.LogError("Scene does not have active building handler!");
+
+        // temp
+        if (building.name == "Conveyor")
+        {
+            if (option == 1) hologram.Rotate(0, 0, 90);
+            else if (option == 2) hologram.Rotate(0, 0, -90);
+            SetBuilding(building);
+        }
     }
 
     // Delete building (command)
