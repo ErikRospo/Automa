@@ -22,3 +22,4 @@ MonoBehaviour:
   offset: {x: 0, y: 0}
   axisSnappable: 1
   rotatable: 1
+  hasOptions: 1

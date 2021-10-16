@@ -35,6 +35,12 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
     [HideInInspector] public RotationType rotation;
 
+    // Called by building handler if additional options should be applied
+    public virtual void ApplyOptions(int option)
+    {
+        Debug.Log("This building does not have optional values!");
+    }
+
     // Called by another building to input an entity
     public virtual bool InputEntity(Entity entity)
     {

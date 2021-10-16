@@ -14,21 +14,32 @@ public class Conveyor : Building
     // Rotation for corners
     private RotationType corner;
 
-    public void Start()
+    // Sets up the conveyor
+    public override void ApplyOptions(int option)
     {
+        Debug.Log("Applying option " + option);
+
+        // Setup rotation
         SetupRotation();
+
+        // Setup corner if required
+        if (option == 1) ToggleCorner(true);
+        else if (option == 2) ToggleCorner(false);
+
+        // Setup positions
         SetupPositions();
         CheckNearbyBuildings();
 
         transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
 
-        animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if (!isCorner)
+            animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
     // Togles enabling a corner conveyor
     public void ToggleCorner(bool rotateUp)
     {
-        SetupRotation();
+        isCorner = true;
 
         if (rotateUp)
         {
@@ -51,13 +62,10 @@ public class Conveyor : Building
             outputs[0].tile.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
         }
 
-        isCorner = true;
         animator.enabled = !animator.enabled;
-        if (!animator.enabled)
-        {
-            if (rotateUp) GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurnLeft");
-            else GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Buildings/ConveyorTurnRight");
-        }
+
+        if (rotateUp) GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Up");
+        else GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Down");
     }
 
     public override void UpdateBins()

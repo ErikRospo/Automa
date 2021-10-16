@@ -23,31 +23,17 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Creates a building
-    public void CreateBuilding(Tile tile, Vector3 position, Quaternion rotation)
+    public void CreateBuilding(Tile tile, Vector3 position, Quaternion rotation, int option)
     {
-        // Check if anything selected
-        if (tile == null)
-        {
-            // Check for object
-            Building obj = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position));
-            if (obj != null)
-            {
-                Constructor constructor = obj.GetComponent<Constructor>();
-                if (constructor != null)
-                    UIEvents.active.ConstructorClicked(constructor);
-            }
-            return;
-        }
-
         // Check to make sure the tiles are not being used
         if (!CheckTiles(tile, position)) return;
 
         // Instantiate the object like usual
-        RpcInstantiateBuilding(tile, position, rotation);
+        RpcInstantiateBuilding(tile, position, rotation, option);
     }
 
     [ClientRpc]
-    private void RpcInstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation)
+    private void RpcInstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation, int option)
     {
         // Get game objected from scriptable manager
         GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
@@ -56,6 +42,9 @@ public class BuildingHandler : NetworkBehaviour
         // Create the tile
         Building lastBuilding = Instantiate(obj, position, rotation).GetComponent<Building>();
         lastBuilding.name = tile.name;
+
+        // Apply options if required
+        if (option != -1) lastBuilding.ApplyOptions(option);
 
         // Set the tiles on the grid class
         if (tile.cells.Length > 0)

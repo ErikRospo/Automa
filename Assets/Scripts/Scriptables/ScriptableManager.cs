@@ -50,4 +50,13 @@ public class ScriptableManager : MonoBehaviour
         Debug.Log("Could not retrieve object with name " + name);
         return null;
     }
+
+    // Retrieves a tile scriptable by name
+    public Tile RequestTileByName(string name)
+    {
+        foreach (Tile building in buildings)
+            if (building.name == name) return building;
+        Debug.Log("Could not retrieve scriptable with name " + name);
+        return null;
+    }
 }

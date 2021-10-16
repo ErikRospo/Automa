@@ -5,18 +5,15 @@ public class BuildingController : NetworkBehaviour
 {
     // Selected tile
     public Transform hologram;
+    public Transform hologramInput;
+    public Transform hologramOutput;
     private Tile building;
-
-    // Conveyor variables
-    private Conveyor lastConveyor;
-    private Vector3 lastConveyorPosition;
-    private bool conveyorCorner;
+    public int option = -1;
 
     // Sprite values
     private SpriteRenderer spriteRenderer;
     private float alphaAdjust = 0.005f;
     private float alphaHolder;
-    private bool conveyorRotateSwitch;
 
     public void Start()
     {
@@ -58,7 +55,7 @@ public class BuildingController : NetworkBehaviour
     public void CmdCreateBuilding()
     {
         if (BuildingHandler.active != null)
-            BuildingHandler.active.CreateBuilding(building, hologram.position, hologram.rotation);
+            BuildingHandler.active.CreateBuilding(building, hologram.position, hologram.rotation, option);
         else Debug.LogError("Scene does not have active building handler!");
     }
 
@@ -71,13 +68,18 @@ public class BuildingController : NetworkBehaviour
         else Debug.LogError("Scene does not have active building handler!");
     }
 
-    // Sets the selected building
+    // Sets the selected building (null to deselect)
     public void SetBuilding(Tile tile)
     {
-        // Set tile (pass null to deselect)
+        // Set tile 
         building = tile;
+        option = -1;
+        
         if (tile != null)
         {
+            // Set option
+            if (tile.hasOptions) option = 0;
+
             // Get the tile sprite and set offset
             spriteRenderer.sprite = SpritesManager.GetSprite(tile.name);
 
@@ -96,21 +98,23 @@ public class BuildingController : NetworkBehaviour
 
         if (building != null) hologram.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + building.offset.x, 5 * Mathf.Round(mousePos.y / 5) + building.offset.y);
         else hologram.position = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
-
-        /* Update last conveyor position (for rotating)
-        if (conveyorCorner == true && lastConveyorPosition != building.position)
-        {
-            spriteRenderer.sprite = Sprites.GetSprite(selectedTile.name);
-            conveyorCorner = false;
-        }
-        */
     }
 
     // Rotates an object
     private void RotatePosition()
     {
-        if (building != null && building.rotatable &&
-            (building.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck()))
+        if (building.obj.GetComponent<Conveyor>() != null)
+        {
+            Building inputBuilding = BuildingHandler.active.TryGetBuilding(hologramInput.position);
+            if (inputBuilding != null)
+            {
+                if (option == 2) { spriteRenderer.sprite = SpritesManager.GetSprite("Conveyor"); option = 0; }
+                else if (option == 1) { spriteRenderer.sprite = SpritesManager.GetSprite("Corner Down"); option = 2; }
+                else { spriteRenderer.sprite = SpritesManager.GetSprite("Corner Up"); option = 1; }
+            }
+            else hologram.Rotate(0, 0, -90);
+        }
+        else if (building != null && building.rotatable)
         {
             hologram.Rotate(0, 0, -90);
         }
@@ -128,100 +132,4 @@ public class BuildingController : NetworkBehaviour
         // Set alpha
         spriteRenderer.color = new Color(1f, 1f, 1f, spriteRenderer.color.a + alphaHolder);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // CODE HELL. CODE COMES HERE TO DIE. SMILE.
-
-    // Automatically applies corner rotation to conveyors
-    private bool ConveyorRotationCheck()
-    {
-        // If position has not moved since last check, don't reset target tile
-        if (lastConveyorPosition != hologram.position)
-        {
-            Vector2 targetTile;
-            switch (hologram.rotation.eulerAngles.z)
-            {
-                case 90f:
-                    targetTile = new Vector2(hologram.position.x, hologram.position.y - 5f);
-                    break;
-                case 180f:
-                    targetTile = new Vector2(hologram.position.x + 5f, hologram.position.y);
-                    break;
-                case 270f:
-                    targetTile = new Vector2(hologram.position.x, hologram.position.y + 5f);
-                    break;
-                default:
-                    targetTile = new Vector2(hologram.position.x - 5f, hologram.position.y);
-                    break;
-            }
-
-            // If conveyor found, save it and set corner sprite
-            lastConveyor = BuildingHandler.active.TryGetConveyor(targetTile);
-            if (lastConveyor != null)
-            {
-                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnRight");
-                conveyorCorner = true;
-            }
-            lastConveyorPosition = hologram.position;
-            conveyorRotateSwitch = false;
-        }
-
-        // If the previous conveyor still exists, rotate based off it's orientation
-        if (lastConveyor != null)
-        {
-            if (conveyorRotateSwitch)
-            {
-                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnRight");
-                conveyorRotateSwitch = false;
-            }
-            else
-            {
-                spriteRenderer.sprite = SpritesManager.GetSprite("ConveyorTurnLeft");
-                conveyorRotateSwitch = true;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /* Conveyor override creation
-Conveyor conveyor = lastBuilding.GetComponent<Conveyor>();
-if (conveyor != null)
-{
-    if (conveyorCorner)
-    {
-        conveyor.ToggleCorner(conveyorRotateSwitch);
-
-        if (conveyorRotateSwitch) active.building.Rotate(new Vector3(0, 0, 90));
-        else active.building.Rotate(new Vector3(0, 0, -90));
-    }
-    conveyor.Setup();
-}
-*/
 }
