@@ -106,7 +106,7 @@ namespace Michsky.UI.ModernUIPack
                 }
             }
 
-            catch { Debug.LogError("<b>[Dropdown]</b> Cannot initalize the object due to missing resources.", this); return; }
+            catch { Debug.Log("<b>[Dropdown]</b> Cannot initalize the object due to missing resources.", this); return; }
 
             if (dropdownAnimator == null)
                 dropdownAnimator = gameObject.GetComponent<Animator>();
@@ -320,6 +320,7 @@ namespace Michsky.UI.ModernUIPack
 
         public void UpdateItemLayout()
         {
+            /*
             if (itemList != null)
             {
                 itemList.spacing = itemSpacing;
@@ -328,6 +329,7 @@ namespace Michsky.UI.ModernUIPack
                 itemList.padding.left = itemPaddingLeft;
                 itemList.padding.right = itemPaddingRight;
             }
+            */
         }
 
         public void OnPointerClick(PointerEventData eventData)
