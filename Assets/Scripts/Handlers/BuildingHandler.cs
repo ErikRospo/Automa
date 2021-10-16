@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
+
+// TODO: Fix scriptable object reference in commands
 
 public class BuildingHandler : NetworkBehaviour
 {
@@ -10,167 +11,22 @@ public class BuildingHandler : NetworkBehaviour
 
     // Building variables
     public static BuildingHandler active;
-    private Tile selectedTile;
-    private Vector2 position;
-    private Vector2 offset;
-    private Quaternion rotation;
-    private Building lastBuilding;
-    public bool holdingMouse;
 
-    // Conveyor variables
-    private Conveyor lastConveyor;
-    private Vector2 lastConveyorPosition;
-    private bool conveyorCorner;
-
-    // Sprite values
-    private SpriteRenderer spriteRenderer;
-    private float alphaAdjust = 0.005f;
-    private float alphaHolder;
-    private bool conveyorRotateSwitch;
-
-    // Start method grabs tilemap
-    private void Start()
+    public void Start() 
     {
-        // Grabs active component if it exists
-        if (this != null) active = this;
-        else active = null;
-
-        if (active) spriteRenderer = GetComponent<SpriteRenderer>();
+        // Get reference to active instance
+        active = this;
 
         // Sets static variables on start
         tileGrid = new Grid();
         tileGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        // Check if active is null
-        if (active == null) return;
-
-        // Round to grid
-        OffsetBuilding();
-        rotation = active.transform.rotation;
-
-        AdjustTransparency();
-    }
-
-    // Uses the offset value from the Tile SO to center the object
-    private void OffsetBuilding()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        active.transform.position = new Vector2(5 * Mathf.Round(mousePos.x / 5) + offset.x, 5 * Mathf.Round(mousePos.y / 5) + offset.y);
-        position = active.transform.position;
-
-        // Update last conveyor position (for rotating)
-        if (conveyorCorner == true && lastConveyorPosition != position)
-        {
-            spriteRenderer.sprite = Sprites.GetSprite(selectedTile.name);
-            conveyorCorner = false;
-        }
-    }
-
-    // Rotates an object
-    public void Rotate()
-    {
-        if (selectedTile != null && selectedTile.rotatable &&
-            (selectedTile.obj.GetComponent<Conveyor>() == null || !ConveyorRotationCheck()))
-        {
-            active.transform.Rotate(0, 0, -90);
-        }
-    }
-
-    // Automatically applies corner rotation to conveyors
-    private bool ConveyorRotationCheck()
-    {
-        // If position has not moved since last check, don't reset target tile
-        if (lastConveyorPosition != position)
-        {
-            Vector2 targetTile;
-            switch (rotation.eulerAngles.z)
-            {
-                case 90f:
-                    targetTile = new Vector2(position.x, position.y - 5f);
-                    break;
-                case 180f:
-                    targetTile = new Vector2(position.x + 5f, position.y);
-                    break;
-                case 270f:
-                    targetTile = new Vector2(position.x, position.y + 5f);
-                    break;
-                default:
-                    targetTile = new Vector2(position.x - 5f, position.y);
-                    break;
-            }
-
-            // If conveyor found, save it and set corner sprite
-            lastConveyor = TryGetConveyor(targetTile);
-            if (lastConveyor != null)
-            {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
-                conveyorCorner = true;
-            }
-            lastConveyorPosition = position;
-            conveyorRotateSwitch = false;
-        }
-
-        // If the previous conveyor still exists, rotate based off it's orientation
-        if (lastConveyor != null)
-        {
-            if (conveyorRotateSwitch)
-            {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnRight");
-                conveyorRotateSwitch = false;
-            }
-            else
-            {
-                spriteRenderer.sprite = Sprites.GetSprite("ConveyorTurnLeft");
-                conveyorRotateSwitch = true;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    // Adjusts the alpha transparency of the SR component 
-    private void AdjustTransparency()
-    {
-        // Switches
-        if (spriteRenderer.color.a >= 1f)
-            alphaHolder = -alphaAdjust;
-        else if (spriteRenderer.color.a <= 0f)
-            alphaHolder = alphaAdjust;
-
-        // Set alpha
-        spriteRenderer.color = new Color(1f, 1f, 1f, spriteRenderer.color.a + alphaHolder);
-    }
-
-    // Sets the selected building
-    public void SetBuilding(Tile tile)
-    {
-        // Check if active is null
-        if (active == null) return;
-        selectedTile = tile;
-
-        if (tile != null)
-        {
-            spriteRenderer.sprite = Sprites.GetSprite(tile.name);
-            offset = tile.offset;
-
-            if (!tile.rotatable)
-                active.transform.rotation = Quaternion.identity;
-        }
-        else spriteRenderer.sprite = Sprites.GetSprite("Empty");
-    }
-
     // Creates a building
-    public void CmdCreateBuilding()
+    public void CreateBuilding(Tile tile, Vector3 position, Quaternion rotation)
     {
-        // Check if active is null
-        if (active == null) return;
-
         // Check if anything selected
-        if (selectedTile == null)
+        if (tile == null)
         {
             // Check for object
             Building obj = tileGrid.RetrieveObject(Vector2Int.RoundToInt(position));
@@ -184,70 +40,51 @@ public class BuildingHandler : NetworkBehaviour
         }
 
         // Check to make sure the tiles are not being used
-        if (!CheckTiles()) return;
+        if (!CheckTiles(tile, position)) return;
 
         // Instantiate the object like usual
-        InstantiateBuilding(selectedTile, position, active.transform.rotation);
-
-        // Set the tiles on the grid class
-        if (selectedTile.cells.Length > 0)
-        {
-            foreach (Tile.Cell cell in selectedTile.cells)
-                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastBuilding.transform.position.x + cell.x, lastBuilding.transform.position.y + cell.y)), true, selectedTile, lastBuilding);
-        }
-        else tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, selectedTile, lastBuilding);
+        RpcInstantiateBuilding(tile, position, rotation);
     }
 
-    private void InstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation, int axisLock = -1)
+    [ClientRpc]
+    private void RpcInstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation)
     {
+        Debug.Log("Instantiating " + tile.name);
+        Debug.Log("\nContainer: " + tile.obj.name);
+
         // Create the tile
-        lastBuilding = Instantiate(tile.obj, position, rotation).GetComponent<Building>();
+        Building lastBuilding = Instantiate(tile.obj, position, rotation).GetComponent<Building>();
         lastBuilding.name = tile.name;
 
-        // Conveyor override creation
-        Conveyor conveyor = lastBuilding.GetComponent<Conveyor>();
-        if (conveyor != null)
-        {
-            if (conveyorCorner)
-            {
-                conveyor.ToggleCorner(conveyorRotateSwitch);
-
-                if (conveyorRotateSwitch) active.transform.Rotate(new Vector3(0, 0, 90));
-                else active.transform.Rotate(new Vector3(0, 0, -90));
-            }
-            conveyor.Setup();
-        }
-
-        // Crafter override creation
+        // Constructor override creation
         Constructor constructor = lastBuilding.GetComponent<Constructor>();
         if (constructor != null)
         {
             Recipe temp = BuildingUI.active.recipes[BuildingUI.active.recipeSelector.value];
-            if (constructor.machine.recipes.Contains(temp))
-            {
-                constructor.recipe = temp;
-                Debug.Log("Setting recipe to " + constructor.recipe.name);
-            }
-            else
-            {
-                Debug.Log("The recipe " + temp + " can not be applied to " + lastBuilding.name + 
-                    "\nDefaulting to " + constructor.recipe.name);
-            }
+            if (constructor.machine.recipes.Contains(temp)) constructor.recipe = temp;
         }
+
+        // Set the tiles on the grid class
+        if (tile.cells.Length > 0)
+        {
+            foreach (Tile.Cell cell in tile.cells)
+                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastBuilding.transform.position.x + cell.x, lastBuilding.transform.position.y + cell.y)), true, tile, lastBuilding);
+        }
+        else tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, tile, lastBuilding);
     }
 
-    // Destroys a tile
-    public void CmdDestroyBuilding()
+    // Destroys a building
+    public void DestroyBuilding(Vector3 position)
     {
-        tileGrid.DestroyCell(Vector2Int.RoundToInt(transform.position));
+        tileGrid.DestroyCell(Vector2Int.RoundToInt(position));
     }
 
     // Checks to make sure tile(s) isn't occupied
-    public bool CheckTiles()
+    public bool CheckTiles(Tile tile, Vector3 position)
     {
-        if (selectedTile.cells.Length > 0)
+        if (tile.cells.Length > 0)
         {
-            foreach (Tile.Cell cell in selectedTile.cells)
+            foreach (Tile.Cell cell in tile.cells)
                 if (tileGrid.RetrieveCell(Vector2Int.RoundToInt(new Vector2(position.x + cell.x, position.y + cell.y))) != null)
                     return false;
         }

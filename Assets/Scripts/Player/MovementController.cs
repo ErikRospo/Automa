@@ -3,10 +3,13 @@ using UnityEngine;
 
 // Handles anything player-input related
 
-public class Controller : NetworkBehaviour
+public class MovementController : NetworkBehaviour
 {
     // Object animator 
     Animator animator;
+
+    // Building controller (attached to child object)
+    private BuildingController buildingController;
 
     // Inventory script (attached to object)
     Inventory inventory;
@@ -23,6 +26,7 @@ public class Controller : NetworkBehaviour
     private Rigidbody2D body;
     public Transform head;
     public Transform itemContainer;
+    public Transform model;
 
     // Holds the equipped item
     public Item equippedItem;
@@ -43,6 +47,9 @@ public class Controller : NetworkBehaviour
     // Called on start
     void Start()
     {
+        // Grab building script
+        buildingController = GetComponent<BuildingController>();
+
         // Grab inventory script
         inventory = GetComponent<Inventory>();
 
@@ -76,7 +83,7 @@ public class Controller : NetworkBehaviour
         CheckInput();
 
         // Update the player for all other players
-        CmdUpdatePlayer(transform.position, transform.rotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
+        CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
     }
 
     // Physics update for handling movement calculations 
@@ -85,7 +92,7 @@ public class Controller : NetworkBehaviour
         if (!hasAuthority) return;
 
         var step = rotationSpeed * Time.deltaTime;
-        if (speed > 0) transform.rotation = Quaternion.RotateTowards(transform.rotation, head.rotation, step);
+        if (speed > 0) model.localRotation = Quaternion.RotateTowards(model.localRotation, head.rotation, step);
         body.velocity = new Vector2(horizontal * speed, vertical * speed);
     }
 
@@ -95,20 +102,6 @@ public class Controller : NetworkBehaviour
         // Speed input checks
         CheckMovementInput();
         CalculateSpeed();
-
-        // Clicking input check
-        if (Input.GetKey(Keybinds.shoot))
-            BuildingHandler.active.CmdCreateBuilding();
-        else if (Input.GetKey(Keybinds.deselect))
-            BuildingHandler.active.CmdDestroyBuilding();
-        else if (Input.GetKeyDown(Keybinds.rotate))
-            BuildingHandler.active.Rotate();
-        else if (Input.GetKeyDown(Keybinds.deselect) || Input.GetKeyDown(Keybinds.escape))
-            BuildingHandler.active.SetBuilding(null);
-
-        // Update BuildingHandler holdingMouse flag
-        if (Input.GetKeyDown(Keybinds.shoot)) BuildingHandler.active.holdingMouse = true;
-        else if (Input.GetKeyUp(Keybinds.shoot)) BuildingHandler.active.holdingMouse = false;
 
         // Interacting input check
         if (Input.GetKeyDown(Keybinds.equip)) 
@@ -143,13 +136,13 @@ public class Controller : NetworkBehaviour
     [ClientCallback]
     private void CheckHotbarInput()
     {
-        if (Input.GetKeyDown(Keybinds.hotbar_1)) BuildingHandler.active.SetBuilding(conveyor);
-        else if (Input.GetKeyDown(Keybinds.hotbar_2)) BuildingHandler.active.SetBuilding(spawner);
-        else if (Input.GetKeyDown(Keybinds.hotbar_3)) BuildingHandler.active.SetBuilding(smelter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_4)) BuildingHandler.active.SetBuilding(constructor);
-        else if (Input.GetKeyDown(Keybinds.hotbar_5)) BuildingHandler.active.SetBuilding(assembler);
-        else if (Input.GetKeyDown(Keybinds.hotbar_6)) BuildingHandler.active.SetBuilding(splitter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_7)) BuildingHandler.active.SetBuilding(merger);
+        if (Input.GetKeyDown(Keybinds.hotbar_1)) buildingController.SetBuilding(conveyor);
+        else if (Input.GetKeyDown(Keybinds.hotbar_2)) buildingController.SetBuilding(spawner);
+        else if (Input.GetKeyDown(Keybinds.hotbar_3)) buildingController.SetBuilding(smelter);
+        else if (Input.GetKeyDown(Keybinds.hotbar_4)) buildingController.SetBuilding(constructor);
+        else if (Input.GetKeyDown(Keybinds.hotbar_5)) buildingController.SetBuilding(assembler);
+        else if (Input.GetKeyDown(Keybinds.hotbar_6)) buildingController.SetBuilding(splitter);
+        else if (Input.GetKeyDown(Keybinds.hotbar_7)) buildingController.SetBuilding(merger);
         else if (Input.GetKeyDown(Keybinds.hotbar_8)) Debug.Log("Press number 8");
         else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");
         else if (Input.GetKeyDown(Keybinds.hotbar_0)) inventory.CmdAddItem(equippedItem, 25);
@@ -201,7 +194,7 @@ public class Controller : NetworkBehaviour
         if (!force && hasAuthority) return;
 
         transform.position = position;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, bodyRotation));
+        model.localRotation = Quaternion.Euler(new Vector3(0, 0, bodyRotation));
         head.rotation = Quaternion.Euler(new Vector3(0, 0, headRotation));
         this.speed = speed;
     }

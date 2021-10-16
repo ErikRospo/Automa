@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 9065659980565167954}
   - component: {fileID: 4356406150821790477}
   - component: {fileID: 3414234415293403948}
+  - component: {fileID: 1415341516296014991}
   m_Layer: 0
   m_Name: Harvester
   m_TagString: Untagged
@@ -399,11 +400,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10117496fef4d0840b58ae923b5e7266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   inputs: []
   outputs: []
   acceptingEntities: 0
   skipInputCheck: 0
   skipOutputCheck: 0
+  cells: []
   rotation: 0
   item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
   facingTile: {x: 0, y: 0}
+--- !u!114 &1415341516296014991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5670510890034788685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 4ef8fc5d8c0f5814a928658a4fffe8ef
+  hasSpawned: 0

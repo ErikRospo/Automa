@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Mirror;
 
 // Buildings script
 //
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 // has to do with conveyors. You can define buildings to have multiple inputs
 // and outputs, as well as which tiles they should check for adjacent buildings.
 
-public abstract class Building : MonoBehaviour, IDamageable
+public abstract class Building : NetworkBehaviour, IDamageable
 {
     // Next / previous targets
     public IOClass[] inputs;
