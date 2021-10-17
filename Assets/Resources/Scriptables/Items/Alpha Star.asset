@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Alpha Star
   description: Alpha item. Just meant for testing, will not be in next version.
-  maxStackSize: 1
+  maxStackSize: 10

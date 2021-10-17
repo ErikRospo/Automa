@@ -110,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e06f3282778e9a47b25f4db7bfb4ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   inputs:
   - transform: {fileID: 7287658446430091751}
     tile: {fileID: 5611014965483926417}
@@ -131,11 +133,11 @@ MonoBehaviour:
   acceptingEntities: 1
   skipInputCheck: 0
   skipOutputCheck: 0
+  cells: []
   rotation: 0
   animator: {fileID: 8296687514376543157}
   isCorner: 0
   sizeAdjust: 1.0416666
-  isSetup: 0
 --- !u!114 &6076302020130993081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +217,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 593e7e7219660f042ad7e3efb4df4647, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
