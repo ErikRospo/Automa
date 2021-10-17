@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242f29df75dec3d4cb1cbb74a477bee6, type: 3}
+  m_Name: Example System Settings
+  m_EditorClassIdentifier: 
+  applicationId:
+    m_AppId: 480
+  isDebugging: 1
+  server:
+    autoInitalize: 1
+    autoLogon: 1
+    enableMirror: 1
+    ip: 0
+    queryPort: 27016
+    gamePort: 27015
+    serverVersion: 1.0.0.0
+    spectatorPort: 27017
+    serverId:
+      m_SteamID: 0
+    usingGameServerAuthApi: 1
+    enableHeartbeats: 1
+    supportSpectators: 0
+    spectatorServerName: Usually GameDescription + Spectator
+    anonymousServerLogin: 1
+    gameServerToken: See https://steamcommunity.com/dev/managegameservers
+    isPasswordProtected: 0
+    serverName: Heathen Spacewar Demo
+    gameDescription: Spacewar
+    gameDirectory: Spacewar
+    isDedicated: 0
+    maxPlayerCount: 4
+    botPlayerCount: 0
+    mapName: 
+    gameData: 
+    rulePairs: []
+    gameServerShuttingDown:
+      m_PersistentCalls:
+        m_Calls: []
+    disconnected:
+      m_PersistentCalls:
+        m_Calls: []
+    connected:
+      m_PersistentCalls:
+        m_Calls: []
+    failure:
+      m_PersistentCalls:
+        m_Calls: []
+  client:
+    user: {fileID: 114753148695418550}
+    overlay:
+      notificationInset: {x: 0, y: 0}
+      notificationPosition: 3
+    lastKnownPlayerCount: 13971
+    evtAvatarLoaded:
+      m_PersistentCalls:
+        m_Calls: []
+    evtPersonaStateChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    evtUserStatsReceived:
+      m_PersistentCalls:
+        m_Calls: []
+    evtUserStatsStored:
+      m_PersistentCalls:
+        m_Calls: []
+    evtOverlayActivated:
+      m_PersistentCalls:
+        m_Calls: []
+    evtAchievementStored:
+      m_PersistentCalls:
+        m_Calls: []
+    evtRecievedFriendChatMessage:
+      m_PersistentCalls:
+        m_Calls: []
+    evtNumberOfCurrentPlayersResult:
+      m_PersistentCalls:
+        m_Calls: []
+    inventory:
+      itemDefinitions:
+      - {fileID: 11400000, guid: f6c2731d1c0a51740a58f01a752f9e4e, type: 2}
+      - {fileID: 11400000, guid: dc1f31cbb19b550428a5a1410bfc8615, type: 2}
+      - {fileID: 11400000, guid: fc1cfd44c2df35e4e96dd0c44169b004, type: 2}
+      - {fileID: 11400000, guid: 1f11b56ca0855ca4d810e8349756a4fe, type: 2}
+      itemGenerators:
+      - {fileID: 11400000, guid: 61e6a1c1495fae24db115315f5a553d2, type: 2}
+      - {fileID: 11400000, guid: 7af0d9eb90cfdae4cbc74bfb52641486, type: 2}
+      tagGenerators:
+      - {fileID: 11400000, guid: 6ca3725b875c53d4eaef6314efe0bdfa, type: 2}
+      itemBundles:
+      - {fileID: 11400000, guid: 0dd2bf15ce5bd7e4090550581c250200, type: 2}
+      evtItemInstancesUpdated:
+        m_PersistentCalls:
+          m_Calls: []
+      evtItemsGranted:
+        m_PersistentCalls:
+          m_Calls: []
+      evtItemsConsumed:
+        m_PersistentCalls:
+          m_Calls: []
+      evtItemsExchanged:
+        m_PersistentCalls:
+          m_Calls: []
+      evtItemsDropped:
+        m_PersistentCalls:
+          m_Calls: []
+    evtLeaderboardRankChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    evtLeaderboardRankLoaded:
+      m_PersistentCalls:
+        m_Calls: []
+    evtLeaderboardNewHighRank:
+      m_PersistentCalls:
+        m_Calls: []
+    remoteStorage:
+      DataModels:
+      - {fileID: 11400000, guid: 737e58d1c6a2163469d9133db9317d54, type: 2}
+      LegacyDataModels: []
+      evtFileReadAsyncComplete:
+        m_PersistentCalls:
+          m_Calls: []
+      evtFileWriteAsyncComplete:
+        m_PersistentCalls:
+          m_Calls: []
+      evtFileShareResult:
+        m_PersistentCalls:
+          m_Calls: []
+    clanSystem:
+      clans: []
+  stats:
+  - {fileID: 114071816936002464}
+  achievements:
+  - {fileID: 114027855956499758}
+  dlc:
+  - {fileID: 114837132737893902}
+  leaderboards:
+  - {fileID: 114553807866768980}
+  evtSteamInitalized:
+    m_PersistentCalls:
+      m_Calls: []
+  evtSteamInitalizationError:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &114027855956499758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: ACH_WIN_ONE_GAME
+  m_EditorClassIdentifier: 
+  achievementId: ACH_WIN_ONE_GAME
+  OnUnlock:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &114071816936002464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da81eb7de88c2c4197e3d17cb88b1bf, type: 3}
+  m_Name: FeetTraveled
+  m_EditorClassIdentifier: 
+  statName: FeetTraveled
+  ValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  value: 320.83972
+--- !u!114 &114553807866768980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0265f2c01aac5409a0371f6b6e1c98, type: 3}
+  m_Name: Feet Traveled
+  m_EditorClassIdentifier: 
+  createIfMissing: 0
+  sortMethod: 0
+  displayType: 0
+  leaderboardName: Feet Traveled
+  maxDetailEntries: 0
+  evtBoardFound:
+    m_PersistentCalls:
+      m_Calls: []
+  evtQueryResults:
+    m_PersistentCalls:
+      m_Calls: []
+  evtUserRankLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  evtUserRankChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtUserNewHighRank:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &114753148695418550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ba82a2bdc69364fb12b4be8fb1f32b, type: 3}
+  m_Name: Local User Data
+  m_EditorClassIdentifier: 
+  id:
+    m_SteamID: 0
+  evtAvatarLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  evtAvatarChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtNameChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+  evtComeOnline:
+    m_PersistentCalls:
+      m_Calls: []
+  evtGoneOffline:
+    m_PersistentCalls:
+      m_Calls: []
+  evtGameChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &114837132737893902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b93d1536aadf0449e7232dc3f8072a, type: 3}
+  m_Name: Example DLC
+  m_EditorClassIdentifier: 
+  AppId:
+    m_AppId: 0
+  IsSubscribed: 0
+  IsDlcInstalled: 0
+  IsDownloading: 0
