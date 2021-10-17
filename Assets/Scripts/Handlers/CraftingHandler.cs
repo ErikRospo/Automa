@@ -47,6 +47,12 @@ public class CraftingHandler : MonoBehaviour
         return activeCrafter;
     }
 
+    public static void RemoveCrafter(ActiveCrafters crafter)
+    {
+        if (crafters.Contains(crafter))
+            crafters.Remove(crafter);
+    }
+
     private void FinishCrafting(int i)
     {
         crafters[i].crafter.CraftItem();
