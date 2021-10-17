@@ -25,8 +25,11 @@ public class Constructor : Building
         this.recipe = recipe;
         inputHolding = new Dictionary<Item, int>();
 
-        foreach(RecipeItem item in recipe.input)
-            inputHolding.Add(item.item, 0);
+        if (recipe.input.Length > 0)
+            foreach (RecipeItem item in recipe.input)
+                inputHolding.Add(item.item, 0);
+
+        CheckStorage();
     }
 
     // Adds an item to the internal crafter storage
@@ -75,6 +78,9 @@ public class Constructor : Building
     // Check the internal storage. If enough materials, craft the item
     public void CheckStorage()
     {
+        // Check if it's already crafting
+        if (isCrafting) return;
+
         // Check the outputs of this building
         for(int i = 0; i < recipe.output.Length; i++)
             if (outputHolding + recipe.output[i].amount >= recipe.output[i].item.maxStackSize) return;
@@ -98,6 +104,7 @@ public class Constructor : Building
             {
                 outputs[0].bin = null;
                 outputs[0].reserved = false;
+                CheckStorage();
             }
         }
 
