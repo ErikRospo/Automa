@@ -10,21 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eed8964bdd1883744902366a6348fec3, type: 3}
-  m_Name: Harvester
+  m_Name: Spawner
   m_EditorClassIdentifier: 
-  name: Harvester
-  description: Harvests raw ores from material deposits. Keep your distance!
-  maxStackSize: 20
-  obj: {fileID: 5670510890034788685, guid: 4ef8fc5d8c0f5814a928658a4fffe8ef, type: 3}
+  name: Spawner
+  description: Creates items (ALPHA ONLY)
+  maxStackSize: 1
+  obj: {fileID: 6147068497244908113, guid: 0685f90c72ff41f429949da1627020eb, type: 3}
   cells:
+  - x: 5
+    y: 2.5
   - x: 0
-    y: 0
+    y: 2.5
+  - x: -5
+    y: 2.5
+  - x: 5
+    y: -2.5
   - x: 0
-    y: 0
-  - x: 0
-    y: 0
-  - x: 0
-    y: 0
+    y: -2.5
+  - x: -5
+    y: -2.5
   offset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
