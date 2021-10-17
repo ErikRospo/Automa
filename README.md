@@ -1,4 +1,2 @@
-# SpaceFactory
-Name is just a placeholder.
-
-Coming Soon.
+# Automa
+More info coming soon
