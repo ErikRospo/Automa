@@ -198,8 +198,12 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Destroys the entity
-    public void Kill()
+    public virtual void Kill()
     {
+        foreach (IOClass input in inputs)
+            if (input.bin != null) Recycler.AddRecyclable(input.bin.transform);
+        foreach (IOClass output in outputs)
+            if (output.bin != null) Recycler.AddRecyclable(output.bin.transform);
         Destroy(gameObject);
     }
 }
