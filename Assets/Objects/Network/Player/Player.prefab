@@ -865,8 +865,7 @@ MonoBehaviour:
   hologram: {fileID: 8073035446037359245}
   hologramInput: {fileID: 2265968110508014131}
   hologramOutput: {fileID: 1260460852697024403}
-  cornerUp: {fileID: 11400000, guid: fcd0a4fc76af9c149a78f1f4cf8fe2fd, type: 2}
-  cornerDown: {fileID: 11400000, guid: 3de6298f3c7aef14c876b9680858b9db, type: 2}
+  option: -1
 --- !u!114 &732988199602288924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,6 +925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  holder: {fileID: 4687687411522174904}
   chatText: {fileID: 4687687411182140451}
   inputField: {fileID: 4687687410525427653}
 --- !u!114 &-6012667001519808175
@@ -1622,12 +1622,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4687687411522174905}
   m_Layer: 5
-  m_Name: Chat Controller
+  m_Name: Chat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4687687411522174905
 RectTransform:
   m_ObjectHideFlags: 0
