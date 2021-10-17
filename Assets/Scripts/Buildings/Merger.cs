@@ -96,7 +96,7 @@ public class Merger : Building
     }
 
     // Sets the input target
-    public override void SetInputTarget(Building target)
+    public override bool SetInputTarget(Building target)
     {
         for (int i = 0; i < inputs.Length; i++)
         {
@@ -104,14 +104,17 @@ public class Merger : Building
             {
                 inputs[i].target = target;
                 inputs[i].target.UpdateBins();
+                return true;
             }
         }
+        return false;
     }
 
     // Sets the output target 
-    public override void SetOutputTarget(Building target)
+    public override bool SetOutputTarget(Building target)
     {
         outputs[0].target = target;
         UpdateBins();
+        return true;
     }
 }

@@ -57,7 +57,7 @@ public class Conveyor : Building
             else if (rotation == RotationType.WEST) corner = RotationType.NORTH;
 
             outputs[0].transform.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
-            outputs[0].tile.localPosition = new Vector2(0, -outputs[0].transform.localPosition.x);
+            outputs[0].tile.localPosition = new Vector2(0, -outputs[0].tile.localPosition.x);
         }
 
         animator.enabled = !animator.enabled;
@@ -105,15 +105,17 @@ public class Conveyor : Building
         }
     }
 
-    public override void SetInputTarget(Building target)
+    public override bool SetInputTarget(Building target)
     {
         inputs[0].target = target;
+        return true;
     }
 
-    public override void SetOutputTarget(Building target)
+    public override bool SetOutputTarget(Building target)
     {
         outputs[0].target = target;
         UpdateBins();
+        return true;
     }
 
     public override bool InputEntity(Entity entity)

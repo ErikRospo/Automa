@@ -23,7 +23,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     private bool positionsSet = false;
 
     // Hold the cells this building occupies
-    public List<Vector2Int> cells;
+    [HideInInspector] public List<Vector2Int> cells;
 
     // Holds the rotation value for comparisons
     public enum RotationType
@@ -91,24 +91,16 @@ public abstract class Building : NetworkBehaviour, IDamageable
     // It is important to note that this can be an array of size 1. The next building may only
     // have one input and output. That is why this method exists, so that each building can
     // decide what to do with the targets it receives.
-    public virtual void SetInputTarget(Building target)
+    public virtual bool SetInputTarget(Building target)
     {
         Debug.Log("This building cannot be passed input targets!");
+        return false;
     }
 
-    public virtual void SetOutputTarget(Building target)
+    public virtual bool SetOutputTarget(Building target)
     {
         Debug.Log("This building cannot be passed output targets!");
-    }
-
-    public virtual void SetInputTarget(IOClass input, Building target)
-    {
-        SetInputTarget(target);
-    }
-
-    public virtual void SetOutputTarget(IOClass output, Building target)
-    {
-        SetOutputTarget(target);
+        return false;
     }
 
     // Used to setup the rotation of a building
@@ -138,9 +130,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
                 {
-                    building.SetOutputTarget(this);
-                    building.UpdateBins();
-                    SetInputTarget(inputs[i], building);
+                    if (!building.SetOutputTarget(this)) return;
+                    SetInputTarget(building);
                 }
                 else
                 {
@@ -159,9 +150,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipOutputCheck || building.skipInputCheck || building.rotation == rotation)
                 {
-                    building.SetInputTarget(this);
-                    SetOutputTarget(outputs[i], building);
-                    UpdateBins();
+                    if (!building.SetInputTarget(this)) return;
+                    SetOutputTarget(building);
                 }
             }
         }
@@ -181,8 +171,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             inputs[i].position = inputs[i].transform.position;
             inputs[i].tilePosition = inputs[i].tile.position;
-            Recycler.AddRecyclable(inputs[i].transform);
-            Recycler.AddRecyclable(inputs[i].tile);
+            //Recycler.AddRecyclable(inputs[i].transform);
+            //Recycler.AddRecyclable(inputs[i].tile);
         }
 
         // Setup output positions
@@ -190,8 +180,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
         {
             outputs[i].position = outputs[i].transform.position;
             outputs[i].tilePosition = outputs[i].tile.position;
-            Recycler.AddRecyclable(outputs[i].transform);
-            Recycler.AddRecyclable(outputs[i].tile);
+            //Recycler.AddRecyclable(outputs[i].transform);
+            //Recycler.AddRecyclable(outputs[i].tile);
         }
 
         positionsSet = true;

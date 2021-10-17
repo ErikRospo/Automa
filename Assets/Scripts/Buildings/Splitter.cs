@@ -97,17 +97,24 @@ public class Splitter : Building
     }
 
     // Sets the input target
-    public override void SetInputTarget(Building target)
+    public override bool SetInputTarget(Building target)
     {
         inputs[0].target = target;
+        return true;
     }
 
     // Sets the output target 
-    public override void SetOutputTarget(Building target)
+    public override bool SetOutputTarget(Building target)
     {
         for (int i = 0; i < outputs.Length; i++)
+        {
             if (target.transform.position == outputs[i].tilePosition)
+            {
                 outputs[i].target = target;
-        UpdateBins();
+                UpdateBins();
+                return true;
+            }
+        }
+        return false;
     }
 }

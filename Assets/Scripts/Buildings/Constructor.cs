@@ -13,10 +13,10 @@ public class Constructor : Building
 
     private void Start()
     {
+        SetRecipe(recipe);
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
-        SetRecipe(recipe);
     }
 
     // Set the recipe
@@ -119,20 +119,32 @@ public class Constructor : Building
         return false;
     }
 
-    public override void SetInputTarget(Building target)
+    public override bool SetInputTarget(Building target)
     {
         for (int i = 0; i < inputs.Length; i++)
+        {
             if (target.transform.position == inputs[i].tilePosition)
+            {
                 inputs[i].target = target;
+                return true;
+            }
+        }
+        return false;
     }
 
-    public override void SetOutputTarget(Building target)
+    public override bool SetOutputTarget(Building target)
     {
         for (int i = 0; i < outputs.Length; i++)
+        {
             if (target.transform.position == outputs[i].tilePosition)
+            {
                 outputs[i].target = target;
+                UpdateBins();
+                return true;
+            }
+        }
 
-        UpdateBins();
+        return false;
     }
 
     // Called when an entity is ready to be sent 
@@ -140,7 +152,8 @@ public class Constructor : Building
     {
         if (CheckItem(entity.item))
         {
-            if (!inputHolding.ContainsKey(entity.item) || (inputHolding.TryGetValue(entity.item, out int amount) && amount < entity.item.maxStackSize))
+            if (inputHolding.ContainsKey(entity.item) &&
+                inputHolding[entity.item] + 1 < entity.item.maxStackSize)
             {
                 for (int i = 0; i < inputs.Length; i++)
                 {
