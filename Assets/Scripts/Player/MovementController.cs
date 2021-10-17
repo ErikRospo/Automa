@@ -74,7 +74,7 @@ public class MovementController : NetworkBehaviour
         animator.SetFloat("Speed", speed);
 
         // Update for owner
-        if (!hasAuthority || CameraFollow.freecam || Tablet.active) return;
+        if (!hasAuthority || CameraFollow.freecam) return;
 
         // Rotates player body to mouse
         RotateToMouse();
@@ -127,7 +127,7 @@ public class MovementController : NetworkBehaviour
     private void CalculateSpeed()
     {
         bool isMoving = horizontal != 0 || vertical != 0;
-        if (isMoving && Input.GetKey(KeyCode.LeftShift)) speed = runSpeed;
+        if (isMoving && Input.GetKey(KeyCode.LeftShift) && !Tablet.active) speed = runSpeed;
         else if (!isMoving) speed = 0f;
         else speed = walkSpeed;
     }
