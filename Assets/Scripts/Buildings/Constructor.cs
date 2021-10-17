@@ -30,6 +30,11 @@ public class Constructor : Building
                 inputHolding.Add(item.item, 0);
 
         CheckStorage();
+
+        // Update all input targets
+        foreach(IOClass input in inputs) 
+            if (input.target != null)
+                input.target.UpdateBins();
     }
 
     // Adds an item to the internal crafter storage
@@ -68,6 +73,11 @@ public class Constructor : Building
 
         isCrafting = false;
         CheckStorage();
+
+        // Update all input targets
+        foreach (IOClass input in inputs)
+            if (input.target != null)
+                input.target.UpdateBins();
     }
 
     public void AddOutputItem(Item item, int amount)
@@ -87,9 +97,10 @@ public class Constructor : Building
 
         // Check holding to see if there's enough to craft an item
         for (int i = 0; i < recipe.input.Length; i++)
-            if (!inputHolding.TryGetValue(recipe.input[i].item, out int amount) 
-                || amount < recipe.input[i].amount) return;
+            if (!inputHolding.ContainsKey(recipe.input[i].item) ||
+                inputHolding[recipe.input[i].item] < recipe.input[i].amount) return;
 
+        // If both checks pass, register crafting
         crafter = CraftingHandler.RegisterCrafting(this);
         isCrafting = true;
     }

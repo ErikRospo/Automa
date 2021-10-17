@@ -447,6 +447,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b80cf107b0b8be4f83f7fd80676cdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   inputs:
   - transform: {fileID: 97799960630488167}
     tile: {fileID: 3952345751440692586}
@@ -468,6 +470,7 @@ MonoBehaviour:
   acceptingEntities: 1
   skipInputCheck: 0
   skipOutputCheck: 0
+  cells: []
   rotation: 0
   machine: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
   recipe: {fileID: 11400000, guid: 891b00cba83f5a142a34f610b80d3236, type: 2}

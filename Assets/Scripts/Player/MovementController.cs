@@ -21,6 +21,7 @@ public class MovementController : NetworkBehaviour
     public Tile merger;
     public Tile constructor;
     public Tile assembler;
+    public Tile garbage;
 
     // GameObject child transforms
     private Rigidbody2D body;
@@ -142,7 +143,7 @@ public class MovementController : NetworkBehaviour
         else if (Input.GetKeyDown(Keybinds.hotbar_5)) buildingController.SetBuilding(assembler);
         else if (Input.GetKeyDown(Keybinds.hotbar_6)) buildingController.SetBuilding(splitter);
         else if (Input.GetKeyDown(Keybinds.hotbar_7)) buildingController.SetBuilding(merger);
-        else if (Input.GetKeyDown(Keybinds.hotbar_8)) Debug.Log("Press number 8");
+        else if (Input.GetKeyDown(Keybinds.hotbar_8)) buildingController.SetBuilding(garbage);
         else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");
         else if (Input.GetKeyDown(Keybinds.hotbar_0)) inventory.CmdAddItem(equippedItem, 25);
     }
