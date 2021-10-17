@@ -76,12 +76,14 @@ public class Tablet : MonoBehaviour
         {
             active = false;
             canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
         }
     }
 
     public void SetRecipe(Recipe recipe)
     {
+        if (constructor.recipe == recipe) return;
         constructor.SetRecipe(recipe);
         LoadRecipes(constructor.machine);
     }
@@ -91,6 +93,7 @@ public class Tablet : MonoBehaviour
         // Open tablet
         active = true;
         canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
 
         // Get the scriptable for the buildin

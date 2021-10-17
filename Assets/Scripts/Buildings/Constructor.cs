@@ -22,6 +22,14 @@ public class Constructor : Building
     // Set the recipe
     public void SetRecipe(Recipe recipe)
     {
+        // Check if already crafting
+        if (crafter != null)
+        {
+            CraftingHandler.RemoveCrafter(crafter);
+            crafter = null;
+            isCrafting = false;
+        }
+
         this.recipe = recipe;
         inputHolding = new Dictionary<Item, int>();
 
