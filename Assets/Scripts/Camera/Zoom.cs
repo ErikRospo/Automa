@@ -11,6 +11,7 @@ public class Zoom : MonoBehaviour
 
     private static float targetZoom;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,8 @@ public class Zoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Tablet.active) return;
+
         float scrollData;
         scrollData = Input.GetAxis("Mouse ScrollWheel");
 

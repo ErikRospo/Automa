@@ -27,6 +27,13 @@ public class Events : MonoBehaviour
             onBuildingClicked(building);
     }
 
+    public event Action<Recipe> onSetRecipe;
+    public void SetRecipe(Recipe recipe)
+    {
+        if (onSetRecipe != null)
+            onSetRecipe(recipe);
+    }
+
     public event Action<InventorySlot> onRegisterInventorySlot;
     public void RegisterInventorySlot(InventorySlot slot)
     {

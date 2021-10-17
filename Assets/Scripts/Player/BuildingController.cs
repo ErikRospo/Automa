@@ -27,7 +27,7 @@ public class BuildingController : NetworkBehaviour
     public void Update()
     {
         // Confirm user has authority
-        if (!hasAuthority) return;
+        if (!hasAuthority || Tablet.active) return;
 
         // Update position and sprite transparency
         UpdatePosition();

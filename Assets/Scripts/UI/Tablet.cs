@@ -35,10 +35,14 @@ public class Tablet : MonoBehaviour
     public RecipeButton recipeButton;
     private List<GameObject> recipeButtons = new List<GameObject>();
 
+    // Table enabled variable
+    public static bool active;
+
     public void Start()
     {
         // Link building click event to load info
         Events.active.onBuildingClicked += LoadInfo;
+        Events.active.onSetRecipe += SetRecipe;
     }
 
     public void Update()
@@ -61,11 +65,25 @@ public class Tablet : MonoBehaviour
             for (int i = 0; i < constructor.recipe.output.Length; i++)
                 outputs[i].amount.text = constructor.outputHolding.ToString();
         }
+
+        // Check input
+        if (Input.GetKeyDown(Keybinds.escape))
+        {
+            active = false;
+            canvasGroup.alpha = 0f;
+        }
+    }
+
+    public void SetRecipe(Recipe recipe)
+    {
+        constructor.SetRecipe(recipe);
+        LoadRecipes(constructor.machine);
     }
 
     public void LoadInfo(Building building)
     {
         // Open tablet
+        active = true;
         canvasGroup.alpha = 1f;
 
         // Get the scriptable for the buildin
@@ -106,16 +124,16 @@ public class Tablet : MonoBehaviour
             RecipeButton button = Instantiate(recipeButton.gameObject, Vector3.zero, Quaternion.identity).GetComponent<RecipeButton>();
             button.transform.SetParent(recipeList);
             button.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-            button.SetRecipe(recipe);
+            button.SetInfo(recipe);
             recipeButtons.Add(button.gameObject);
         }
 
         // Check if constructor has active recipe
-        SetRecipe(constructor);
+        SetInputOutputs(constructor);
     }
 
     // Sets a recipe from a constructor
-    public void SetRecipe(Constructor constructor)
+    public void SetInputOutputs(Constructor constructor)
     {
         /////////////////
         // INPUT SLOTS //
