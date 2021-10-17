@@ -5,6 +5,7 @@ using System;
 
 public class Chat : NetworkBehaviour
 {
+    [SerializeField] private GameObject holder = null;
     [SerializeField] private TMP_Text chatText = null;
     [SerializeField] private TMP_InputField inputField = null;
 
@@ -12,6 +13,7 @@ public class Chat : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
+        holder.SetActive(true);
         OnMessage += HandleNewMessage;
     }
 
@@ -31,7 +33,6 @@ public class Chat : NetworkBehaviour
     [Client]
     public void Send()
     {
-        Debug.Log("I exist");
         if (!Input.GetKeyDown(KeyCode.Return)) { return; }
 
         if (string.IsNullOrWhiteSpace(inputField.text)) { return; }
