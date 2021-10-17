@@ -57,7 +57,8 @@ public class EntityHandler : NetworkBehaviour
     // Removes a conveyor entity
     public void RemoveMovingEntity(MovingEntity entity)
     {
-        if (entity.output) entity.building.OutputEntity(entity.entity);
+        if (entity.building == null) Recycler.AddRecyclable(entity.entity.transform);
+        else if (entity.output) entity.building.OutputEntity(entity.entity);
         else entity.building.ReceiveEntity(entity.entity);
         movingEntities.Remove(entity);
     }
