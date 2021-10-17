@@ -75,7 +75,7 @@ public class Tablet : MonoBehaviour
         if (Input.GetKeyDown(Keybinds.escape))
         {
             active = false;
-            canvasGroup.alpha = 0f;
+            gameObject.SetActive(false);
         }
     }
 
@@ -89,7 +89,7 @@ public class Tablet : MonoBehaviour
     {
         // Open tablet
         active = true;
-        canvasGroup.alpha = 1f;
+        gameObject.SetActive(true);
 
         // Get the scriptable for the buildin
         Tile tile = ScriptableManager.active.RequestTileByName(building.name);
