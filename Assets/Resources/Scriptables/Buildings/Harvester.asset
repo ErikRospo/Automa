@@ -37,3 +37,4 @@ MonoBehaviour:
   hasOptions: 0
   recipes:
   - {fileID: 11400000, guid: 9c59e8b053879a74a921a70243a874f4, type: 2}
+  - {fileID: 11400000, guid: c6a66c19100ae2d41949b2577aa8e798, type: 2}

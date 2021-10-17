@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5f4a864adaeaff47a5c6feac556fb01, type: 3}
-  m_Name: Iron Frame
+  m_Name: Copper Plating
   m_EditorClassIdentifier: 
-  name: Iron Frame
-  description: A strurdy frame made of iron bolts and bars. Mainly used for construction.
-  maxStackSize: 20
+  name: Copper Plating
+  description: A basic material refined from copper ore. Very common in a lot of
+    electrical recipes.
+  maxStackSize: 50

@@ -15,5 +15,4 @@ MonoBehaviour:
   name: Iron Plating
   description: A basic material refined from iron ore. Very common in a lot of other
     material recipes.
-  maxStackSize: 100
-  icon: {fileID: 21300000, guid: 252c4c707bef1464fafebbc08b42a118, type: 3}
+  maxStackSize: 50

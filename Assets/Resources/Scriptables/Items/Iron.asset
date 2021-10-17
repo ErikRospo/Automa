@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Iron
   m_EditorClassIdentifier: 
   name: Iron
-  description: Mined from surface deposits around the planet
+  description: Mined from surface deposits around the planet. Used in most basic
+    recipes.
   maxStackSize: 100

@@ -47,3 +47,4 @@ MonoBehaviour:
   hasOptions: 0
   recipes:
   - {fileID: 11400000, guid: afdab21d44647e643b2ace82e3f51542, type: 2}
+  - {fileID: 11400000, guid: 64f556b60ea3b504499ff32d014152be, type: 2}
