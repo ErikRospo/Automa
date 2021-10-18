@@ -131,7 +131,11 @@ public abstract class Building : NetworkBehaviour, IDamageable
                 if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
                 {
                     SetInputTarget(building);
-                    if (!building.SetOutputTarget(this)) return;
+                    if (!building.SetOutputTarget(this))
+                    {
+                        SetInputTarget(null);
+                        break;
+                    }
                 }
                 else
                 {
