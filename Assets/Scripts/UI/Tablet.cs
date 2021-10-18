@@ -41,6 +41,7 @@ public class Tablet : MonoBehaviour
     // Tablet tooltip system
     public GameObject tooltipRect;
     public TextMeshProUGUI tooltipDesc;
+    public RecipeTooltip recipeTooltip;
 
     public void Start()
     {
@@ -138,7 +139,7 @@ public class Tablet : MonoBehaviour
             RecipeButton button = Instantiate(recipeButton.gameObject, Vector3.zero, Quaternion.identity).GetComponent<RecipeButton>();
             button.transform.SetParent(recipeList);
             button.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-            button.SetInfo(recipe, tooltipRect, tooltipDesc);
+            button.SetInfo(recipe, tooltipRect, tooltipDesc, recipeTooltip);
             recipeButtons.Add(button.gameObject);
         }
 

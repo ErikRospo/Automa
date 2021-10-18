@@ -9,13 +9,14 @@ public class RecipeButton : MonoBehaviour
     public ButtonManagerBasicWithIcon button;
     [HideInInspector] private Recipe recipe;
     public TooltipContent tooltip;
+    public RecipeTooltip recipeTooltip;
 
     public void SetRecipe()
     {
         Events.active.SetRecipe(recipe);
     }
 
-    public void SetInfo(Recipe recipe, GameObject tooltipRect, TextMeshProUGUI tooltipDesc)
+    public void SetInfo(Recipe recipe, GameObject tooltipRect, TextMeshProUGUI tooltipDesc, RecipeTooltip recipeTooltip)
     {
         this.recipe = recipe;
         button.buttonText = recipe.name;
@@ -24,10 +25,12 @@ public class RecipeButton : MonoBehaviour
 
         tooltip.tooltipRect = tooltipRect;
         tooltip.descriptionText = tooltipDesc;
+        this.recipeTooltip = recipeTooltip;
     }
 
     public void SetTooltip()
     {
-        tooltip.description = recipe.output[0].item.description;
+        tooltip.description = recipe.output[0].item.name;
+        recipeTooltip.SetTooltipContent(recipe);
     }
 }
