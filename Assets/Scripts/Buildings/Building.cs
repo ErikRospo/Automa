@@ -130,8 +130,12 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
                 {
-                    if (!building.SetOutputTarget(this)) return;
                     SetInputTarget(building);
+                    if (!building.SetOutputTarget(this))
+                    {
+                        SetInputTarget(null);
+                        break;
+                    }
                 }
                 else
                 {
@@ -185,6 +189,15 @@ public abstract class Building : NetworkBehaviour, IDamageable
         }
 
         positionsSet = true;
+    }
+
+    // Checks if building hologram is in an output position
+    public bool CheckOutputPosition(Transform obj)
+    {
+        foreach (IOClass output in outputs)
+            if (output.tilePosition == obj.position)
+                return true;
+        return false;
     }
 
     // Destroys the entity
