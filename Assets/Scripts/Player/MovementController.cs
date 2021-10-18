@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using HeathenEngineering.SteamAPI;
+using Mirror;
+using TMPro;
 using UnityEngine;
 
 // Handles anything player-input related
@@ -28,6 +30,9 @@ public class MovementController : NetworkBehaviour
     public Transform head;
     public Transform itemContainer;
     public Transform model;
+
+    // Nametag
+    public TextMeshPro nameTag;
 
     // Holds the equipped item
     public Item equippedItem;
@@ -62,8 +67,16 @@ public class MovementController : NetworkBehaviour
         speed = walkSpeed;
 
         // Start for owner only
-        if (hasAuthority) 
+        if (hasAuthority)
+        {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
+        }
+    }
+
+    private void OnConnectedToServer()
+    {
+        //if (!hasAuthority) return;
+        CmdUpdateName(SteamSettings.Client.user.DisplayName);
     }
 
     // Normal frame update
@@ -178,6 +191,21 @@ public class MovementController : NetworkBehaviour
             head.localRotation = Quaternion.Euler(new Vector3(0, 0, -30));
             model.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
+    }
+
+    // Update name command
+    [Command]
+    private void CmdUpdateName(string name)
+    {
+        Debug.Log($"Command recieved name: {name}");
+        RpcUpdateName(name);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateName(string name)
+    {
+        Debug.Log($"RPC recieved name: {name}");
+        nameTag.text = name;
     }
 
     // Update player state command
