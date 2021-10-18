@@ -2,6 +2,7 @@
 using Mirror;
 using TMPro;
 using UnityEngine;
+using Steamworks;
 
 // Handles anything player-input related
 
@@ -32,6 +33,8 @@ public class MovementController : NetworkBehaviour
     public Transform model;
 
     // Nametag
+    [SyncVar(hook = nameof(OnNameChanged))]
+    public string playerName;
     public TextMeshProUGUI nameTag;
 
     // Holds the equipped item
@@ -66,12 +69,11 @@ public class MovementController : NetworkBehaviour
         // Initialize walk speed
         speed = walkSpeed;
 
-        CmdUpdateName(SteamSettings.Client.user.DisplayName);
-
         // Start for owner only
         if (hasAuthority)
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
+            playerName = SteamSettings.Client.user.DisplayName;
         }
     }
 
@@ -189,17 +191,10 @@ public class MovementController : NetworkBehaviour
         }
     }
 
-    // Update name command
-    [Command]
-    private void CmdUpdateName(string name)
+    // On Name Changed Event
+    void OnNameChanged(string _Old, string _New)
     {
-        RpcUpdateName(name);
-    }
-
-    [ClientRpc]
-    private void RpcUpdateName(string name)
-    {
-        nameTag.text = name;
+        nameTag.text = _New;
     }
 
     // Update player state command
