@@ -492,7 +492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616566450106930778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: 0, z: 0}
+  m_LocalPosition: {x: 8.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6177408322010007151}
@@ -555,6 +555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b80cf107b0b8be4f83f7fd80676cdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   inputs:
   - transform: {fileID: 4960586403107681188}
     tile: {fileID: 2929780855723747848}
@@ -592,6 +594,7 @@ MonoBehaviour:
   acceptingEntities: 1
   skipInputCheck: 0
   skipOutputCheck: 0
+  cells: []
   rotation: 0
   machine: {fileID: 11400000, guid: 7c1223319d23d45418e905e67106eda6, type: 2}
   recipe: {fileID: 11400000, guid: afdab21d44647e643b2ace82e3f51542, type: 2}
