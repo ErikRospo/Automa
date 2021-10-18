@@ -117,4 +117,33 @@ public class Splitter : Building
         }
         return false;
     }
+
+    // Checks for nearby buildings
+    public override void CheckNearbyBuildings()
+    {
+        // Local building parameter;
+        Building building;
+
+        // Set input target
+        building = BuildingHandler.active.TryGetBuilding(inputs[0].tilePosition);
+        if (building != null && building.rotation == rotation)
+            if (!building.SetOutputTarget(this)) SetInputTarget(building);
+
+        // Loop through each output
+        for (int i = 0; i < outputs.Length; i++)
+        {
+            building = BuildingHandler.active.TryGetBuilding(outputs[i].tilePosition);
+            if (building != null)
+            {
+                foreach (IOClass input in building.inputs)
+                {
+                    if (input.tilePosition == transform.position)
+                    {
+                        if (!building.SetInputTarget(this)) break;
+                        SetOutputTarget(building);
+                    }
+                }
+            }
+        }
+    }
 }

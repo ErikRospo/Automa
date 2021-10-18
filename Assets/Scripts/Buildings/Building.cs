@@ -119,6 +119,9 @@ public abstract class Building : NetworkBehaviour, IDamageable
         else if (transform.rotation.eulerAngles.z == 270f) rotation = RotationType.SOUTH;
     }
 
+    // OUTDATED - Rewrite to use input / output tiles and not rotation.
+    // Rotation as a whole is not needed for this to function.
+    //
     // Checks for nearby buildings
     public virtual void CheckNearbyBuildings()
     {

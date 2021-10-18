@@ -144,9 +144,6 @@ public class Merger : Building
         // Loop through each output 
         building = BuildingHandler.active.TryGetBuilding(outputs[0].tilePosition);
         if (building != null && building.rotation == rotation)
-        {
-                if (!building.SetInputTarget(this)) return;
-                SetOutputTarget(building);
-        }
+            if (!building.SetInputTarget(this)) SetOutputTarget(building);
     }
 }
