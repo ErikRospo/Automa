@@ -130,12 +130,8 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
                 {
+                    if (!building.SetOutputTarget(this)) break;
                     SetInputTarget(building);
-                    if (!building.SetOutputTarget(this))
-                    {
-                        SetInputTarget(null);
-                        break;
-                    }
                 }
                 else
                 {
@@ -154,7 +150,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
             {
                 if (skipOutputCheck || building.skipInputCheck || building.rotation == rotation)
                 {
-                    if (!building.SetInputTarget(this)) return;
+                    if (!building.SetInputTarget(this)) break;
                     SetOutputTarget(building);
                 }
             }

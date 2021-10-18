@@ -183,7 +183,7 @@ public class Constructor : Building
             {
                 for (int i = 0; i < inputs.Length; i++)
                 {
-                    if (inputs[i].target == entity.lastBuilding)
+                    if (inputs[i].target == entity.lastBuilding || inputs[i].tilePosition == entity.lastBuilding.transform.position)
                         entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[i].position, this);
                 }
                 return true;
