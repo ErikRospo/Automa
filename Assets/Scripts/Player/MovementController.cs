@@ -66,18 +66,13 @@ public class MovementController : NetworkBehaviour
         // Initialize walk speed
         speed = walkSpeed;
 
+        CmdUpdateName(SteamSettings.Client.user.DisplayName);
+
         // Start for owner only
         if (hasAuthority)
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
-            CmdUpdateName(SteamSettings.Client.user.DisplayName);
         }
-    }
-
-    private void OnConnectedToServer()
-    {
-        //if (!hasAuthority) return;
-        
     }
 
     // Normal frame update
