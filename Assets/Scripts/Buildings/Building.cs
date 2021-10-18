@@ -120,7 +120,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Checks for nearby buildings
-    public void CheckNearbyBuildings()
+    public virtual void CheckNearbyBuildings()
     {
         // Loop through each input
         for (int i = 0; i < inputs.Length; i++)

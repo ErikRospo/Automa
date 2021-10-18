@@ -117,4 +117,36 @@ public class Merger : Building
         UpdateBins();
         return true;
     }
+
+    // Checks for nearby buildings
+    public override void CheckNearbyBuildings()
+    {
+        // Local building parameter;
+        Building building;
+
+        // Loop through each input
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            building = BuildingHandler.active.TryGetBuilding(inputs[i].tilePosition);
+            if (building != null)
+            {
+                foreach (IOClass output in building.outputs) 
+                {
+                    if (output.tilePosition == transform.position)
+                    {
+                        if (!building.SetOutputTarget(this)) break;
+                        SetInputTarget(building);
+                    }
+                }
+            }
+        }
+
+        // Loop through each output 
+        building = BuildingHandler.active.TryGetBuilding(outputs[0].tilePosition);
+        if (building != null && building.rotation == rotation)
+        {
+                if (!building.SetInputTarget(this)) return;
+                SetOutputTarget(building);
+        }
+    }
 }
