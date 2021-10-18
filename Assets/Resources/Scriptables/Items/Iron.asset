@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Iron
   m_EditorClassIdentifier: 
   name: Iron
-  description: Mined from surface deposits around the planet. Used in most basic
-    recipes.
+  description: A common mineral mined from surface deposits around the planet. Used
+    in most recipes and machine building costs.
   maxStackSize: 100
