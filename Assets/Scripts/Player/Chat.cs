@@ -2,18 +2,21 @@ using UnityEngine;
 using Mirror;
 using TMPro;
 using System;
+using HeathenEngineering.SteamAPI;
 
 public class Chat : NetworkBehaviour
 {
     [SerializeField] private GameObject holder = null;
     [SerializeField] private TMP_Text chatText = null;
     [SerializeField] private TMP_InputField inputField = null;
+    private string displayName = "";
 
     private static event Action<string> OnMessage;
 
     public override void OnStartAuthority()
     {
         holder.SetActive(true);
+        displayName = SteamSettings.Client.user.DisplayName;
         OnMessage += HandleNewMessage;
     }
 
@@ -45,7 +48,7 @@ public class Chat : NetworkBehaviour
     [Command]
     private void CmdSendMessage(string message)
     {
-        RpcHandleMessage($"[{connectionToClient.connectionId}]: {message}");
+        RpcHandleMessage($"[{displayName}]: {message}");
     }
 
     [ClientRpc]

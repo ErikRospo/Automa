@@ -2,7 +2,6 @@
 using Mirror;
 using TMPro;
 using UnityEngine;
-using Steamworks;
 
 // Handles anything player-input related
 
@@ -32,7 +31,7 @@ public class MovementController : NetworkBehaviour
     public Transform itemContainer;
     public Transform model;
 
-    // Nametag
+    // Nametag variables
     [SyncVar(hook = nameof(OnNameChanged))]
     public string playerName;
     public TextMeshProUGUI nameTag;
@@ -191,13 +190,14 @@ public class MovementController : NetworkBehaviour
         }
     }
 
+    // Called by joining clients to set their names
     [Command]
     private void CmdUpdateName(string name)
     {
         playerName = name;
     }
 
-    // On Name Changed Event
+    // On Update Display Name on all clients
     void OnNameChanged(string _Old, string _New)
     {
         nameTag.text = _New;
