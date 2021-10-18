@@ -124,7 +124,7 @@ public class BuildingController : NetworkBehaviour
         if (building.obj.GetComponent<Conveyor>() != null)
         {
             Building inputBuilding = BuildingHandler.active.TryGetBuilding(hologramInput.position);
-            if (inputBuilding != null)
+            if (inputBuilding != null && inputBuilding.CheckOutputPosition(hologram)) 
             {
                 if (option == 2) { spriteRenderer.sprite = SpritesManager.GetSprite("Conveyor"); option = 0; }
                 else if (option == 1) { spriteRenderer.sprite = SpritesManager.GetSprite("Corner Down"); option = 2; }
