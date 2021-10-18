@@ -38,6 +38,10 @@ public class Tablet : MonoBehaviour
     // Table enabled variable
     public static bool active;
 
+    // Tablet tooltip system
+    public GameObject tooltipRect;
+    public TextMeshProUGUI tooltipDesc;
+
     public void Start()
     {
         // Link building click event to load info
@@ -134,7 +138,7 @@ public class Tablet : MonoBehaviour
             RecipeButton button = Instantiate(recipeButton.gameObject, Vector3.zero, Quaternion.identity).GetComponent<RecipeButton>();
             button.transform.SetParent(recipeList);
             button.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-            button.SetInfo(recipe);
+            button.SetInfo(recipe, tooltipRect, tooltipDesc);
             recipeButtons.Add(button.gameObject);
         }
 

@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 7994429515134587924}
   - component: {fileID: 3926910253811948932}
   - component: {fileID: 7994429515134587923}
+  - component: {fileID: 7986855362196039137}
   - component: {fileID: 7994429515134587922}
   - component: {fileID: 7994429515134587921}
   m_Layer: 5
@@ -199,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 7994429515134587923}
+  tooltip: {fileID: 7986855362196039137}
 --- !u!114 &7994429515134587923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +232,19 @@ MonoBehaviour:
         m_CallState: 2
   hoverEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3926910253811948932}
+        m_TargetAssemblyTypeName: RecipeButton, Assembly-CSharp
+        m_MethodName: SetTooltip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hoverSound: {fileID: 0}
   clickSound: {fileID: 0}
   buttonVar: {fileID: 0}
@@ -251,6 +265,23 @@ MonoBehaviour:
   transitionColor: {r: 0, g: 0, b: 0, a: 0}
   renderOnTop: 0
   centered: 0
+--- !u!114 &7986855362196039137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7994429515134587919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81a9e081a4afa64dae6b9d42bc38c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: 
+  delay: 0.1
+  tooltipRect: {fileID: 0}
+  descriptionText: {fileID: 0}
+  tooltipAnimator: {fileID: 0}
 --- !u!114 &7994429515134587922
 MonoBehaviour:
   m_ObjectHideFlags: 0
