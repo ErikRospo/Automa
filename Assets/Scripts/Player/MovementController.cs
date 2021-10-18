@@ -73,7 +73,7 @@ public class MovementController : NetworkBehaviour
         if (hasAuthority)
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
-            playerName = SteamSettings.Client.user.DisplayName;
+            CmdUpdateName(SteamSettings.Client.user.DisplayName);
         }
     }
 
@@ -189,6 +189,12 @@ public class MovementController : NetworkBehaviour
             head.localRotation = Quaternion.Euler(new Vector3(0, 0, -30));
             model.Rotate(new Vector3(0, 0, overShoot), Space.World);
         }
+    }
+
+    [Command]
+    private void CmdUpdateName(string name)
+    {
+        playerName = name;
     }
 
     // On Name Changed Event
