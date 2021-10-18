@@ -32,7 +32,7 @@ public class EntityHandler : NetworkBehaviour
         if (this != null)
             active = this;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         for (int i = 0; i < movingEntities.Count; i++)
         {
