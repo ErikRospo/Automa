@@ -571,9 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Name
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1029,6 +1027,7 @@ MonoBehaviour:
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
   model: {fileID: 5562487953030958008}
+  nameTag: {fileID: 8228792561639653528}
   equippedItem: {fileID: 0}
   isClicking: 0
   walkSpeed: 5

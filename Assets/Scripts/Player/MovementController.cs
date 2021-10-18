@@ -32,7 +32,7 @@ public class MovementController : NetworkBehaviour
     public Transform model;
 
     // Nametag
-    public TextMeshPro nameTag;
+    public TextMeshProUGUI nameTag;
 
     // Holds the equipped item
     public Item equippedItem;
@@ -70,13 +70,14 @@ public class MovementController : NetworkBehaviour
         if (hasAuthority)
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
+            CmdUpdateName(SteamSettings.Client.user.DisplayName);
         }
     }
 
     private void OnConnectedToServer()
     {
         //if (!hasAuthority) return;
-        CmdUpdateName(SteamSettings.Client.user.DisplayName);
+        
     }
 
     // Normal frame update
@@ -197,14 +198,12 @@ public class MovementController : NetworkBehaviour
     [Command]
     private void CmdUpdateName(string name)
     {
-        Debug.Log($"Command recieved name: {name}");
         RpcUpdateName(name);
     }
 
     [ClientRpc]
     private void RpcUpdateName(string name)
     {
-        Debug.Log($"RPC recieved name: {name}");
         nameTag.text = name;
     }
 
