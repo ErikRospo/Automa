@@ -8,12 +8,13 @@ public class SpritesManager : MonoBehaviour
     public static Dictionary<string, Sprite> library = new Dictionary<string, Sprite>();
     public static Sprite emptySprite;
 
-    public void Start()
+    public void Awake()
     {
         CreateDefaultSprite();
 
         List<Sprite> sprites = Resources.LoadAll("Sprites/Buildings", typeof(Sprite)).Cast<Sprite>().ToList();
         sprites.AddRange(Resources.LoadAll("Sprites/Items", typeof(Sprite)).Cast<Sprite>().ToList());
+        sprites.AddRange(Resources.LoadAll("Sprites/World", typeof(Sprite)).Cast<Sprite>().ToList());
 
         foreach (Sprite sprite in sprites) 
             library.Add(sprite.name, sprite);

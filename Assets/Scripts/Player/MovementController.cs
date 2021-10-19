@@ -52,6 +52,9 @@ public class MovementController : NetworkBehaviour
     public float runSpeed = 5f;
     public float rotationSpeed = 5f;
 
+    // Chunking value
+    private Vector2Int chunkCoords = new Vector2Int(0, 0);
+
     // Called on start
     void Start()
     {
@@ -74,6 +77,10 @@ public class MovementController : NetworkBehaviour
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
             CmdUpdateName(SteamSettings.Client.user.DisplayName);
         }
+
+        // Generate chunks
+        if (WorldGen.active != null)
+            WorldGen.active.UpdateChunks(chunkCoords);
     }
 
     // Normal frame update
@@ -94,6 +101,9 @@ public class MovementController : NetworkBehaviour
 
         // Update the player for all other players
         CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
+
+        // Neighbour chunk check
+        UpdateChunks();
     }
 
     // Physics update for handling movement calculations 
@@ -119,6 +129,17 @@ public class MovementController : NetworkBehaviour
 
         // Alpha numeric input check 
         CheckHotbarInput();
+    }
+
+    // Update chunks
+    private void UpdateChunks()
+    {
+        if (WorldGen.active != null)
+        {
+            Vector2Int chunk = Vector2Int.RoundToInt(new Vector2(transform.position.x / 100, transform.position.y / 100));
+            if (chunk != chunkCoords) WorldGen.active.UpdateChunks(chunk);
+            chunkCoords = chunk;
+        }
     }
 
     // Checks for movement input

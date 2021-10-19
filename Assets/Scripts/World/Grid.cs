@@ -44,7 +44,7 @@ public class Grid
         else return null;
     }
 
-    public void SetCell(Vector2Int coords, bool occupy, Tile tile, Building obj)
+    public void SetCell(Vector2Int coords, bool occupy, Tile tile = null, Building obj = null)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {
