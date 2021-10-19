@@ -47,8 +47,8 @@ public class WorldGen : MonoBehaviour
             foreach (Resource resource in resources)
             {
                 // Get world coordinate
-                int xValue = newChunk.x * 100;
-                int yValue = newChunk.y * 100;
+                int xValue = newChunk.x * 20;
+                int yValue = newChunk.y * 20;
 
                 for (int x = xValue; x < xValue + 100; x++)
                 {
