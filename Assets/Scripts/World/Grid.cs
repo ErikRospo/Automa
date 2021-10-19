@@ -53,7 +53,7 @@ public class Grid
             cell.obj = obj;
         }
         else cells.Add(coords, new Cell(occupy, tile, obj));
-        obj.cells.Add(coords);
+        if (obj != null) obj.cells.Add(coords);
     }
 
     public void DestroyCell(Vector2Int coords) 
