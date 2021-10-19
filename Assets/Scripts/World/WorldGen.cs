@@ -7,6 +7,11 @@ public class WorldGen : MonoBehaviour
     // Active instance
     public static WorldGen active;
 
+    // Chunk vairables
+    public GameObject emptyChunk;
+    public int renderDistance = 5;
+    public int chunkSize = 20;
+
     // List of resource tiles
     public ResourceTile resourceTile;
     public List<Resource> resources;
@@ -19,7 +24,7 @@ public class WorldGen : MonoBehaviour
     [HideInInspector] public Grid resourceGrid;
 
     // Loaded chunks
-    public List<Vector2Int> loadedChunks;
+    public Dictionary<Vector2Int, Transform> loadedChunks;
 
     public void Start()
     {
@@ -29,6 +34,7 @@ public class WorldGen : MonoBehaviour
         // Create a new resource grid
         resourceGrid = new Grid();
         resourceGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
+        loadedChunks = new Dictionary<Vector2Int, Transform>();
 
         // Set random seed
         Random.InitState(Random.Range(0, 1000000000));
@@ -40,52 +46,53 @@ public class WorldGen : MonoBehaviour
     {
         // Create new chunks list
         List<Vector2Int> chunks = GetChunks(chunk);
+        List<Transform> chunksLoaded = new List<Transform>();
 
         // Loops through chunks
-        foreach (Vector2Int newChunk in chunks)
+        foreach (Vector2Int chunkCoords in chunks)
         {
             // Check that the chunk isn't loaded
-            if (loadedChunks.Contains(newChunk)) continue;
-
-            // A CHECK NEEDS TO BE DONE HERE
-            // If chunk is brand new, generate biome / resources
-            // If chunk is not new, grab it from the object pool 
-            // If chunk is outside of player view, pool and disable it
-
-            // Update biome
-            //UpdateBiome(newChunk);
-            GenerateResources(newChunk);
+            if (loadedChunks.ContainsKey(chunkCoords))
+            {
+                loadedChunks[chunkCoords].gameObject.SetActive(true);
+                chunksLoaded.Add(loadedChunks[chunkCoords]);
+            }
+            else
+            {
+                Transform newChunk = GenerateNewChunk(chunkCoords);
+                loadedChunks.Add(chunkCoords, newChunk);
+                chunksLoaded.Add(newChunk);
+            }
         }
 
-        // Update loaded chunks
-        loadedChunks = new List<Vector2Int>(chunks);
-    }
-
-    // Loops through a chunk and updates the biome if required
-    private void UpdateBiome(Vector2Int newChunk)
-    {
-
+        // Disable chunks that are out of sight
+        foreach (Transform loadedChunk in loadedChunks.Values)
+            if (!chunksLoaded.Contains(loadedChunk))
+                loadedChunk.gameObject.SetActive(false);
     }
 
     // Loops through a new chunk and spawns resources based on perlin noise values
-    private void GenerateResources(Vector2Int newChunk)
+    private Transform GenerateNewChunk(Vector2Int newChunk)
     {
+        // Get middle offset
+        int chunkOffset = chunkSize / 2;
+
         // Get world coordinate
-        int xValue = newChunk.x * 20;
-        int yValue = newChunk.y * 20;
+        int xValue = newChunk.x * chunkSize + chunkOffset;
+        int yValue = newChunk.y * chunkSize + chunkOffset;
+
+        // Create chunk parent
+        GameObject chunk = Instantiate(emptyChunk, new Vector3(xValue * 5, yValue * 5, -1), Quaternion.identity);
+        chunk.name = "Chunk " + newChunk;
 
         // Loop through x and y coordinates
-        for (int x = xValue; x < xValue + 100; x++)
+        for (int x = xValue - chunkOffset; x < xValue + chunkOffset; x++)
         {
-            for (int y = yValue; y < yValue + 100; y++)
+            for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
             {
                 // Loop through resources
                 foreach (Resource resource in resources)
                 {
-                    // ANOTHER CHECK NEEDS TO BE DONE HERE
-                    // - Check if resource being spawned is able to reside in biome
-                    // - If not, skip. If so, spawn it.
-
                     // Check if resource uses perlin noise
                     if (!resource.usePerlinNoise)
                     {
@@ -94,35 +101,37 @@ public class WorldGen : MonoBehaviour
                         if (resource.spawnThreshold < value)
                         {
                             // If threshold exceed value, spawn
-                            TrySpawnResource(resource, x, y);
+                            TrySpawnResource(resource, x, y, chunk.transform);
                             break;
                         }
                     }
                     else
                     {
                         // Calculate perlin noise pixel
-                        float xCoord = ((float)x / perlinScale) + offset;
-                        float yCoord = ((float)y / perlinScale) + offset;
+                        float xCoord = ((float)x / resource.spawnScale) + offset;
+                        float yCoord = ((float)y / resource.spawnScale) + offset;
                         float value = Mathf.PerlinNoise(xCoord, yCoord);
 
                         // If value exceeds threshold, try and generate
                         if (value >= resource.spawnThreshold)
                         {
-                            TrySpawnResource(resource, x, y);
+                            TrySpawnResource(resource, x, y, chunk.transform);
                             break;
                         }
                     }
                 }
             }
         }
+
+        return chunk.transform;
     }
 
     // Try and spawn a resource
-    private void TrySpawnResource(Resource resource, int x, int y)
+    private void TrySpawnResource(Resource resource, int x, int y, Transform parent)
     {
         // Get x and y pos
-        float xPos = (x * 5f) - 250;
-        float yPos = (y * 5f) - 250;
+        float xPos = x * 5f;
+        float yPos = y * 5f;
 
         // Check cell to make sure it's empty
         if (resourceGrid.RetrieveCell(Vector2Int.RoundToInt(new Vector2(xPos, yPos))) == null)
@@ -130,6 +139,7 @@ public class WorldGen : MonoBehaviour
             // Create the resource
             ResourceTile temp = Instantiate(resourceTile.gameObject, new Vector3(xPos, yPos, -1), Quaternion.identity).GetComponent<ResourceTile>();
             resourceGrid.SetCell(Vector2Int.RoundToInt(temp.transform.position), true);
+            temp.transform.parent = parent;
 
             // Set resource values
             temp.name = resource.name;
@@ -144,23 +154,12 @@ public class WorldGen : MonoBehaviour
         // Create new chunks list
         List<Vector2Int> chunks = new List<Vector2Int>();
 
-        // Add chunk to chunks list
-        chunks.Add(chunk);
+        // Get surrounding chunks based on render distance
+        for (int x = chunk.x - renderDistance; x < chunk.x + renderDistance; x++)
+            for (int y = chunk.y - renderDistance; y < chunk.y + renderDistance; y++)
+                chunks.Add(new Vector2Int(x, y));
 
-        // Grab chunks on top
-        chunks.Add(new Vector2Int(chunk.x - 1, chunk.y + 1));
-        chunks.Add(new Vector2Int(chunk.x, chunk.y + 1));
-        chunks.Add(new Vector2Int(chunk.x + 1, chunk.y + 1));
-
-        // Grab side chunks
-        chunks.Add(new Vector2Int(chunk.x + 1, chunk.y));
-        chunks.Add(new Vector2Int(chunk.x - 1, chunk.y));
-
-        // Grab chunks on bottom
-        chunks.Add(new Vector2Int(chunk.x - 1, chunk.y - 1));
-        chunks.Add(new Vector2Int(chunk.x, chunk.y - 1));
-        chunks.Add(new Vector2Int(chunk.x + 1, chunk.y - 1));
-
+        // Return chunk coordinates
         return chunks;
     }
 }

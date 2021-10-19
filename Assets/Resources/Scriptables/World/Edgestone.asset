@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebf09a99e6f38b94197be31d1252dbd5, type: 3}
-  m_Name: Raw Iron
+  m_Name: Edgestone
   m_EditorClassIdentifier: 
-  name: Raw Iron
-  item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
-  usePerlinNoise: 1
-  randomizeRotation: 0
-  spawnScale: 30
-  spawnThreshold: 0.97
+  name: Edgestone
+  item: {fileID: 0}
+  usePerlinNoise: 0
+  randomizeRotation: 1
+  spawnScale: 0
+  spawnThreshold: 0.9999

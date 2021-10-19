@@ -15,5 +15,6 @@ MonoBehaviour:
   name: Sandstone
   item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
   usePerlinNoise: 0
+  randomizeRotation: 1
   spawnScale: 0
-  spawnThreshold: 0.999
+  spawnThreshold: 0
