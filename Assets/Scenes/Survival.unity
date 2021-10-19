@@ -48932,7 +48932,10 @@ MonoBehaviour:
     type: 3}
   resources:
   - {fileID: 11400000, guid: 3b8d3c1ffc1a59a4c891e5448513fb5b, type: 2}
+  - {fileID: 11400000, guid: bda9c14e4c65ceb41aa3844ec4bc4efa, type: 2}
   offset: 0
+  perlinScale: 500
+  biomeTextureMap: {fileID: 736659155}
   loadedChunks: []
 --- !u!4 &2129755554
 Transform:
