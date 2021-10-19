@@ -11,4 +11,5 @@ public class Resource : ScriptableObject
     public bool randomizeRotation; // Tells generator if resource can be rotated
     public float spawnScale; // Scale of perlin noise
     public float spawnThreshold; // Perlin float threshold
+    public float noiseOffset; // Offset perlin noise value
 }

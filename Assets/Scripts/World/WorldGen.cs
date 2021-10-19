@@ -15,7 +15,6 @@ public class WorldGen : MonoBehaviour
     // List of resource tiles
     public ResourceTile resourceTile;
     public List<Resource> resources;
-    public float offset = 0;
     public float perlinScale = 500;
 
     // Resource grid
@@ -38,7 +37,6 @@ public class WorldGen : MonoBehaviour
 
         // Set random seed
         Random.InitState(Random.Range(0, 1000000000));
-        if (offset == 0) offset = Random.Range(0, 10000);
     }
     
     // Generate resources
@@ -108,8 +106,8 @@ public class WorldGen : MonoBehaviour
                     else
                     {
                         // Calculate perlin noise pixel
-                        float xCoord = ((float)x / resource.spawnScale) + offset;
-                        float yCoord = ((float)y / resource.spawnScale) + offset;
+                        float xCoord = ((float)x / resource.spawnScale) + resource.noiseOffset;
+                        float yCoord = ((float)y / resource.spawnScale) + resource.noiseOffset;
                         float value = Mathf.PerlinNoise(xCoord, yCoord);
 
                         // If value exceeds threshold, try and generate

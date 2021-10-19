@@ -48930,15 +48930,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emptyChunk: {fileID: 2373642615341233856, guid: cce21d4beb6507046aaa0416f5a38484,
     type: 3}
+  renderDistance: 5
+  chunkSize: 20
   resourceTile: {fileID: -5637757227350493285, guid: e5ea9cdb4041129428eb0eacdee13d1d,
     type: 3}
   resources:
   - {fileID: 11400000, guid: 3b8d3c1ffc1a59a4c891e5448513fb5b, type: 2}
+  - {fileID: 11400000, guid: 0e9d945385f61aa45b079792c116a48e, type: 2}
   - {fileID: 11400000, guid: bda9c14e4c65ceb41aa3844ec4bc4efa, type: 2}
   - {fileID: 11400000, guid: 969412df6898c4b45bb0ed44f9f95f8b, type: 2}
   - {fileID: 11400000, guid: 05e87ad97a005c74bbcce01575f61b97, type: 2}
   - {fileID: 11400000, guid: 066417cbd6d640a4084c47872aa24fab, type: 2}
-  offset: 0
   perlinScale: 500
   biomeTextureMap: {fileID: 736659155}
 --- !u!4 &2129755554
