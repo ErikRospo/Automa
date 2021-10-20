@@ -17,6 +17,8 @@ public class Constructor : Building
         SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
+
+        GetComponent<SpriteRenderer>().receiveShadows = true;
     }
 
     // Set the recipe

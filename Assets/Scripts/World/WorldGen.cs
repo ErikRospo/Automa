@@ -11,16 +11,18 @@ public class WorldGen : MonoBehaviour
     public GameObject emptyChunk;
     public int renderDistance = 5;
     public int chunkSize = 20;
+    public float perlinScale = 500;
 
     // List of resource tiles
     public ResourceTile resourceTile;
     public List<Resource> resources;
-    public float perlinScale = 500;
+
+    // List of environment tiles
+    public List<BiomeTile> biomes;
+    public TileBase defaultBiome;
+    public Tilemap biomeTextureMap;
 
     // Resource grid
-    public Tilemap biomeTextureMap;
-    public TileBase sandTile;
-    [HideInInspector] public Grid biomeGrid;
     [HideInInspector] public Grid resourceGrid;
 
     // Loaded chunks
@@ -58,7 +60,6 @@ public class WorldGen : MonoBehaviour
             }
             else
             {
-                GenerateBiome(chunkCoords);
                 Transform newChunk = GenerateNewChunk(chunkCoords);
                 loadedChunks.Add(chunkCoords, newChunk);
                 chunksLoaded.Add(newChunk);
@@ -71,22 +72,6 @@ public class WorldGen : MonoBehaviour
                 loadedChunk.gameObject.SetActive(false);
     }
 
-    // Generate biome for new chunks
-    private void GenerateBiome(Vector2Int newChunk)
-    {
-        // Get middle offset
-        int chunkOffset = chunkSize / 4;
-
-        // Get world coordinate
-        int xValue = newChunk.x * (chunkSize / 2) + chunkOffset;
-        int yValue = newChunk.y * (chunkSize / 2) + chunkOffset;
-
-        // Loop through x and y coordinates
-        for (int x = xValue - chunkOffset; x < xValue + chunkOffset; x++)
-            for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
-                biomeTextureMap.SetTile(new Vector3Int(x, y, 0), sandTile);
-    }
-
     // Loops through a new chunk and spawns resources based on perlin noise values
     private Transform GenerateNewChunk(Vector2Int newChunk)
     {
@@ -97,6 +82,9 @@ public class WorldGen : MonoBehaviour
         int xValue = newChunk.x * chunkSize + chunkOffset;
         int yValue = newChunk.y * chunkSize + chunkOffset;
 
+        // Flag for default biome
+        bool useDefaultBiome;
+
         // Create chunk parent
         GameObject chunk = Instantiate(emptyChunk, new Vector3(xValue * 5, yValue * 5, -1), Quaternion.identity);
         chunk.name = "Chunk " + newChunk;
@@ -106,6 +94,25 @@ public class WorldGen : MonoBehaviour
         {
             for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
             {
+                // Loop through biomes
+                useDefaultBiome = true;
+                foreach (BiomeTile biome in biomes)
+                {
+                    // Calculate perlin noise pixel
+                    float xCoord = ((float)x / biome.spawnScale) + biome.noiseOffset;
+                    float yCoord = ((float)y / biome.spawnScale) + biome.noiseOffset;
+                    float value = Mathf.PerlinNoise(xCoord, yCoord);
+
+                    // If value exceeds threshold, try and generate
+                    if (value >= biome.spawnThreshold)
+                    {
+                        biomeTextureMap.SetTile(new Vector3Int(x, y, 0), biome.tile);
+                        useDefaultBiome = false;
+                        break;
+                    }
+                }
+                if (useDefaultBiome) biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome);
+
                 // Loop through resources
                 foreach (Resource resource in resources)
                 {

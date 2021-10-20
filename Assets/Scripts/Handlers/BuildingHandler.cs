@@ -41,6 +41,7 @@ public class BuildingHandler : NetworkBehaviour
 
         // Create the tile
         Building lastBuilding = Instantiate(obj, position, rotation).GetComponent<Building>();
+        lastBuilding.transform.position = new Vector3(position.x, position.y, -1);
         lastBuilding.name = tile.name;
 
         // Apply options if required
