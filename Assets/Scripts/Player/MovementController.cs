@@ -100,6 +100,7 @@ public class MovementController : NetworkBehaviour
         CheckInput();
 
         // Update the player for all other players
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
         CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
 
         // Neighbour chunk check
