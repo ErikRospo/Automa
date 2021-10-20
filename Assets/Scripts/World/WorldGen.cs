@@ -19,6 +19,7 @@ public class WorldGen : MonoBehaviour
 
     // Resource grid
     public Tilemap biomeTextureMap;
+    public TileBase sandTile;
     [HideInInspector] public Grid biomeGrid;
     [HideInInspector] public Grid resourceGrid;
 
@@ -57,6 +58,7 @@ public class WorldGen : MonoBehaviour
             }
             else
             {
+                GenerateBiome(chunkCoords);
                 Transform newChunk = GenerateNewChunk(chunkCoords);
                 loadedChunks.Add(chunkCoords, newChunk);
                 chunksLoaded.Add(newChunk);
@@ -67,6 +69,22 @@ public class WorldGen : MonoBehaviour
         foreach (Transform loadedChunk in loadedChunks.Values)
             if (!chunksLoaded.Contains(loadedChunk))
                 loadedChunk.gameObject.SetActive(false);
+    }
+
+    // Generate biome for new chunks
+    private void GenerateBiome(Vector2Int newChunk)
+    {
+        // Get middle offset
+        int chunkOffset = chunkSize / 4;
+
+        // Get world coordinate
+        int xValue = newChunk.x * (chunkSize / 2) + chunkOffset;
+        int yValue = newChunk.y * (chunkSize / 2) + chunkOffset;
+
+        // Loop through x and y coordinates
+        for (int x = xValue - chunkOffset; x < xValue + chunkOffset; x++)
+            for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
+                biomeTextureMap.SetTile(new Vector3Int(x, y, 0), sandTile);
     }
 
     // Loops through a new chunk and spawns resources based on perlin noise values
