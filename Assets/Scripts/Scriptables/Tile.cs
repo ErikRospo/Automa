@@ -15,8 +15,6 @@ public class Tile : Item
     public GameObject obj;
     public Cell[] cells;
     public Vector2 offset;
-    public List<Resource> onlyPlaceableOnResource;
-    public List<TileBase> onlyPlaceableOnBiome;
     public bool axisSnappable;
     public bool rotatable;
     public bool hasOptions;
