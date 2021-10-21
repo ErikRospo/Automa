@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BootStrap : MonoBehaviour
+public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private GameObject steamworksBehavior;
 
