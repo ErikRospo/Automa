@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -7,6 +9,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private Canvas hostCanvas;
     [SerializeField] private Canvas joinCanvas;
+
+    // Network Manager
+    [SerializeField] private NetworkManager networkManager;
 
     // Host Options
     [SerializeField] private Slider maxPlayersSlider;
@@ -39,11 +44,20 @@ public class MainMenu : MonoBehaviour
 
     public void Host()
     {
-        // Method stub to start hosting a game with configured options
+        // Set max players setting
+        networkManager.maxConnections = (int) maxPlayersSlider.value;
+
+        // Start host
+        networkManager.StartHost();
     }
 
     public void Join()
     {
         // Method stub to join a game via a steamid64
+    }
+
+    public void UpdateMaxPlayers()
+    {
+        maxPlayersSlider.GetComponentInChildren<TextMeshProUGUI>().text = $"Max Players ({(int) maxPlayersSlider.value})";
     }
 }
