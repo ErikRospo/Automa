@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad05c97b263a6ac4db928c6628f0e5b7, type: 3}
-  m_Name: Sand Biome
+  m_Name: Water
   m_EditorClassIdentifier: 
-  name: Sand
-  tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
-  isLiquid: 0
-  spawnScale: 1000
-  spawnThreshold: 0.3
-  noiseOffset: 1000
+  name: Water
+  tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
+  isLiquid: 1
+  spawnScale: 500
+  spawnThreshold: 0.7
+  noiseOffset: 5000
