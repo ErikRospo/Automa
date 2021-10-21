@@ -3,45 +3,40 @@ using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using HeathenEngineering.SteamAPI;
+using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour
 {
     // Screens
-    [SerializeField] private GameObject mainScreen;
-    [SerializeField] private GameObject hostScreen;
-    [SerializeField] private GameObject joinScreen;
+    private CanvasGroup[] canvasGroups;
 
     // Network Manager
     [SerializeField] private NetworkManager networkManager;
 
     // Host Options
     [SerializeField] private Slider maxPlayersSlider;
+    private bool multiplayer = false;
 
     // Join Options
 
-    // Switch canvas to main screen
-    public void GoToMainCanvas()
+    private void Start()
     {
-        mainScreen.SetActive(true);
-        hostScreen.SetActive(false);
-        joinScreen.SetActive(false);
+        canvasGroups = this.gameObject.GetComponentsInChildren<CanvasGroup>();
     }
 
-    // Switch canvas to host screen
-    public void GoToHostCanvas()
+    // Switch shown canvas group
+    public void SwitchCanvasGroup(CanvasGroup canvasGroup)
     {
-        mainScreen.SetActive(false);
-        hostScreen.SetActive(true);
-        joinScreen.SetActive(false);
-    }
+        foreach(CanvasGroup group in canvasGroups) 
+        {
+            group.alpha = 0;
+            group.blocksRaycasts = false;
+            group.interactable = false;
+        }
 
-    // Switch canvas to join screen
-    public void GoToJoinCanvas()
-    {
-        mainScreen.SetActive(false);
-        hostScreen.SetActive(false);
-        joinScreen.SetActive(true);
-        UpdateFriendsList();
+        canvasGroup.alpha = 1;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
     }
 
     public void Host()
