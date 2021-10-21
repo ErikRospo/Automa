@@ -1846,7 +1846,7 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 60
-  offlineScene: Assets/Scenes/Main Menu.unity
+  offlineScene: Assets/Scenes/MainMenu.unity
   onlineScene: Assets/Scenes/Survival.unity
   transport: {fileID: 1083757551}
   networkAddress: localhost
