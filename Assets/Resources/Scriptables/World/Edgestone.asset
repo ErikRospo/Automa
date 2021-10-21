@@ -16,5 +16,8 @@ MonoBehaviour:
   item: {fileID: 0}
   usePerlinNoise: 0
   randomizeRotation: 1
+  canSpawnOnLand: 1
+  canSpawnOnLiquid: 0
   spawnScale: 0
   spawnThreshold: 0.9999
+  noiseOffset: 0

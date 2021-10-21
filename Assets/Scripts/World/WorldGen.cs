@@ -19,7 +19,7 @@ public class WorldGen : MonoBehaviour
 
     // List of environment tiles
     public List<BiomeTile> biomes;
-    public TileBase defaultBiome;
+    public BiomeTile defaultBiome;
     public Tilemap biomeTextureMap;
 
     // Resource grid
@@ -83,6 +83,7 @@ public class WorldGen : MonoBehaviour
         int yValue = newChunk.y * chunkSize + chunkOffset;
 
         // Flag for default biome
+        BiomeTile lastTile = defaultBiome;
         bool useDefaultBiome;
 
         // Create chunk parent
@@ -108,14 +109,19 @@ public class WorldGen : MonoBehaviour
                     {
                         biomeTextureMap.SetTile(new Vector3Int(x, y, 0), biome.tile);
                         useDefaultBiome = false;
+                        lastTile = biome;
                         break;
                     }
                 }
-                if (useDefaultBiome) biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome);
+                if (useDefaultBiome) biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome.tile);
 
                 // Loop through resources
                 foreach (Resource resource in resources)
                 {
+                    // Check if resource can spawn on tile
+                    if (lastTile.isLiquid && !resource.canSpawnOnLiquid) continue;
+                    else if (!lastTile.isLiquid && !resource.canSpawnOnLand) continue;
+
                     // Check if resource uses perlin noise
                     if (!resource.usePerlinNoise)
                     {

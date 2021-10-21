@@ -13691,7 +13691,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 066417cbd6d640a4084c47872aa24fab, type: 2}
   biomes:
   - {fileID: 11400000, guid: 596d1e2534dd28f4bbd462a9e3839b1f, type: 2}
-  defaultBiome: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
+  defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
   biomeTextureMap: {fileID: 736659155}
 --- !u!4 &2129755554
 Transform:
