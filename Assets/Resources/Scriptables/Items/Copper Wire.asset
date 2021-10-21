@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f4a864adaeaff47a5c6feac556fb01, type: 3}
   m_Name: Copper Wire
   m_EditorClassIdentifier: 
-  name: 
-  description: 
-  maxStackSize: 0
+  name: Copper Wire
+  description: 'Used in almost every electrical recipe and building. '
+  maxStackSize: 100
