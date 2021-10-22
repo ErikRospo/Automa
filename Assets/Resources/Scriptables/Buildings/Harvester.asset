@@ -35,6 +35,9 @@ MonoBehaviour:
   axisSnappable: 0
   rotatable: 1
   hasOptions: 0
+  spawnableOn:
+  - {fileID: 11400000, guid: 3b8d3c1ffc1a59a4c891e5448513fb5b, type: 2}
+  - {fileID: 11400000, guid: 0e9d945385f61aa45b079792c116a48e, type: 2}
   recipes:
   - {fileID: 11400000, guid: 9c59e8b053879a74a921a70243a874f4, type: 2}
   - {fileID: 11400000, guid: c6a66c19100ae2d41949b2577aa8e798, type: 2}

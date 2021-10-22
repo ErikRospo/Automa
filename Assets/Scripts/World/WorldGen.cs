@@ -15,7 +15,8 @@ public class WorldGen : MonoBehaviour
 
     // List of resource tiles
     public ResourceTile resourceTile;
-    public List<Resource> resources;
+    [SerializeField] protected List<Resource> resources;
+    [HideInInspector] public Dictionary<Vector2Int, Resource> spawnedResources;
 
     // List of environment tiles
     public List<BiomeTile> biomes;
@@ -35,6 +36,7 @@ public class WorldGen : MonoBehaviour
 
         // Create a new resource grid
         resourceGrid = new Grid();
+        spawnedResources = new Dictionary<Vector2Int, Resource>();
         resourceGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
         loadedChunks = new Dictionary<Vector2Int, Transform>();
 
@@ -175,6 +177,9 @@ public class WorldGen : MonoBehaviour
             temp.resource = resource;
             temp.spriteRenderer.sprite = SpritesManager.GetSprite(resource.name);
             temp.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0f);
+
+            // Add resource to spawned resource list
+            spawnedResources.Add(Vector2Int.RoundToInt(temp.transform.position), resource);
         }
     }
 

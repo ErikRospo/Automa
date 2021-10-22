@@ -65,11 +65,25 @@ public class BuildingHandler : NetworkBehaviour
     // Checks to make sure tile(s) isn't occupied
     public bool CheckTiles(Tile tile, Vector3 position)
     {
+        // Tells system to check tile placement
+        bool checkTilePlacement = tile.spawnableOn.Count > 0;
+
         if (tile.cells.Length > 0)
         {
             foreach (Tile.Cell cell in tile.cells)
-                if (tileGrid.RetrieveCell(Vector2Int.RoundToInt(new Vector2(position.x + cell.x, position.y + cell.y))) != null)
+            {
+                // Check to make sure nothing occupying tile
+                Vector2Int coords = Vector2Int.RoundToInt(new Vector2(position.x + cell.x, position.y + cell.y));
+                if (tileGrid.RetrieveCell(coords) != null)
                     return false;
+
+                // Check to make sure tile can be placed
+                if (checkTilePlacement)
+                {
+                    if (!WorldGen.active.spawnedResources.TryGetValue(coords, out Resource value) ||
+                        !tile.spawnableOn.Contains(value)) return false;
+                }
+            }
         }
         else return tileGrid.RetrieveCell(Vector2Int.RoundToInt(position)) == null;
         return true;

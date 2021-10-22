@@ -18,4 +18,5 @@ public class Tile : Item
     public bool axisSnappable;
     public bool rotatable;
     public bool hasOptions;
+    public List<Resource> spawnableOn;
 }

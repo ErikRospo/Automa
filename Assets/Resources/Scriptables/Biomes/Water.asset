@@ -15,6 +15,6 @@ MonoBehaviour:
   name: Water
   tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
   isLiquid: 1
-  spawnScale: 500
+  spawnScale: 100
   spawnThreshold: 0.7
   noiseOffset: 5000

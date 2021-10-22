@@ -23,3 +23,4 @@ MonoBehaviour:
   axisSnappable: 0
   rotatable: 0
   hasOptions: 0
+  spawnableOn: []
