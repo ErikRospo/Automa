@@ -80,13 +80,28 @@ public class BuildingHandler : NetworkBehaviour
                 // Check to make sure tile can be placed
                 if (checkTilePlacement)
                 {
-                    if (!WorldGen.active.spawnedResources.TryGetValue(coords, out Resource value) ||
-                        !tile.spawnableOn.Contains(value)) return false;
+                    if (WorldGen.active.spawnedResources.TryGetValue(coords, out Resource value) &&
+                        tile.spawnableOn.Contains(value)) checkTilePlacement = false;
                 }
             }
         }
-        else return tileGrid.RetrieveCell(Vector2Int.RoundToInt(position)) == null;
-        return true;
+        else
+        {
+            // Check to make sure nothing occupying tile
+            Vector2Int coords = Vector2Int.RoundToInt(new Vector2(position.x, position.y));
+            if (tileGrid.RetrieveCell(coords) != null)
+                return false;
+
+            // Check to make sure tile can be placed
+            if (checkTilePlacement)
+            {
+                if (WorldGen.active.spawnedResources.TryGetValue(coords, out Resource value) &&
+                    tile.spawnableOn.Contains(value)) checkTilePlacement = false;
+            }
+        }
+
+        if (checkTilePlacement) return false;
+        else return true;
     }
 
     // Attempts to return a building
