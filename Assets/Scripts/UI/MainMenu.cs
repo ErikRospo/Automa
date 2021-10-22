@@ -3,7 +3,9 @@ using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using HeathenEngineering.SteamAPI;
+using HeathenEngineering.Tools;
 using System.Collections.Generic;
+using HeathenEngineering.Events;
 
 public class MainMenu : MonoBehaviour
 {
@@ -15,9 +17,10 @@ public class MainMenu : MonoBehaviour
 
     // Host Options
     [SerializeField] private Slider maxPlayersSlider;
-    private bool multiplayer = false;
 
     // Join Options
+    [SerializeField] private JoinButton joinButton;
+    [SerializeField] private Transform joinList;
 
     private void Start()
     {
@@ -39,12 +42,20 @@ public class MainMenu : MonoBehaviour
         canvasGroup.interactable = true;
     }
 
-    public void Host()
+    public void StartNewGame(bool multiplayer)
     {
-        // Set max players setting
-        networkManager.maxConnections = (int) maxPlayersSlider.value;
+        if (multiplayer)
+        {
+            // Multiplayer settings
+            networkManager.maxConnections = (int) maxPlayersSlider.value;
+        } 
+        else
+        {
+            // Singleplayer settings
+            networkManager.maxConnections = 0;
+        }
 
-        // Start host
+        // Start the game
         networkManager.StartHost();
     }
 
@@ -55,14 +66,38 @@ public class MainMenu : MonoBehaviour
 
     public void UpdateMaxPlayers()
     {
-        maxPlayersSlider.GetComponentInChildren<TextMeshProUGUI>().text = $"Max Players ({(int) maxPlayersSlider.value})";
+        maxPlayersSlider.GetComponentInChildren<TextMeshProUGUI>().text = $"Max Friends ({(int) maxPlayersSlider.value})";
     }
 
     public void UpdateFriendsList()
     {
-        foreach (UserData friend in SteamSettings.Client.ListFriends())
+        List<UserData> friends = SortFriendsList(SteamSettings.Client.ListFriends());
+
+        foreach (UserData friend in friends)
         {
-            Debug.Log(friend.DisplayName);
+            JoinButton button = Instantiate(joinButton.gameObject, Vector3.zero, Quaternion.identity).GetComponent<JoinButton>();
+            button.SetUserData(friend);
+            button.UpdateUserData();
+            button.GetComponent<RectTransform>().localScale = new Vector3(.8f, .8f, .8f);
+            button.transform.SetParent(joinList);
         }
+    }
+
+    private List<UserData> SortFriendsList(List<UserData> friends)
+    {
+        List<UserData> unsorted = friends;
+        List<UserData> sorted = new List<UserData>();
+
+        // Get friends currently in-game
+        foreach (UserData friend in unsorted)
+        {
+            if (friend.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
+            {
+                sorted.Add(friend);
+                unsorted.Remove(friend);
+            }
+        }
+
+        return sorted;
     }
 }
