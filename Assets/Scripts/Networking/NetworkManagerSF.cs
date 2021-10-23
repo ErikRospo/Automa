@@ -32,7 +32,6 @@ public class NetworkManagerSF : NetworkManager
 
     public override void OnStartServer()
     {
-        base.OnStartServer();
         print("Started server");
         isServer = true;
         SteamSettings.Client.SetRichPresence("clientOf", SteamSettings.Client.user.id.ToString());
@@ -40,7 +39,6 @@ public class NetworkManagerSF : NetworkManager
 
     public override void OnStopServer()
     {
-        base.OnStopServer();
         isServer = false;
         SteamSettings.Client.ClearRichPresence();
 
@@ -48,8 +46,6 @@ public class NetworkManagerSF : NetworkManager
 
     public override void OnStartClient()
     {
-        base.OnStartClient();
-        
         if (!isServer)
         {
             print("Started client");
@@ -59,7 +55,6 @@ public class NetworkManagerSF : NetworkManager
 
     public override void OnStopClient()
     {
-        base.OnStopClient();
         SteamSettings.Client.ClearRichPresence();
     }
 }
