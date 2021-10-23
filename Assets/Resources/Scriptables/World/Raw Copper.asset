@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Raw Copper
   m_EditorClassIdentifier: 
   name: Raw Copper
-  item: {fileID: 11400000, guid: ea1f16dfb67748c448c0dcf04e8bb36a, type: 2}
+  isLiquid: 0
   usePerlinNoise: 1
-  randomizeRotation: 0
-  canSpawnOnLand: 1
-  canSpawnOnLiquid: 0
   spawnScale: 30
   spawnThreshold: 0.97
   noiseOffset: 10000
+  name: Raw Copper
+  item: {fileID: 11400000, guid: ea1f16dfb67748c448c0dcf04e8bb36a, type: 2}
+  canSpawnOnLand: 1
+  canSpawnOnLiquid: 0
+  randomizeRotation: 0

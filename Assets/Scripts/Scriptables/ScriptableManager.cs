@@ -16,7 +16,7 @@ public class ScriptableManager : MonoBehaviour
     public string RecipePath = "Scriptables/Recipes";
 
     // Scriptable lists
-    public List<Tile> buildings = new List<Tile>();
+    public List<BuildingTile> buildings = new List<BuildingTile>();
     public List<Item> items = new List<Item>();
     public List<Recipe> recipes = new List<Recipe>();
 
@@ -30,7 +30,7 @@ public class ScriptableManager : MonoBehaviour
     public void GenerateBuildings()
     {
         // Load buildings
-        buildings = Resources.LoadAll(BuildingPath, typeof(Tile)).Cast<Tile>().ToList();
+        buildings = Resources.LoadAll(BuildingPath, typeof(BuildingTile)).Cast<BuildingTile>().ToList();
         Debug.Log("Loaded " + buildings.Count + " buildings from " + BuildingPath);
     }
 
@@ -45,16 +45,16 @@ public class ScriptableManager : MonoBehaviour
     // Retrieves a building object by name
     public GameObject RequestBuildingByName(string name)
     {
-        foreach (Tile building in buildings)
+        foreach (BuildingTile building in buildings)
             if (building.name == name) return building.obj;
         Debug.Log("Could not retrieve object with name " + name);
         return null;
     }
 
     // Retrieves a tile scriptable by name
-    public Tile RequestTileByName(string name)
+    public BuildingTile RequestTileByName(string name)
     {
-        foreach (Tile building in buildings)
+        foreach (BuildingTile building in buildings)
             if (building.name == name) return building;
         Debug.Log("Could not retrieve scriptable with name " + name);
         return null;

@@ -7,7 +7,7 @@ public class BuildingController : NetworkBehaviour
     public Transform hologram;
     public Transform hologramInput;
     public Transform hologramOutput;
-    private Tile building;
+    private BuildingTile building;
     public int option = -1;
 
     // Sprite values
@@ -81,7 +81,7 @@ public class BuildingController : NetworkBehaviour
     }
 
     // Sets the selected building (null to deselect)
-    public void SetBuilding(Tile tile)
+    public void SetBuilding(BuildingTile tile)
     {
         // Set tile 
         building = tile;

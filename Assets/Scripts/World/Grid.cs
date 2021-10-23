@@ -6,7 +6,7 @@ public class Grid
     // Cell class. Holds info about each cell
     public class Cell
     {
-        public Cell(bool occupied, Tile tile, Building obj)
+        public Cell(bool occupied, BuildingTile tile, Building obj)
         {
             this.occupied = occupied;
             this.tile = tile;
@@ -14,7 +14,7 @@ public class Grid
         }
 
         public bool occupied;
-        public Tile tile;
+        public BuildingTile tile;
         public Building obj;
     }
 
@@ -44,7 +44,7 @@ public class Grid
         else return null;
     }
 
-    public void SetCell(Vector2Int coords, bool occupy, Tile tile = null, Building obj = null)
+    public void SetCell(Vector2Int coords, bool occupy, BuildingTile tile = null, Building obj = null)
     {
         if (cells.TryGetValue(coords, out Cell cell))
         {

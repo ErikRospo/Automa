@@ -19,8 +19,8 @@ public class WorldGen : MonoBehaviour
     [HideInInspector] public Dictionary<Vector2Int, Resource> spawnedResources;
 
     // List of environment tiles
-    public List<BiomeTile> biomes;
-    public BiomeTile defaultBiome;
+    public List<Biome> biomes;
+    public Biome defaultBiome;
     public Tilemap biomeTextureMap;
 
     // Resource grid
@@ -85,7 +85,7 @@ public class WorldGen : MonoBehaviour
         int yValue = newChunk.y * chunkSize + chunkOffset;
 
         // Flag for default biome
-        BiomeTile lastTile = defaultBiome;
+        Biome lastTile = defaultBiome;
         bool useDefaultBiome;
 
         // Create chunk parent
@@ -99,7 +99,7 @@ public class WorldGen : MonoBehaviour
             {
                 // Loop through biomes
                 useDefaultBiome = true;
-                foreach (BiomeTile biome in biomes)
+                foreach (Biome biome in biomes)
                 {
                     // Calculate perlin noise pixel
                     float xCoord = ((float)x / biome.spawnScale) + biome.noiseOffset;

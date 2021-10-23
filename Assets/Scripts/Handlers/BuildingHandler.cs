@@ -23,7 +23,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Creates a building
-    public void CreateBuilding(Tile tile, Vector3 position, Quaternion rotation, int option)
+    public void CreateBuilding(BuildingTile tile, Vector3 position, Quaternion rotation, int option)
     {
         // Check to make sure the tiles are not being used
         if (!CheckTiles(tile, position)) return;
@@ -33,7 +33,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcInstantiateBuilding(Tile tile, Vector2 position, Quaternion rotation, int option)
+    private void RpcInstantiateBuilding(BuildingTile tile, Vector2 position, Quaternion rotation, int option)
     {
         // Get game objected from scriptable manager
         GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
@@ -50,7 +50,7 @@ public class BuildingHandler : NetworkBehaviour
         // Set the tiles on the grid class
         if (tile.cells.Length > 0)
         {
-            foreach (Tile.Cell cell in tile.cells)
+            foreach (BuildingTile.Cell cell in tile.cells)
                 tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastBuilding.transform.position.x + cell.x, lastBuilding.transform.position.y + cell.y)), true, tile, lastBuilding);
         }
         else tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, tile, lastBuilding);
@@ -63,14 +63,14 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Checks to make sure tile(s) isn't occupied
-    public bool CheckTiles(Tile tile, Vector3 position)
+    public bool CheckTiles(BuildingTile tile, Vector3 position)
     {
         // Tells system to check tile placement
         bool checkTilePlacement = tile.spawnableOn.Count > 0;
 
         if (tile.cells.Length > 0)
         {
-            foreach (Tile.Cell cell in tile.cells)
+            foreach (BuildingTile.Cell cell in tile.cells)
             {
                 // Check to make sure nothing occupying tile
                 Vector2Int coords = Vector2Int.RoundToInt(new Vector2(position.x + cell.x, position.y + cell.y));

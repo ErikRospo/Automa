@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Sand
   m_EditorClassIdentifier: 
   name: Sand
-  tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
   isLiquid: 0
+  usePerlinNoise: 1
   spawnScale: 1000
   spawnThreshold: 0.3
   noiseOffset: 1000
+  tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}

@@ -16,14 +16,14 @@ public class MovementController : NetworkBehaviour
     // Inventory script (attached to object)
     Inventory inventory;
 
-    public Tile conveyor;
-    public Tile spawner;
-    public Tile smelter;
-    public Tile splitter;
-    public Tile merger;
-    public Tile constructor;
-    public Tile assembler;
-    public Tile garbage;
+    public BuildingTile conveyor;
+    public BuildingTile spawner;
+    public BuildingTile smelter;
+    public BuildingTile splitter;
+    public BuildingTile merger;
+    public BuildingTile constructor;
+    public BuildingTile assembler;
+    public BuildingTile garbage;
 
     // GameObject child transforms
     private Rigidbody2D body;

@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "New Building", menuName = "Buildings/Tile")]
-public class Tile : Item
+[CreateAssetMenu(fileName = "New Building", menuName = "Buildings/Building")]
+public class BuildingTile : Item
 {
     [System.Serializable]
     public struct Cell

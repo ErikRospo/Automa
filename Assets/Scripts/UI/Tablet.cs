@@ -102,7 +102,7 @@ public class Tablet : MonoBehaviour
         canvasGroup.blocksRaycasts = true;
 
         // Get the scriptable for the buildin
-        Tile tile = ScriptableManager.active.RequestTileByName(building.name);
+        BuildingTile tile = ScriptableManager.active.RequestTileByName(building.name);
         if (tile == null) 
         {
             Debug.Log("Could not retrieve info on " + building.name);
