@@ -12,6 +12,7 @@ public class JoinButton : MonoBehaviour
     public Image image;
     [SerializeField] public TextMeshProUGUI session;
     private UserData userData;
+    private string clientOf;
 
     public void SetUserData(UserData userData)
     {
@@ -22,11 +23,16 @@ public class JoinButton : MonoBehaviour
     {
         button.buttonText = userData.DisplayName;
         //image.sprite = Sprite.Create(userData.avatar, image.sprite.rect, Vector2.zero);
+        clientOf = userData.GetRichPresenceValue("clientOf");
 
         // Set colors based on State
-        if (userData.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
+        if (clientOf != "")
         {
-            session.text = "In-Game";
+            session.text = "In Game";
+        }
+        else if (userData.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
+        {
+            session.text = "In Menus";
         }
         else if (userData.State.HasFlag(Steamworks.EPersonaState.k_EPersonaStateOnline))
         {
@@ -48,7 +54,7 @@ public class JoinButton : MonoBehaviour
     {
         if (userData.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
         {
-            NetworkManagerSF.active.Join(userData.id.ToString());
+            NetworkManagerSF.active.Join(clientOf);
         }
         else
         {

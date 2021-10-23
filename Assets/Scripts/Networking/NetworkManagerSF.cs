@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using HeathenEngineering.SteamAPI;
 
 public class NetworkManagerSF : NetworkManager
 {
@@ -25,5 +26,17 @@ public class NetworkManagerSF : NetworkManager
 
         // Connect
         StartClient();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        SteamSettings.Client.SetRichPresence("clientOf", networkAddress);
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        SteamSettings.Client.ClearRichPresence();
     }
 }
