@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebf09a99e6f38b94197be31d1252dbd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 859e05723dc444a45a453999f0849f42, type: 3}
   m_Name: Cement Flower
   m_EditorClassIdentifier: 
   name: Cement Flower
-  item: {fileID: 0}
+  isLiquid: 0
   usePerlinNoise: 0
-  randomizeRotation: 1
-  canSpawnOnLand: 1
-  canSpawnOnLiquid: 0
   spawnScale: 0
   spawnThreshold: 0.99999
   noiseOffset: 0
+  item: {fileID: 0}
+  canSpawnOnLand: 1
+  canSpawnOnLiquid: 0
+  randomizeRotation: 1

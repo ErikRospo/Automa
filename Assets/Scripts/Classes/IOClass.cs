@@ -13,6 +13,6 @@ public class IOClass
     public Building target;
     public bool reserved;
 
-    [HideInInspector] public Vector3 position;
-    [HideInInspector] public Vector3 tilePosition;
+    public Vector3 position;
+    public Vector3 tilePosition;
 }

@@ -6,10 +6,10 @@ using UnityEngine;
 public class ResourceTile : MonoBehaviour
 {
     // Variables
-    public Resource resource;
+    public Mineral resource;
     public SpriteRenderer spriteRenderer;
 
-    public void SetTile(Resource resource)
+    public void SetTile(Mineral resource)
     {
         this.resource = resource;
         spriteRenderer.sprite = SpritesManager.GetSprite(resource.name);

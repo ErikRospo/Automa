@@ -15,8 +15,8 @@ public class WorldGen : MonoBehaviour
 
     // List of resource tiles
     public ResourceTile resourceTile;
-    [SerializeField] protected List<Resource> resources;
-    [HideInInspector] public Dictionary<Vector2Int, Resource> spawnedResources;
+    [SerializeField] protected List<Mineral> resources;
+    [HideInInspector] public Dictionary<Vector2Int, Mineral> spawnedResources;
 
     // List of environment tiles
     public List<Biome> biomes;
@@ -36,7 +36,7 @@ public class WorldGen : MonoBehaviour
 
         // Create a new resource grid
         resourceGrid = new Grid();
-        spawnedResources = new Dictionary<Vector2Int, Resource>();
+        spawnedResources = new Dictionary<Vector2Int, Mineral>();
         resourceGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
         loadedChunks = new Dictionary<Vector2Int, Transform>();
 
@@ -118,7 +118,7 @@ public class WorldGen : MonoBehaviour
                 if (useDefaultBiome) biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome.tile);
 
                 // Loop through resources
-                foreach (Resource resource in resources)
+                foreach (Mineral resource in resources)
                 {
                     // Check if resource can spawn on tile
                     if (lastTile.isLiquid && !resource.canSpawnOnLiquid) continue;
@@ -158,7 +158,7 @@ public class WorldGen : MonoBehaviour
     }
 
     // Try and spawn a resource
-    private void TrySpawnResource(Resource resource, int x, int y, Transform parent)
+    private void TrySpawnResource(Mineral resource, int x, int y, Transform parent)
     {
         // Get x and y pos
         float xPos = x * 5f;

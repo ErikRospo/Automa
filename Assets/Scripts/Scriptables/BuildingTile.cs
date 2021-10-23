@@ -18,5 +18,5 @@ public class BuildingTile : Item
     public bool axisSnappable;
     public bool rotatable;
     public bool hasOptions;
-    public List<Resource> spawnableOn;
+    public List<Mineral> spawnableOn;
 }

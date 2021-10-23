@@ -20,5 +20,5 @@ MonoBehaviour:
   offset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
-  hasOptions: 0
+  hasOptions: 1
   spawnableOn: []

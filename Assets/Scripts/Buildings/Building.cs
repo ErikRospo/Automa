@@ -194,7 +194,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     public bool CheckOutputPosition(Transform obj)
     {
         foreach (IOClass output in outputs)
-            if (output.tilePosition == obj.position)
+            if (new Vector2(output.tilePosition.x, output.tilePosition.y) == new Vector2(obj.position.x, obj.position.y))
                 return true;
         return false;
     }
