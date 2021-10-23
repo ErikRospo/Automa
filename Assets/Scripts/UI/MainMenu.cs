@@ -58,7 +58,6 @@ public class MainMenu : MonoBehaviour
             // Singleplayer settings
             networkManager.maxConnections = 0;
         }
-        networkManager.networkAddress = SteamSettings.Client.user.id.ToString();
 
         // Start the game
         networkManager.StartHost();

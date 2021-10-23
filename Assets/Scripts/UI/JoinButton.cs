@@ -12,7 +12,7 @@ public class JoinButton : MonoBehaviour
     public Image image;
     [SerializeField] public TextMeshProUGUI session;
     private UserData userData;
-    private string clientOf;
+    public string clientOf;
 
     public void SetUserData(UserData userData)
     {
@@ -54,6 +54,7 @@ public class JoinButton : MonoBehaviour
     {
         if (userData.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
         {
+            print(clientOf);
             NetworkManagerSF.active.Join(clientOf);
         }
         else

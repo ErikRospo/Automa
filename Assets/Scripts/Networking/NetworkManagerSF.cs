@@ -10,6 +10,8 @@ public class NetworkManagerSF : NetworkManager
 
     public static NetworkManagerSF active;
 
+    private bool isServer = false;
+
     public override void Start()
     {
         active = this;
@@ -28,10 +30,31 @@ public class NetworkManagerSF : NetworkManager
         StartClient();
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        print("Started server");
+        isServer = true;
+        SteamSettings.Client.SetRichPresence("clientOf", SteamSettings.Client.user.id.ToString());
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+        isServer = false;
+        SteamSettings.Client.ClearRichPresence();
+
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
-        SteamSettings.Client.SetRichPresence("clientOf", networkAddress);
+        
+        if (!isServer)
+        {
+            print("Started client");
+            SteamSettings.Client.SetRichPresence("clientOf", networkAddress);
+        }
     }
 
     public override void OnStopClient()
