@@ -28,6 +28,19 @@ public class NetworkManagerSF : NetworkManager
         StartClient();
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        SteamSettings.Client.SetRichPresence("clientOf", networkAddress);
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+        SteamSettings.Client.ClearRichPresence();
+
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
