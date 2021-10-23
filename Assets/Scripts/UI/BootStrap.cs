@@ -11,10 +11,4 @@ public class Bootstrap : MonoBehaviour
         Object.DontDestroyOnLoad(steamworksBehavior);
         SceneManager.LoadSceneAsync(1); // Load the main menu scene
     }
-
-    // Loading animation
-    private void Update()
-    {
-        
-    }
 }
