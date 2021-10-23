@@ -9,10 +9,10 @@ public class NetworkManagerSF : NetworkManager
 
     public static NetworkManagerSF active;
 
-    public void Start()
+    public override void Start()
     {
-        base.Start();
         active = this;
+        base.Start();
     }
 
     public void Join(string id)
@@ -21,7 +21,7 @@ public class NetworkManagerSF : NetworkManager
         networkAddress = id;
 
         // Switch scenes
-        SceneManager.LoadSceneAsync(2);
+        SceneManager.LoadScene(2);
 
         // Connect
         StartClient();
