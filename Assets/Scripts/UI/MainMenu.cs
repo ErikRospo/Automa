@@ -3,12 +3,15 @@ using UnityEngine.UI;
 using Mirror;
 using TMPro;
 using HeathenEngineering.SteamAPI;
-using HeathenEngineering.Tools;
 using System.Collections.Generic;
-using HeathenEngineering.Events;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    // Active instance
+    public static MainMenu active;
+
     // Screens
     private CanvasGroup[] canvasGroups;
 
@@ -24,6 +27,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        active = this;
         canvasGroups = this.gameObject.GetComponentsInChildren<CanvasGroup>();
     }
 
@@ -59,11 +63,6 @@ public class MainMenu : MonoBehaviour
         networkManager.StartHost();
     }
 
-    public void Join()
-    {
-        // Method stub to join a game via a steamid64
-    }
-
     public void UpdateMaxPlayers()
     {
         maxPlayersSlider.GetComponentInChildren<TextMeshProUGUI>().text = $"Max Friends ({(int) maxPlayersSlider.value})";
@@ -88,15 +87,44 @@ public class MainMenu : MonoBehaviour
         List<UserData> unsorted = friends;
         List<UserData> sorted = new List<UserData>();
 
+        // Put list in alphabetical order
+        unsorted = unsorted.OrderBy(friend => friend.DisplayName).ToList();
+
         // Get friends currently in-game
-        foreach (UserData friend in unsorted)
+        for (int i = 0; i < unsorted.Count; i++)
         {
-            if (friend.GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
+            if (unsorted[i].GameInfo.m_gameID.AppID().Equals(SteamSettings.ApplicationId))
             {
-                sorted.Add(friend);
-                unsorted.Remove(friend);
+                sorted.Add(unsorted[i]);
+                unsorted.Remove(unsorted[i]);
+                i--;
             }
         }
+
+        // Get online friends
+        for (int i = 0; i < unsorted.Count; i++)
+        {
+            if (unsorted[i].State.HasFlag(Steamworks.EPersonaState.k_EPersonaStateOnline))
+            {
+                sorted.Add(unsorted[i]);
+                unsorted.Remove(unsorted[i]);
+                i--;
+            }
+        }
+
+        // Get away friends
+        for (int i = 0; i < unsorted.Count; i++)
+        {
+            if (unsorted[i].State.HasFlag(Steamworks.EPersonaState.k_EPersonaStateAway))
+            {
+                sorted.Add(unsorted[i]);
+                unsorted.Remove(unsorted[i]);
+                i--;
+            }
+        }
+
+        // Add remaining friends
+        sorted.AddRange(unsorted);
 
         return sorted;
     }
