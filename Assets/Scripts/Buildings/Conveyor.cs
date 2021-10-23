@@ -60,9 +60,15 @@ public class Conveyor : Building
             outputs[0].tile.localPosition = new Vector2(0, -outputs[0].tile.localPosition.x);
         }
 
-        animator.enabled = !animator.enabled;
+        //animator.enabled = !animator.enabled;
 
-        if (rotateUp) GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Up");
+        if (rotateUp)
+        {
+            animator.SetBool("rotateUp", true);
+            animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Up");
+            
+        }
         else GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Down");
     }
 
