@@ -31,7 +31,7 @@ public class Conveyor : Building
         transform.localScale = new Vector2(sizeAdjust, sizeAdjust);
 
         if (!isCorner)
-            animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            animator.Play("Base Layer.Both", -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
 
     // Togles enabling a corner conveyor
@@ -65,7 +65,7 @@ public class Conveyor : Building
         if (rotateUp)
         {
             animator.SetBool("rotateUp", true);
-            animator.Play(0, -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            animator.Play("Base Layer.CornerUp", -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
             //GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Up");
             
         }
