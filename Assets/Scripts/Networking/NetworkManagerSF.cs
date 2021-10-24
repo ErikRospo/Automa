@@ -10,7 +10,7 @@ public class NetworkManagerSF : NetworkManager
 
     public static NetworkManagerSF active;
 
-    private bool isServer = false;
+    private bool isServer = true;
 
     public override void Start()
     {
@@ -20,11 +20,13 @@ public class NetworkManagerSF : NetworkManager
 
     public void Join(string id)
     {
+        isServer = false;
+
         // Set address to steamid64
         networkAddress = id;
 
         // Switch scenes
-        SceneManager.LoadScene(2);
+        SceneManager.LoadSceneAsync(2);
 
         // Connect
         StartClient();
@@ -32,16 +34,15 @@ public class NetworkManagerSF : NetworkManager
 
     public override void OnStartServer()
     {
-        print("Started server");
-        isServer = true;
+        print("Start server");
+        if (!isServer) return;
         SteamSettings.Client.SetRichPresence("clientOf", SteamSettings.Client.user.id.ToString());
     }
 
     public override void OnStopServer()
     {
-        isServer = false;
+        if (!isServer) return;
         SteamSettings.Client.ClearRichPresence();
-
     }
 
     public override void OnStartClient()
