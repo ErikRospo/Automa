@@ -51,7 +51,7 @@ public class MainMenu : MonoBehaviour
         if (multiplayer)
         {
             // Multiplayer settings
-            networkManager.maxConnections = (int) maxPlayersSlider.value;
+            networkManager.maxConnections = (int) maxPlayersSlider.value + 1;
         } 
         else
         {
