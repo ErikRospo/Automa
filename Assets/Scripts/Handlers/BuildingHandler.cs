@@ -25,6 +25,9 @@ public class BuildingHandler : NetworkBehaviour
     // Creates a building
     public void CreateBuilding(BuildingTile tile, Vector3 position, Quaternion rotation, int option)
     {
+        // Untiy is so fucky it is now in a new dimension of bullshit
+        if (tile == null) return;
+
         // Check to make sure the tiles are not being used
         if (!CheckTiles(tile, position)) return;
 

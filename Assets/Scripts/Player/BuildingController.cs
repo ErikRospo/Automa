@@ -58,7 +58,7 @@ public class BuildingController : NetworkBehaviour
     [Command]
     public void CmdCreateBuilding()
     {
-        if (BuildingHandler.active != null)
+        if (BuildingHandler.active != null && building != null)
             BuildingHandler.active.CreateBuilding(building, hologram.position, hologram.rotation, option);
         else Debug.LogError("Scene does not have active building handler!");
 
