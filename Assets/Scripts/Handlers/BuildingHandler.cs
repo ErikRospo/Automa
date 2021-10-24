@@ -57,7 +57,8 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Destroys a building
-    public void DestroyBuilding(Vector3 position)
+    [ClientRpc]
+    public void RpcDestroyBuilding(Vector3 position)
     {
         tileGrid.DestroyCell(Vector2Int.RoundToInt(position));
     }

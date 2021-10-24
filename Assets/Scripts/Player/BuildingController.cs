@@ -76,7 +76,7 @@ public class BuildingController : NetworkBehaviour
     public void CmdDestroyBuilding()
     {
         if (BuildingHandler.active != null)
-            BuildingHandler.active.DestroyBuilding(hologram.position);
+            BuildingHandler.active.RpcDestroyBuilding(hologram.position);
         else Debug.LogError("Scene does not have active building handler!");
     }
 
