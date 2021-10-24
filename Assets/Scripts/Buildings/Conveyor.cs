@@ -147,7 +147,8 @@ public class Conveyor : Building
 
     public override void OutputEntity(Entity entity)
     {
-        if (entity.transform.position == transform.position)
+        if (entity.transform.position.x == transform.position.x && 
+            entity.transform.position.y == transform.position.y)
         {
             entity.MoveTo(ResearchHandler.conveyorSpeed, outputs[0].position, this, true);
         }
