@@ -1538,7 +1538,7 @@ namespace HeathenEngineering.SteamAPI
                 int bufferSize = (int)(width * height * 4);
                 byte[] imageBuffer = new byte[bufferSize];
                 SteamUtils.GetImageRGBA(imageId, imageBuffer, bufferSize);
-                user.avatar.LoadRawTextureData(FlipImageBufferVertical((int)width, (int)height, imageBuffer));
+                //user.avatar.LoadRawTextureData(FlipImageBufferVertical((int)width, (int)height, imageBuffer));
                 user.avatar.Apply();
                 user.iconLoaded = true;
             }

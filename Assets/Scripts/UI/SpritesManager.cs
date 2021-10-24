@@ -16,8 +16,15 @@ public class SpritesManager : MonoBehaviour
         sprites.AddRange(Resources.LoadAll("Sprites/Items", typeof(Sprite)).Cast<Sprite>().ToList());
         sprites.AddRange(Resources.LoadAll("Sprites/World", typeof(Sprite)).Cast<Sprite>().ToList());
 
-        foreach (Sprite sprite in sprites) 
-            library.Add(sprite.name, sprite);
+        try
+        {
+            foreach (Sprite sprite in sprites)
+                library.Add(sprite.name, sprite);
+        }
+        catch
+        {
+            Debug.Log("Two sprites share the same name!");
+        }
     }
 
     public static Sprite GetSprite(string name)
