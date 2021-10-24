@@ -64,6 +64,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Checks to make sure tile(s) isn't occupied
+    [Server]
     public bool CheckTiles(BuildingTile tile, Vector3 position)
     {
         // Tells system to check tile placement
