@@ -75,7 +75,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 10, y: 70, z: 0}
-  m_EntryPosition: {x: 20, y: 140, z: 0}
+  m_EntryPosition: {x: 20, y: 150, z: 0}
   m_ExitPosition: {x: 500, y: 140, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -3796279395297374505}
@@ -168,7 +168,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: rotateUp
+    m_ConditionEvent: Corner
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8768352018089036611}
@@ -193,13 +193,7 @@ AnimatorController:
   m_Name: Conveyor
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: corner
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: rotateUp
+  - m_Name: Corner
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -351,7 +345,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CornerUp
+  m_Name: Corner
   m_Speed: 4
   m_CycleOffset: 0
   m_Transitions: []
@@ -481,7 +475,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: rotateUp
+    m_ConditionEvent: Corner
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4167673451700788484}

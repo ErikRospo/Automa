@@ -64,12 +64,18 @@ public class Conveyor : Building
 
         if (rotateUp)
         {
-            animator.SetBool("rotateUp", true);
-            animator.Play("Base Layer.CornerUp", -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            animator.SetBool("Corner", true);
+            animator.Play("Base Layer.Corner", -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
             //GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Up");
             
         }
-        else GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Down");
+        else
+        {
+            animator.SetBool("Corner", true);
+            animator.Play("Base Layer.Corner", -1, AnimationHandler.conveyorMaster.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            //GetComponent<SpriteRenderer>().sprite = SpritesManager.GetSprite("Corner Down");
+        }
     }
 
     public override void UpdateBins()
