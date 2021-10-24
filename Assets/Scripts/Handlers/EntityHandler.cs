@@ -7,7 +7,7 @@ public class EntityHandler : NetworkBehaviour
 {
     public class MovingEntity
     {
-        public MovingEntity(float speed, Vector3 target, Entity entity, Building building, bool output = false)
+        public MovingEntity(float speed, Vector2 target, Entity entity, Building building, bool output = false)
         {
             this.speed = speed;
             this.target = target;
@@ -17,7 +17,7 @@ public class EntityHandler : NetworkBehaviour
         }
 
         public float speed;
-        public Vector3 target;
+        public Vector2 target;
         public Entity entity;
         public Building building;
         public bool output;
@@ -34,21 +34,22 @@ public class EntityHandler : NetworkBehaviour
     }
     private void FixedUpdate()
     {
+        Transform pos;
+
         for (int i = 0; i < movingEntities.Count; i++)
         {
-            MovingEntity a = movingEntities[i];
-            Transform pos = a.entity.transform;
-            pos.position = Vector2.MoveTowards(pos.position, a.target, a.speed * Time.deltaTime);
-            if (pos.position == a.target)
+            pos = movingEntities[i].entity.transform;
+            pos.position = Vector2.MoveTowards(pos.position, movingEntities[i].target, movingEntities[i].speed * Time.deltaTime);
+            if (pos.position.x == movingEntities[i].target.x && pos.position.y == movingEntities[i].target.y)
             {
-                RemoveMovingEntity(a);
+                RemoveMovingEntity(movingEntities[i]);
                 i--;
             }
         }
     }
 
     // Registers a new conveyor entity and returns it to the callign script
-    public void RegisterMovingEntity(float speed, Vector3 target, Entity entity, Building building, bool output = false)
+    public void RegisterMovingEntity(float speed, Vector2 target, Entity entity, Building building, bool output = false)
     {
         MovingEntity newEntity = new MovingEntity(speed, target, entity, building, output);
         movingEntities.Add(newEntity);
