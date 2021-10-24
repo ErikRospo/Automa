@@ -56,6 +56,7 @@ public class MovementController : NetworkBehaviour
     private Vector2Int chunkCoords = new Vector2Int(0, 0);
 
     // Called on start
+    [Client]
     void Start()
     {
         // Grab building script
@@ -76,11 +77,11 @@ public class MovementController : NetworkBehaviour
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
             CmdUpdateName(SteamSettings.Client.user.DisplayName);
-        }
 
-        // Generate chunks
-        if (WorldGen.active != null)
-            WorldGen.active.UpdateChunks(chunkCoords);
+            // Generate chunks
+            if (WorldGen.active != null)
+                WorldGen.active.UpdateChunks(chunkCoords);
+        }
     }
 
     // Normal frame update
@@ -101,7 +102,7 @@ public class MovementController : NetworkBehaviour
 
         // Update the player for all other players
         transform.position = new Vector3(transform.position.x, transform.position.y, -1);
-        CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed);
+        CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
 
         // Neighbour chunk check
         UpdateChunks();
@@ -227,20 +228,21 @@ public class MovementController : NetworkBehaviour
 
     // Update player state command
     [Command]
-    private void CmdUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed)
+    private void CmdUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed, Vector2 velocity)
     {
         // Todo: Validation
-        RpcUpdatePlayer(position, bodyRotation, headRotation, speed, false);
+        RpcUpdatePlayer(position, bodyRotation, headRotation, speed, velocity);
     }
 
     [ClientRpc]
-    private void RpcUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed, bool force)
+    private void RpcUpdatePlayer(Vector3 position, float bodyRotation, float headRotation, float speed, Vector2 velocity)
     {
-        if (!force && hasAuthority) return;
+        if (hasAuthority) return;
 
         transform.position = position;
         model.localRotation = Quaternion.Euler(new Vector3(0, 0, bodyRotation));
         head.rotation = Quaternion.Euler(new Vector3(0, 0, headRotation));
         this.speed = speed;
+        GetComponent<Rigidbody2D>().velocity = velocity;
     }
 }
