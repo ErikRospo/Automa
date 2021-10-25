@@ -10,7 +10,6 @@ public class Splitter : Building
     // Setup the building
     public void Start()
     {
-        SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
     }
@@ -21,9 +20,9 @@ public class Splitter : Building
         for (int i = 0; i < 3; i++)
         {
             if (outputs[i].bin != null && // If output bin is not empty
-                outputs[i].target != null && // If target is not null
-                outputs[i].target.acceptingEntities && // If target is accepting entities
-                outputs[i].target.InputEntity(outputs[i].bin)) // If target is able to take entity
+                outputs[i].building != null && // If target is not null
+                outputs[i].building.acceptingEntities && // If target is accepting entities
+                outputs[i].building.InputEntity(outputs[i].bin)) // If target is able to take entity
             {
                 outputs[i].bin = null;
                 SplitInput();
@@ -55,15 +54,15 @@ public class Splitter : Building
                 outputs[output].reserved = true;
 
                 // Move input to output position
-                inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[output].position, this, true);
+                inputs[0].bin.MoveTo(ResearchHandler.conveyorSpeed, outputs[output].binPosition, this, true);
                 
                 // Open the input position
                 inputs[0].bin = null;
                 acceptingEntities = true;
 
                 // Update input target if one exists
-                if (inputs[0].target != null)
-                    inputs[0].target.UpdateBins();
+                if (inputs[0].building != null)
+                    inputs[0].building.UpdateBins();
 
                 break;
             }
@@ -76,7 +75,7 @@ public class Splitter : Building
     {
         acceptingEntities = false;
         inputs[0].reserved = true;
-        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].position, this);
+        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[0].binPosition, this);
         return true;
     }
 
@@ -94,56 +93,5 @@ public class Splitter : Building
         outputs[entity.outputIndex].bin = entity;
         outputs[entity.outputIndex].reserved = false;
         UpdateBins();
-    }
-
-    // Sets the input target
-    public override bool SetInputTarget(Building target)
-    {
-        inputs[0].target = target;
-        return true;
-    }
-
-    // Sets the output target 
-    public override bool SetOutputTarget(Building target)
-    {
-        for (int i = 0; i < outputs.Length; i++)
-        {
-            if (target.transform.position == outputs[i].tilePosition)
-            {
-                outputs[i].target = target;
-                UpdateBins();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Checks for nearby buildings
-    public override void CheckNearbyBuildings()
-    {
-        // Local building parameter;
-        Building building;
-
-        // Set input target
-        building = BuildingHandler.active.TryGetBuilding(inputs[0].tilePosition);
-        if (building != null && building.rotation == rotation)
-            if (!building.SetOutputTarget(this)) SetInputTarget(building);
-
-        // Loop through each output
-        for (int i = 0; i < outputs.Length; i++)
-        {
-            building = BuildingHandler.active.TryGetBuilding(outputs[i].tilePosition);
-            if (building != null)
-            {
-                foreach (IOClass input in building.inputs)
-                {
-                    if (input.tilePosition == transform.position)
-                    {
-                        if (!building.SetInputTarget(this)) break;
-                        SetOutputTarget(building);
-                    }
-                }
-            }
-        }
     }
 }

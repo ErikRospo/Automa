@@ -14,7 +14,6 @@ public class Constructor : Building
     private void Start()
     {
         SetRecipe(recipe);
-        SetupRotation();
         SetupPositions();
         CheckNearbyBuildings();
 
@@ -43,8 +42,8 @@ public class Constructor : Building
 
         // Update all input targets
         foreach(IOClass input in inputs) 
-            if (input.target != null)
-                input.target.UpdateBins();
+            if (input.building != null)
+                input.building.UpdateBins();
     }
 
     // Adds an item to the internal crafter storage
@@ -67,7 +66,7 @@ public class Constructor : Building
 
         if (output.bin == null)
         {
-            output.bin = EntityHandler.active.RegisterEntity(itemToOutput, output.position, Quaternion.identity);
+            output.bin = EntityHandler.active.RegisterEntity(itemToOutput, output.binPosition, Quaternion.identity);
             if (output.bin != null) UpdateBins();
 
             if (recipe.output[0].amount > 1)
@@ -86,8 +85,8 @@ public class Constructor : Building
 
         // Update all input targets
         foreach (IOClass input in inputs)
-            if (input.target != null)
-                input.target.UpdateBins();
+            if (input.building != null)
+                input.building.UpdateBins();
     }
 
     public void AddOutputItem(Item item, int amount)
@@ -119,9 +118,9 @@ public class Constructor : Building
     public override void UpdateBins()
     {
         // Checks the front container
-        if (outputs[0].bin != null && outputs[0].target != null && outputs[0].target.acceptingEntities)
+        if (outputs[0].bin != null && outputs[0].building != null && outputs[0].building.acceptingEntities)
         {
-            if (outputs[0].target.InputEntity(outputs[0].bin))
+            if (outputs[0].building.InputEntity(outputs[0].bin))
             {
                 outputs[0].bin = null;
                 outputs[0].reserved = false;
@@ -133,7 +132,7 @@ public class Constructor : Building
         if (outputs[0].bin == null && outputHolding > 0)
         {
             outputHolding -= 1;
-            outputs[0].bin = EntityHandler.active.RegisterEntity(recipe.output[0].item, outputs[0].position, Quaternion.identity);
+            outputs[0].bin = EntityHandler.active.RegisterEntity(recipe.output[0].item, outputs[0].binPosition, Quaternion.identity);
             if (outputs[0].bin != null) UpdateBins();
         }
     }
@@ -147,34 +146,6 @@ public class Constructor : Building
         return false;
     }
 
-    public override bool SetInputTarget(Building target)
-    {
-        for (int i = 0; i < inputs.Length; i++)
-        {
-            if (target.transform.position == inputs[i].tilePosition)
-            {
-                inputs[i].target = target;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public override bool SetOutputTarget(Building target)
-    {
-        for (int i = 0; i < outputs.Length; i++)
-        {
-            if (target.transform.position == outputs[i].tilePosition)
-            {
-                outputs[i].target = target;
-                UpdateBins();
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     // Called when an entity is ready to be sent 
     public override bool InputEntity(Entity entity)
     {
@@ -185,8 +156,8 @@ public class Constructor : Building
             {
                 for (int i = 0; i < inputs.Length; i++)
                 {
-                    if (inputs[i].target == entity.lastBuilding || inputs[i].tilePosition == entity.lastBuilding.transform.position)
-                        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[i].position, this);
+                    if (inputs[i].building == entity.lastBuilding /*|| inputs[i].binTargetPosition == entity.lastBuilding.transform.position*/)
+                        entity.MoveTo(ResearchHandler.conveyorSpeed, inputs[i].binPosition, this);
                 }
                 return true;
             }

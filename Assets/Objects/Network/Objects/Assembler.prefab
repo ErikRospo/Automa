@@ -558,44 +558,33 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   inputs:
-  - transform: {fileID: 4960586403107681188}
-    tile: {fileID: 2929780855723747848}
+  - binPosition: {x: -8.75, y: 5}
+    binConnector: {x: -11.25, y: 5}
+    binTarget: {x: -12.5, y: 5}
     bin: {fileID: 0}
-    binAmount: 0
-    target: {fileID: 0}
+    building: {fileID: 0}
     reserved: 0
-    position: {x: 0, y: 0, z: 0}
-    tilePosition: {x: 0, y: 0, z: 0}
-  - transform: {fileID: 97799960630488167}
-    tile: {fileID: 3952345751440692586}
+  - binPosition: {x: -8.75, y: 0}
+    binConnector: {x: -11.25, y: 0}
+    binTarget: {x: -12.5, y: 0}
     bin: {fileID: 0}
-    binAmount: 0
-    target: {fileID: 0}
+    building: {fileID: 0}
     reserved: 0
-    position: {x: 0, y: 0, z: 0}
-    tilePosition: {x: 0, y: 0, z: 0}
-  - transform: {fileID: 443876532658754958}
-    tile: {fileID: 4791235296602862458}
+  - binPosition: {x: -8.75, y: -5}
+    binConnector: {x: -11.25, y: -5}
+    binTarget: {x: -12.5, y: -5}
     bin: {fileID: 0}
-    binAmount: 0
-    target: {fileID: 0}
+    building: {fileID: 0}
     reserved: 0
-    position: {x: 0, y: 0, z: 0}
-    tilePosition: {x: 0, y: 0, z: 0}
   outputs:
-  - transform: {fileID: 7042507410382509445}
-    tile: {fileID: 2124716609463497305}
+  - binPosition: {x: 8.75, y: 0}
+    binConnector: {x: 11.25, y: 0}
+    binTarget: {x: 12.5, y: 0}
     bin: {fileID: 0}
-    binAmount: 0
-    target: {fileID: 0}
+    building: {fileID: 0}
     reserved: 0
-    position: {x: 0, y: 0, z: 0}
-    tilePosition: {x: 0, y: 0, z: 0}
   acceptingEntities: 1
-  skipInputCheck: 0
-  skipOutputCheck: 0
   cells: []
-  rotation: 0
   machine: {fileID: 11400000, guid: 7c1223319d23d45418e905e67106eda6, type: 2}
   recipe: {fileID: 11400000, guid: afdab21d44647e643b2ace82e3f51542, type: 2}
   outputHolding: 0

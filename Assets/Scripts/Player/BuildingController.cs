@@ -121,10 +121,20 @@ public class BuildingController : NetworkBehaviour
     // Rotates an object
     private void RotatePosition()
     {
+        if (building == null)
+        {
+            Building holder = BuildingHandler.active.TryGetBuilding(hologram.position);
+
+            if (holder != null)
+            {
+
+            }
+        }
+
         if (building.obj.GetComponent<Conveyor>() != null)
         {
             Building inputBuilding = BuildingHandler.active.TryGetBuilding(hologramInput.position);
-            if (inputBuilding != null && inputBuilding.CheckOutputPosition(hologram)) 
+            if (inputBuilding != null /*&& inputBuilding.CheckOutputPosition(hologram)*/) 
             {
                 if (option == 2) { spriteRenderer.sprite = SpritesManager.GetSprite("Conveyor"); option = 0; }
                 else if (option == 1) { spriteRenderer.sprite = SpritesManager.GetSprite("Corner Down"); option = 2; }

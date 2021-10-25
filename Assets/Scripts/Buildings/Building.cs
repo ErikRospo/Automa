@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Mirror;
+using System;
 
 // Buildings script
 //
@@ -16,24 +17,12 @@ public abstract class Building : NetworkBehaviour, IDamageable
 
     // Flag to determine if the building should be accepting entites
     public bool acceptingEntities = false;
-    public bool skipInputCheck = false;
-    public bool skipOutputCheck = false;
 
     // Flag to tell the system the transforms on the object have been recycled.
     private bool positionsSet = false;
 
     // Hold the cells this building occupies
     [HideInInspector] public List<Vector2Int> cells;
-
-    // Holds the rotation value for comparisons
-    public enum RotationType
-    {
-        NORTH = 1,
-        EAST = 2,
-        SOUTH = 3,
-        WEST = 4
-    }
-    [HideInInspector] public RotationType rotation;
 
     // Called by building handler if additional options should be applied
     public virtual void ApplyOptions(int option)
@@ -60,81 +49,33 @@ public abstract class Building : NetworkBehaviour, IDamageable
         Debug.Log("This building cannot output entities!");
     }
 
-    public void MoveInput(IOClass input, IOClass output)
-    {
-        acceptingEntities = true;
-        input.reserved = false;
-        input.bin = null;
-        output.reserved = true;
-        input.target.UpdateBins();
-    }
-
-    public void MoveOutput(IOClass output)
-    {
-        output.reserved = false;
-        output.bin = null;
-    }
-
     // Used to update the bins on a building
-    //
-    // Ex. A conveyor has a front bin which contains the entity sitting at the front side of
-    // the conveyor. If tile the conveyor is on is updated as an input tile (meaning a building
-    // nearby can take entities from that tile), this function will get called. It will continue
-    // being called until all affected buildings are updated.
     public virtual void UpdateBins()
     {
         Debug.Log("This building does not contain bins to update");
     }
 
-    // Used to pass a target to another building
-    //
-    // It is important to note that this can be an array of size 1. The next building may only
-    // have one input and output. That is why this method exists, so that each building can
-    // decide what to do with the targets it receives.
-    public virtual bool SetInputTarget(Building target)
-    {
-        Debug.Log("This building cannot be passed input targets!");
-        return false;
-    }
-
-    public virtual bool SetOutputTarget(Building target)
-    {
-        Debug.Log("This building cannot be passed output targets!");
-        return false;
-    }
-
-    // Used to setup the rotation of a building
-    //
-    // Buildings will often need to make rotational checks in order to make sure that the
-    // adjacent tile can pass items on to it. Conveyors have additional built in rotation
-    // functionality that allows them to offset their rotation if the conveyor is on an
-    // angle. This adjustment does not need to be accounted for with this system.
-    //
-    // Only call this if needed. Some buildings may not care which way they're oriented.
-    public virtual void SetupRotation()
-    {
-        if (transform.rotation.eulerAngles.z == 0f) rotation = RotationType.EAST;
-        else if (transform.rotation.eulerAngles.z == 90f) rotation = RotationType.NORTH;
-        else if (transform.rotation.eulerAngles.z == 180f) rotation = RotationType.WEST;
-        else if (transform.rotation.eulerAngles.z == 270f) rotation = RotationType.SOUTH;
-    }
-
-    // OUTDATED - Rewrite to use input / output tiles and not rotation.
-    // Rotation as a whole is not needed for this to function.
-    //
     // Checks for nearby buildings
     public virtual void CheckNearbyBuildings()
     {
+        Debug.Log("Checking nearby buildings");
+
         // Loop through each input
         for (int i = 0; i < inputs.Length; i++)
         {
-            Building building = BuildingHandler.active.TryGetBuilding(inputs[i].tilePosition);
+            Building building = BuildingHandler.active.TryGetBuilding(inputs[i].binTarget);
             if (building != null)
             {
-                if (skipInputCheck || building.skipOutputCheck || building.rotation == rotation)
+                // Returns the index of the corresponding output
+                int index = CheckInputPosition(building.outputs, i);
+
+                if (index != -1)
                 {
-                    if (!building.SetOutputTarget(this)) break;
-                    SetInputTarget(building);
+                    inputs[i].building = building;
+                    inputs[i].target = building.outputs[index];
+                    building.outputs[index].building = this;
+                    building.outputs[index].target = inputs[i];
+                    building.UpdateBins();
                 }
                 else
                 {
@@ -147,14 +88,20 @@ public abstract class Building : NetworkBehaviour, IDamageable
         // Loop through each output 
         for (int i = 0; i < outputs.Length; i++)
         {
-            Building building = BuildingHandler.active.TryGetBuilding(outputs[i].tilePosition);
+            Building building = BuildingHandler.active.TryGetBuilding(outputs[i].binTarget);
 
             if (building != null)
             {
-                if (skipOutputCheck || building.skipInputCheck || building.rotation == rotation)
+                // Returns the index of the corresponding input
+                int index = CheckOutputPosition(building.inputs, i);
+
+                if (index != -1)
                 {
-                    if (!building.SetInputTarget(this)) break;
-                    SetOutputTarget(building);
+                    outputs[i].building = building;
+                    outputs[i].target = building.inputs[index];
+                    building.inputs[index].building = this;
+                    building.inputs[index].target = outputs[i];
+                    UpdateBins();
                 }
             }
         }
@@ -171,32 +118,31 @@ public abstract class Building : NetworkBehaviour, IDamageable
 
         // Setup input positions
         for (int i = 0; i < inputs.Length; i++)
-        {
-            inputs[i].position = inputs[i].transform.position;
-            inputs[i].tilePosition = inputs[i].tile.position;
-            Recycler.AddRecyclable(inputs[i].transform);
-            Recycler.AddRecyclable(inputs[i].tile);
-        }
+            inputs[i].SetupPosition(transform.position, transform.rotation.eulerAngles.z);
 
         // Setup output positions
         for (int i = 0; i < outputs.Length; i++)
-        {
-            outputs[i].position = outputs[i].transform.position;
-            outputs[i].tilePosition = outputs[i].tile.position;
-            Recycler.AddRecyclable(outputs[i].transform);
-            Recycler.AddRecyclable(outputs[i].tile);
-        }
+            outputs[i].SetupPosition(transform.position, transform.rotation.eulerAngles.z);
 
         positionsSet = true;
     }
 
-    // Checks if building hologram is in an output position
-    public bool CheckOutputPosition(Transform obj)
+    // Checks if building is in an input position
+    public int CheckInputPosition(IOClass[] outputs, int index)
     {
-        foreach (IOClass output in outputs)
-            if (new Vector2(output.tilePosition.x, output.tilePosition.y) == new Vector2(obj.position.x, obj.position.y))
-                return true;
-        return false;
+        for (int a = 0; a < outputs.Length; a++)
+            if (new Vector2(inputs[index].binConnector.x, inputs[index].binConnector.y) == outputs[a].binPosition)
+                return a;
+        return -1;
+    }
+
+    // Checks if building is in an output position
+    public int CheckOutputPosition(IOClass[] inputs, int index)
+    {
+        for (int a = 0; a < inputs.Length; a++)
+            if (new Vector2(outputs[index].binConnector.x, outputs[index].binConnector.y) == inputs[a].binPosition)
+                return a;
+        return -1;
     }
 
     // Destroys the entity
