@@ -56,7 +56,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Checks for nearby buildings
-    public virtual void CheckNearbyBuildings()
+    public void CheckNearbyBuildings()
     {
         Debug.Log("Checking nearby buildings");
 
@@ -146,7 +146,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Destroys the entity
-    public void Kill()
+    public virtual void Kill()
     {
         // Iterate through inputs and remove any entities
         foreach (IOClass input in inputs)

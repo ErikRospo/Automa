@@ -107,12 +107,20 @@ public class BuildingController : NetworkBehaviour
     {
         // Update position to mouse pointer
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 newPosition;
+        Vector2 newPosition;
 
-        if (building != null) newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5) + building.offset.x, 5 * Mathf.Round(mousePos.y / 5) + building.offset.y);
-        else newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
+        if (hologram.rotation.eulerAngles.z == 0f || hologram.rotation.eulerAngles.z == 180f)
+        {
+            if (building != null) newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5) + building.horizontalOffset.x, 5 * Mathf.Round(mousePos.y / 5) + building.horizontalOffset.y);
+            else newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
+        }
+        else
+        {
+            if (building != null) newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5) + building.verticalOffset.x, 5 * Mathf.Round(mousePos.y / 5) + building.verticalOffset.y);
+            else newPosition = new Vector2(5 * Mathf.Round(mousePos.x / 5), 5 * Mathf.Round(mousePos.y / 5));
+        }
 
-        if (newPosition != hologram.position)
+        if (newPosition.x != hologram.position.x && newPosition.y != hologram.position.y)
             SetBuilding(building);
 
         hologram.position = newPosition;

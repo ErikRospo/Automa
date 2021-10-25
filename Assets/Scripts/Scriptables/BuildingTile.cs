@@ -14,7 +14,8 @@ public class BuildingTile : Item
 
     public GameObject obj;
     public Cell[] cells;
-    public Vector2 offset;
+    public Vector2 horizontalOffset;
+    public Vector2 verticalOffset;
     public bool axisSnappable;
     public bool rotatable;
     public bool hasOptions;

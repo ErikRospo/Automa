@@ -4276,8 +4276,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -1
-  far clip plane: 1000
+  near clip plane: -5
+  far clip plane: 10
   field of view: 60
   orthographic: 1
   orthographic size: 10
@@ -11834,6 +11834,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  debugMode: 1
+  debugObj: {fileID: 5320635277402148286, guid: e18659a2527ed1b4b9e1720aa7104f23,
+    type: 3}
 --- !u!4 &1905279624
 Transform:
   m_ObjectHideFlags: 0

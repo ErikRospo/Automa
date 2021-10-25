@@ -41,10 +41,12 @@ MonoBehaviour:
     y: -5
   - x: -7.5
     y: -5
-  offset: {x: -2.5, y: 0}
+  horizontalOffset: {x: 2.5, y: 0}
+  verticalOffset: {x: 0, y: 2.5}
   axisSnappable: 0
-  rotatable: 0
+  rotatable: 1
   hasOptions: 0
+  spawnableOn: []
   recipes:
   - {fileID: 11400000, guid: afdab21d44647e643b2ace82e3f51542, type: 2}
   - {fileID: 11400000, guid: 64f556b60ea3b504499ff32d014152be, type: 2}

@@ -11,6 +11,8 @@ public class BuildingHandler : NetworkBehaviour
 
     // Building variables
     public static BuildingHandler active;
+    public bool debugMode;
+    public GameObject debugObj;
 
     public void Start() 
     {
@@ -50,13 +52,54 @@ public class BuildingHandler : NetworkBehaviour
         // Apply options if required
         if (option != -1) lastBuilding.ApplyOptions(option);
 
+        // Create variables for grid cycle
+        Vector2 cellPos;
+
         // Set the tiles on the grid class
         if (tile.cells.Length > 0)
         {
             foreach (BuildingTile.Cell cell in tile.cells)
-                tileGrid.SetCell(Vector2Int.RoundToInt(new Vector2(lastBuilding.transform.position.x + cell.x, lastBuilding.transform.position.y + cell.y)), true, tile, lastBuilding);
+            {
+                // Determine rotational changes
+                switch (rotation.eulerAngles.z)
+                {
+                    case 90f:
+                        cellPos = new Vector2(lastBuilding.transform.position.x - cell.y, 
+                                              lastBuilding.transform.position.y + cell.x);
+                        break;
+                    case 180f:
+                        cellPos = new Vector2(lastBuilding.transform.position.x - cell.x, 
+                                              lastBuilding.transform.position.y - cell.y);
+                        break;
+                    case 270f:
+                        cellPos = new Vector2(lastBuilding.transform.position.x + cell.y, 
+                                              lastBuilding.transform.position.y - cell.x);
+                        break;
+                    default:
+                        cellPos = new Vector2(lastBuilding.transform.position.x + cell.x, 
+                                              lastBuilding.transform.position.y + cell.y);
+                        break;
+                }
+                tileGrid.SetCell(Vector2Int.RoundToInt(cellPos), true, tile, lastBuilding);
+
+                // If debug mode enabled, display coordinates
+                if (debugMode)
+                {
+                    Transform holder = Instantiate(debugObj, cellPos, Quaternion.identity).GetComponent<Transform>();
+                    holder.position = new Vector3(holder.position.x, holder.position.y, holder.position.z - 1.5f);
+                }
+            }
         }
-        else tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, tile, lastBuilding);
+        else
+        {
+            tileGrid.SetCell(Vector2Int.RoundToInt(lastBuilding.transform.position), true, tile, lastBuilding);
+
+            if (debugMode)
+            {
+                Transform holder = Instantiate(debugObj, lastBuilding.transform.position, Quaternion.identity).GetComponent<Transform>();
+                holder.position = new Vector3(holder.position.x, holder.position.y, holder.position.z - 1.5f);
+            }
+        }
     }
 
     // Destroys a building
