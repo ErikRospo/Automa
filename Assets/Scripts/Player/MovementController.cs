@@ -15,6 +15,8 @@ public class MovementController : NetworkBehaviour
 
     // Inventory script (attached to object)
     Inventory inventory;
+    
+    public Item test;
 
     public BuildingTile conveyor;
     public BuildingTile spawner;
@@ -177,8 +179,8 @@ public class MovementController : NetworkBehaviour
         else if (Input.GetKeyDown(Keybinds.hotbar_6)) buildingController.SetBuilding(splitter);
         else if (Input.GetKeyDown(Keybinds.hotbar_7)) buildingController.SetBuilding(merger);
         else if (Input.GetKeyDown(Keybinds.hotbar_8)) buildingController.SetBuilding(garbage);
-        else if (Input.GetKeyDown(Keybinds.hotbar_9)) Debug.Log("Press number 9");
-        else if (Input.GetKeyDown(Keybinds.hotbar_0)) inventory.CmdAddItem(equippedItem, 25);
+        else if (Input.GetKeyDown(Keybinds.hotbar_9)) Inventory.active.CmdAddItem(test, 25);
+        else if (Input.GetKeyDown(Keybinds.hotbar_0)) Debug.Log("9");
     }
 
     // Rotates the players head towards the mouse

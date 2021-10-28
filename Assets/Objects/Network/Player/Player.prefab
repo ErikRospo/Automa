@@ -1609,7 +1609,6 @@ GameObject:
   - component: {fileID: 3229210262294885684}
   - component: {fileID: 3700333533480057256}
   - component: {fileID: 732988199602288924}
-  - component: {fileID: 8190020680151061188}
   - component: {fileID: 8713863921265366351}
   - component: {fileID: -6012667001519808175}
   - component: {fileID: 7467530196163260768}
@@ -1672,6 +1671,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   animator: {fileID: 8335915891923124817}
+  test: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
   conveyor: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
   spawner: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
   smelter: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
@@ -1690,21 +1690,6 @@ MonoBehaviour:
   walkSpeed: 5
   runSpeed: 15
   rotationSpeed: 50
---- !u!114 &8190020680151061188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3872071890451825528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c570ef57a0e284d852bdc3d9269bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  inventorySlots: []
 --- !u!114 &8713863921265366351
 MonoBehaviour:
   m_ObjectHideFlags: 0

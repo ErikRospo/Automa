@@ -1,11 +1,16 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventory : NetworkBehaviour
 {
+    // Active instance
+    public static Inventory active;
+
     // Mouse variables
+    public Transform mouse;
     public Image mouseIcon;
     public Item mouseItem;
     public int mouseAmount;
@@ -16,8 +21,11 @@ public class Inventory : NetworkBehaviour
     private List<Slot> suitSlots;
 
     // Initial setup
-    private void Awake()
+    private void Start()
     {
+        // Set active instance
+        active = this;
+
         // Create new lists
         inventorySlots = new List<Slot>();
         hotbarSlots = new List<Slot>();
@@ -65,28 +73,24 @@ public class Inventory : NetworkBehaviour
     // Inventory slot listener
     private void OnRegisterInventorySlot(Slot slot)
     {
-        inventorySlots.Add(new Slot());
+        if (slot.isHotbarSlot)
+            hotbarSlots.Add(slot);
+        else if (slot.isSuitSlot)
+            suitSlots.Add(slot);
+        else
+            inventorySlots.Add(slot);
     }
 
     // Updates server on item being added
-    [Command]
+    //[Command]
     public void CmdAddItem(Item item, int amount)
     {
         // Check for an available spot
         int holdingAmount = amount;
-        foreach(Slot slot in inventorySlots)
-        {
-            if (slot.item == null || slot.item == item)
-            {
-                slot.SetSlot(item, amount);
-                if (slot.amount > item.maxStackSize)
-                {
-                    holdingAmount = slot.amount - item.maxStackSize;
-                    slot.SetSlot(item, item.maxStackSize);
-                }
-                else holdingAmount = 0;
-            }
-
+        foreach(Slot slot in inventorySlots) 
+        { 
+            if (slot.item == null || (slot.item == item && slot.amount < slot.item.maxStackSize))
+                holdingAmount = slot.SetSlot(item, amount);
             if (holdingAmount <= 0) break;
         }
     }

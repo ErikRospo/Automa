@@ -5,11 +5,11 @@ using UnityEngine;
 using Michsky.UI.ModernUIPack;
 
 [System.Serializable]
-public class Slot
+public class Slot : MonoBehaviour
 {
     // Inventory slot variables
-    public Item item;
-    public int amount;
+    [HideInInspector] public Item item;
+    [HideInInspector] public int amount;
 
     // Button UI variables
     public ButtonManagerBasicIcon button;
@@ -17,10 +17,6 @@ public class Slot
     public int slotNumber;
     public bool isHotbarSlot;
     public bool isSuitSlot;
-
-    // Parameterized / default constructors
-    public Slot(Item item, int amount) { SetSlot(item, amount); }
-    public Slot() { SetSlot(null, 0); }
 
     // Start is called before the first frame update
     void Start()
@@ -33,22 +29,40 @@ public class Slot
         UIEvents.active.InventorySlotClick(this);
     }
 
-    public void SetSlot(Item item, int amount)
+    public int SetSlot(Item item, int amount)
     {
+        // Overflow value
+        int overflow = 0;
+
         // Update UI elements
-        if (item == null || this.amount <= 0)
+        if (item == null || amount <= 0)
         {
+            // Reset slot
             this.item = null;
             this.amount = 0;
             button.buttonIcon = SpritesManager.GetSprite("Empty");
             textAmount.text = "";
+            button.UpdateUI();
         }
         else
         {
+            // Set item
             this.item = item;
-            this.amount = amount;
+
+            // Calculate overflow (if any)
+            if (this.amount + amount > item.maxStackSize)
+            {
+                overflow = (this.amount + amount) - item.maxStackSize;
+                this.amount = item.maxStackSize;
+            }
+            else this.amount += amount;
+            
+            // Update UI elements
             button.buttonIcon = SpritesManager.GetSprite(item.name);
-            textAmount.text = "x" + amount;
+            textAmount.text = "x" + this.amount;
+            button.UpdateUI();
         }
+
+        return overflow;
     }
  }
