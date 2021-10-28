@@ -11,6 +11,13 @@ public class UIEvents : MonoBehaviour
         active = this;
     }
 
+    public event Action<Slot> onInventorySlotClick;
+    public void InventorySlotClick(Slot slot)
+    {
+        if (onInventorySlotClick != null)
+            onInventorySlotClick(slot);
+    }
+
     // Invoked when a bullet is fired
     public event Action<Recipe> onAddRecipe;
     public void AddRecipe(Recipe recipe)

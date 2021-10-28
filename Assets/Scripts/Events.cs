@@ -34,8 +34,8 @@ public class Events : MonoBehaviour
             onSetRecipe(recipe);
     }
 
-    public event Action<InventorySlot> onRegisterInventorySlot;
-    public void RegisterInventorySlot(InventorySlot slot)
+    public event Action<Slot> onRegisterInventorySlot;
+    public void RegisterInventorySlot(Slot slot)
     {
         if (onRegisterInventorySlot != null)
             onRegisterInventorySlot(slot);

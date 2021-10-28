@@ -613,6 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 455314416}
+  slotNumber: 0
 --- !u!1 &15638785
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,7 +936,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 20140248}
-  - component: {fileID: 20140250}
   - component: {fileID: 20140249}
   m_Layer: 5
   m_Name: Inventory Tablet
@@ -980,69 +980,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &20140250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20140247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3baaf1a2146c1544a96e89aaf4808950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 20140249}
-  constructor: {fileID: 0}
-  buildingIcon: {fileID: 0}
-  buildingName: {fileID: 0}
-  buildingDesc: {fileID: 0}
-  recipeInfo: {fileID: 0}
-  recipeList: {fileID: 0}
-  inputs:
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  outputs:
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  - obj: {fileID: 0}
-    button: {fileID: 0}
-    amount: {fileID: 0}
-  progressBar: {fileID: 0}
-  recipeButton: {fileID: 3926910253811948932, guid: 92d849c588d27da448a3ecd970f5a564,
-    type: 3}
-  tooltipRect: {fileID: 0}
-  tooltipDesc: {fileID: 0}
-  recipeTooltip: {fileID: 0}
 --- !u!1 &30718378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2003,6 +1940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1928150352}
+  slotNumber: 0
 --- !u!222 &69593456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2493,6 +2431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 332622543}
+  slotNumber: 0
 --- !u!222 &86166023
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2734,6 +2673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1727103498}
+  slotNumber: 0
 --- !u!222 &98996400
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5423,6 +5363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1970643028}
+  slotNumber: 0
 --- !u!222 &266267698
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7442,6 +7383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 377406937}
+  slotNumber: 0
 --- !u!222 &347977033
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7619,6 +7561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 766751099}
+  slotNumber: 0
 --- !u!222 &350658813
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8723,6 +8666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 332237240}
+  slotNumber: 0
 --- !u!222 &384778303
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9347,6 +9291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 463113141}
+  slotNumber: 0
 --- !u!222 &446823623
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10093,6 +10038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 187654638}
+  slotNumber: 0
 --- !u!222 &459892122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11023,6 +10969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 106440358}
+  slotNumber: 0
 --- !u!222 &511691598
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11757,6 +11704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 280231994}
+  slotNumber: 0
 --- !u!222 &522988075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12929,6 +12877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 117340180}
+  slotNumber: 0
 --- !u!222 &629740419
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13181,6 +13130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 2051087953}
+  slotNumber: 0
 --- !u!222 &634737249
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14629,6 +14579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1826989475}
+  slotNumber: 0
 --- !u!222 &743485042
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14881,6 +14832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1829177365}
+  slotNumber: 0
 --- !u!222 &744155423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15432,6 +15384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 2103115355}
+  slotNumber: 0
 --- !u!222 &779784616
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15609,6 +15562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 724048192}
+  slotNumber: 0
 --- !u!222 &792102148
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16808,6 +16762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1784565032}
+  slotNumber: 0
 --- !u!222 &899560629
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17737,6 +17692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1868733592}
+  slotNumber: 0
 --- !u!222 &944898615
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18334,6 +18290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 101283623}
+  slotNumber: 0
 --- !u!222 &969973050
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19580,6 +19537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 368277729}
+  slotNumber: 0
 --- !u!222 &1046309103
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20308,6 +20266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1639623170}
+  slotNumber: 0
 --- !u!222 &1085219400
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20966,6 +20925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 640286126}
+  slotNumber: 0
 --- !u!222 &1139843985
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21690,6 +21650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1867201618}
+  slotNumber: 0
 --- !u!222 &1174121423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21867,6 +21828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1473268713}
+  slotNumber: 0
 --- !u!222 &1176690382
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22119,6 +22081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1635771965}
+  slotNumber: 0
 --- !u!222 &1209287153
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22296,6 +22259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 347544234}
+  slotNumber: 0
 --- !u!222 &1211926023
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23549,6 +23513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1440921046}
+  slotNumber: 0
 --- !u!222 &1323932040
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23861,6 +23826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 811289133}
+  slotNumber: 0
 --- !u!222 &1329311277
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24643,6 +24609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 951429921}
+  slotNumber: 0
 --- !u!222 &1369990540
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25119,6 +25086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1503556905}
+  slotNumber: 0
 --- !u!222 &1390045814
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25431,6 +25399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1352139492}
+  slotNumber: 0
 --- !u!222 &1416414962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25683,6 +25652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1614054924}
+  slotNumber: 0
 --- !u!222 &1424909745
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26056,6 +26026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 111742489}
+  slotNumber: 0
 --- !u!222 &1431352429
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26921,6 +26892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 342945491}
+  slotNumber: 0
 --- !u!222 &1478437663
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27584,6 +27556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 77819198}
+  slotNumber: 0
 --- !u!222 &1521925611
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27867,7 +27840,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  inventorySlots: []
 --- !u!114 &1537434895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28732,6 +28704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1140870817}
+  slotNumber: 0
 --- !u!222 &1616712875
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -29883,6 +29856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 208411106}
+  slotNumber: 0
 --- !u!222 &1674617866
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31267,6 +31241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 915005293}
+  slotNumber: 0
 --- !u!222 &1807583266
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31855,6 +31830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 242203803}
+  slotNumber: 0
 --- !u!222 &1830891211
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33823,6 +33799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1499372678}
+  slotNumber: 0
 --- !u!222 &1960580337
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34617,6 +34594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1962574349}
+  slotNumber: 0
 --- !u!222 &1997487726
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34794,6 +34772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 592062658}
+  slotNumber: 0
 --- !u!222 &2003646395
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36543,6 +36522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 1086537995}
+  slotNumber: 0
 --- !u!222 &2135870225
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36772,6 +36752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   amount: {fileID: 181986604}
+  slotNumber: 0
 --- !u!222 &2144345122
 CanvasRenderer:
   m_ObjectHideFlags: 0

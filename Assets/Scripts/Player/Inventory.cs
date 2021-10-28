@@ -1,41 +1,71 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : NetworkBehaviour
 {
-    // Inventory variables 
-    public struct InventoryItem
-    { 
-        public Item item;
-        public int amount;
-
-        // Constructor
-        public InventoryItem(Item item, int amount)
-        {
-            this.item = item;
-            this.amount = amount;
-        }
-    }
-    public Dictionary<int, InventoryItem> inventory = new Dictionary<int, InventoryItem>();
+    // Mouse variables
+    public Image mouseIcon;
+    public Item mouseItem;
+    public int mouseAmount;
 
     // If inventory UI is available
-    public List<InventorySlot> inventorySlots;
+    private List<Slot> inventorySlots;
+    private List<Slot> hotbarSlots;
+    private List<Slot> suitSlots;
 
     // Initial setup
-    private void Start()
+    private void Awake()
     {
-        // Will grab all the currently available inventory slots
+        // Create new lists
+        inventorySlots = new List<Slot>();
+        hotbarSlots = new List<Slot>();
+        suitSlots = new List<Slot>();
+
+        // Will grab all currently available inventory slots
+        UIEvents.active.onInventorySlotClick += OnSlotClicked;
         Events.active.onRegisterInventorySlot += OnRegisterInventorySlot;
-        if (inventorySlots.Count == 0)
-            Events.active.RequestInventorySlots(this);
+        if (inventorySlots.Count == 0) Events.active.RequestInventorySlots(this);
+    }
+
+    // Press method
+    public void OnSlotClicked(Slot slot)
+    {
+        // If item selected, set slot
+        if (slot.item == null && mouseItem != null)
+        {
+            slot.SetSlot(mouseItem, mouseAmount);
+            SetMouseItem(null, 0);
+        }
+        else if (slot.item != null)
+        {
+            SetMouseItem(slot.item, slot.amount);
+            slot.SetSlot(null, 0);
+        }
+    }
+
+    // Sets the mouse item
+    public void SetMouseItem(Item item, int amount)
+    {
+        if (item == null || amount <= 0)
+        {
+            mouseItem = null;
+            mouseAmount = 0;
+            mouseIcon.sprite = SpritesManager.GetSprite("Empty");
+        }
+        else if (item != null)
+        {
+            mouseItem = item;
+            mouseAmount = amount;
+            mouseIcon.sprite = SpritesManager.GetSprite(mouseItem.name);
+        }
     }
 
     // Inventory slot listener
-    private void OnRegisterInventorySlot(InventorySlot slot)
+    private void OnRegisterInventorySlot(Slot slot)
     {
-        inventorySlots.Add(slot);
+        inventorySlots.Add(new Slot());
     }
 
     // Updates server on item being added
@@ -43,65 +73,21 @@ public class Inventory : NetworkBehaviour
     public void CmdAddItem(Item item, int amount)
     {
         // Check for an available spot
-        for (int i=0; i < inventorySlots.Count; i++)
+        int holdingAmount = amount;
+        foreach(Slot slot in inventorySlots)
         {
-            if (!inventory.ContainsKey(i))
+            if (slot.item == null || slot.item == item)
             {
-                if (amount > item.maxStackSize)
+                slot.SetSlot(item, amount);
+                if (slot.amount > item.maxStackSize)
                 {
-                    AddItem(i, item, item.maxStackSize);
-                    amount -= item.maxStackSize;
+                    holdingAmount = slot.amount - item.maxStackSize;
+                    slot.SetSlot(item, item.maxStackSize);
                 }
-                else
-                {
-                    AddItem(i, item, amount);
-                    break;
-                }
+                else holdingAmount = 0;
             }
-            else if (inventory.TryGetValue(i, out InventoryItem holder))
-            {
-                int spotsAvailable = item.maxStackSize - holder.amount;
-                if (amount > spotsAvailable)
-                {
-                    AddItem(i, item, item.maxStackSize);
-                    amount -= spotsAvailable;
-                }
-                else
-                {
-                    AddItem(i, item, amount + holder.amount);
-                    break;
-                }
-            }
+
+            if (holdingAmount <= 0) break;
         }
-
-        RpcUpdateInventory(this);
-    }
-
-    // Updates all other players on inventory change
-    [ClientRpc]
-    public void RpcUpdateInventory(Inventory player)
-    {
-        if (player == this)
-            inventory = player.inventory;
-    }
-
-    // Adds an item to a players inventory
-    private void AddItem(int slot, Item item, int amount)
-    {
-        // Adds the item to the backend inventory database
-        InventoryItem inventoryItem = new InventoryItem(item, amount);
-        if (!inventory.ContainsKey(slot)) inventory.Add(slot, inventoryItem);
-        else inventory[slot] = inventoryItem;
-
-        // Attempts to place the item in the inventory UI
-        foreach (InventorySlot inventorySlot in inventorySlots)
-            if (inventorySlot.slotNumber == slot)
-            {
-                inventorySlot.SetItem(inventoryItem);
-                return;
-            }
-
-        // If slot not found, debug to console
-        Debug.LogError("Slot #" + slot + " could not be found. Item only added to backend inventory.");
     }
 }
