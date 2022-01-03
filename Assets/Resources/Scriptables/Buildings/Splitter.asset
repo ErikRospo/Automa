@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b22b670ddf20f499ea17e44a24dd30, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4e182e531734042848a92d41bc363f, type: 3}
   m_Name: Splitter
   m_EditorClassIdentifier: 
+  internalId: 69e43e86-9d7c-4b8d-b82f-05021cf89944
+  createdAtTicks: 637768035008567248
   name: Splitter
   description: Splitter
   maxStackSize: 0
   obj: {fileID: 2815248319985988235, guid: 22145e20cdb5e934789a9e8fbe0823f0, type: 3}
   cells: []
-  offset: {x: 0, y: 0}
+  horizontalOffset: {x: 0, y: 0}
+  verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
   hasOptions: 0

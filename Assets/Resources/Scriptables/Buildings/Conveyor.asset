@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b22b670ddf20f499ea17e44a24dd30, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4e182e531734042848a92d41bc363f, type: 3}
   m_Name: Conveyor
   m_EditorClassIdentifier: 
+  internalId: 50b2c955-0239-45c2-b716-dcc7b36b05c2
+  createdAtTicks: 637768035008687359
   name: Conveyor
   description: It's a conveyor belt.
   maxStackSize: 0
   obj: {fileID: 5037051939383339140, guid: d36f843401a43764d8298626da129b4c, type: 3}
   cells: []
-  offset: {x: 0, y: 0}
+  horizontalOffset: {x: 0, y: 0}
+  verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
   hasOptions: 1

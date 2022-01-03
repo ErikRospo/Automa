@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859e05723dc444a45a453999f0849f42, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b9e5e063e845244ebbe1c8f103a7e39, type: 3}
   m_Name: Raw Iron
   m_EditorClassIdentifier: 
+  internalId: 7c5fb35d-56ba-4c84-abae-4810c528ce6c
+  createdAtTicks: 637768025088277648
   name: Raw Iron
   isLiquid: 0
   usePerlinNoise: 1
