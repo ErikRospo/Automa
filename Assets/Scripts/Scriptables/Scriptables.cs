@@ -48,6 +48,7 @@ public static class Scriptables
         foreach (BuildingData building in loaded)
         {
             buildingDict.Add(building.InternalID, building);
+            buildings.Add(building);
             Debug.Log("Loaded " + building.name + " with UUID " + building.InternalID);
         }
     }
@@ -64,6 +65,7 @@ public static class Scriptables
         foreach (ItemData item in loaded)
         {
             itemDict.Add(item.InternalID, item);
+            items.Add(item);
             Debug.Log("Loaded " + item.name + " with UUID " + item.InternalID);
         }
     }
@@ -80,6 +82,7 @@ public static class Scriptables
         foreach (MineralData mineral in loaded)
         {
             mineralDict.Add(mineral.InternalID, mineral);
+            minerals.Add(mineral);
             Debug.Log("Loaded " + mineral.name + " with UUID " + mineral.InternalID);
         }
     }
@@ -96,6 +99,7 @@ public static class Scriptables
         foreach (Biome biome in loaded)
         {
             biomeDict.Add(biome.InternalID, biome);
+            biomes.Add(biome);
             Debug.Log("Loaded " + biome.name + " with UUID " + biome.InternalID);
         }
     }

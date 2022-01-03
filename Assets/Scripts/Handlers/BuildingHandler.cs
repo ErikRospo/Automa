@@ -25,7 +25,7 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     // Creates a building
-    public void CreateBuilding(BuildingTile tile, Vector3 position, Quaternion rotation, int option)
+    public void CreateBuilding(BuildingData tile, Vector3 position, Quaternion rotation, int option)
     {
         // Untiy is so fucky it is now in a new dimension of bullshit
         if (tile == null) return;
@@ -38,10 +38,11 @@ public class BuildingHandler : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcInstantiateBuilding(BuildingTile tile, Vector2 position, Quaternion rotation, int option)
+    private void RpcInstantiateBuilding(BuildingData tile, Vector2 position, Quaternion rotation, int option)
     {
         // Get game objected from scriptable manager
-        GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
+        // GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
+        GameObject obj = null;
         if (obj == null) return;
 
         // Create the tile
@@ -55,7 +56,7 @@ public class BuildingHandler : NetworkBehaviour
         // Set the tiles on the grid class
         if (tile.cells.Length > 0)
         {
-            foreach (BuildingTile.Cell cell in tile.cells)
+            foreach (BuildingData.Cell cell in tile.cells)
             {
                 // Set cells based on rotation
                 Vector2 cellPos = RotateVector(lastBuilding.transform.position, new Vector2(cell.x, cell.y), rotation);
@@ -113,14 +114,14 @@ public class BuildingHandler : NetworkBehaviour
 
     // Checks to make sure tile(s) isn't occupied
     [Server]
-    public bool CheckTiles(BuildingTile tile, Vector3 position, Quaternion rotation)
+    public bool CheckTiles(BuildingData tile, Vector3 position, Quaternion rotation)
     {
         // Tells system to check tile placement
         bool checkTilePlacement = tile.spawnableOn.Count > 0;
 
         if (tile.cells.Length > 0)
         {
-            foreach (BuildingTile.Cell cell in tile.cells)
+            foreach (BuildingData.Cell cell in tile.cells)
             {
                 // Check to make sure nothing occupying tile
                 Vector2Int coords = Vector2Int.RoundToInt(RotateVector(position, new Vector2(cell.x, cell.y), rotation));
@@ -132,7 +133,7 @@ public class BuildingHandler : NetworkBehaviour
                 // Check to make sure tile can be placed
                 if (checkTilePlacement)
                 {
-                    if (WorldGen.active.spawnedResources.TryGetValue(coords, out Mineral value) &&
+                    if (WorldGen.active.spawnedResources.TryGetValue(coords, out MineralData value) &&
                         tile.spawnableOn.Contains(value)) checkTilePlacement = false;
                 }
             }
@@ -147,7 +148,7 @@ public class BuildingHandler : NetworkBehaviour
             // Check to make sure tile can be placed
             if (checkTilePlacement)
             {
-                if (WorldGen.active.spawnedResources.TryGetValue(coords, out Mineral value) &&
+                if (WorldGen.active.spawnedResources.TryGetValue(coords, out MineralData value) &&
                     tile.spawnableOn.Contains(value)) checkTilePlacement = false;
             }
         }

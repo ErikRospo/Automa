@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Machine", menuName = "Buildings/Crafter")]
-public class Machine : BuildingTile
+public class MachineData : BuildingData
 {
     public List<Recipe> recipes;
 }

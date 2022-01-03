@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         Application.targetFrameRate = 1000;
-
-        ScriptableManager.active.GenerateBuildings();
-        ScriptableManager.active.GenerateRecipes();
+        Scriptables.GenerateAllScriptables();
     }
 }

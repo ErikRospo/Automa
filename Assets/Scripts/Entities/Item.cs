@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class Item : MonoBehaviour
 {
-    public Item item;
+    public ItemData item;
     public Building lastBuilding;
     public int outputIndex;
 

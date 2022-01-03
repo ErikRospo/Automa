@@ -58,7 +58,7 @@ public class Merger : Building
     }
 
     // Input method (called from output buildings)
-    public override bool InputEntity(Entity entity)
+    public override bool InputEntity(Item entity)
     {
         // Loops through inputs
         for(int i = 0; i < 3; i++)
@@ -78,7 +78,7 @@ public class Merger : Building
     }
 
     // Receive method (called when entity arrives at merger)
-    public override void ReceiveEntity(Entity entity)
+    public override void ReceiveEntity(Item entity)
     {
         inputs[entity.outputIndex].bin = entity;
         inputs[entity.outputIndex].reserved = false;
@@ -86,7 +86,7 @@ public class Merger : Building
     }
 
     // Output method (called when entity arrives at an output)
-    public override void OutputEntity(Entity entity)
+    public override void OutputEntity(Item entity)
     {
         outputs[0].bin = entity;
         outputs[0].reserved = false;

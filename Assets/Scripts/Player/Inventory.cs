@@ -12,7 +12,7 @@ public class Inventory : NetworkBehaviour
     // Mouse variables
     public Transform mouse;
     public Image mouseIcon;
-    public Item mouseItem;
+    public ItemData mouseItem;
     public int mouseAmount;
 
     // If inventory UI is available
@@ -54,7 +54,7 @@ public class Inventory : NetworkBehaviour
     }
 
     // Sets the mouse item
-    public void SetMouseItem(Item item, int amount)
+    public void SetMouseItem(ItemData item, int amount)
     {
         if (item == null || amount <= 0)
         {
@@ -83,7 +83,7 @@ public class Inventory : NetworkBehaviour
 
     // Updates server on item being added
     //[Command]
-    public void CmdAddItem(Item item, int amount)
+    public void CmdAddItem(ItemData item, int amount)
     {
         // Check for an available spot
         int holdingAmount = amount;

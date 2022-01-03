@@ -71,7 +71,7 @@ public class Splitter : Building
     
 
     // Input method (called from output buildings)
-    public override bool InputEntity(Entity entity)
+    public override bool InputEntity(Item entity)
     {
         acceptingEntities = false;
         inputs[0].reserved = true;
@@ -80,7 +80,7 @@ public class Splitter : Building
     }
 
     // Receive method (called when entity arrives at splitter)
-    public override void ReceiveEntity(Entity entity)
+    public override void ReceiveEntity(Item entity)
     {
         inputs[0].bin = entity;
         inputs[0].reserved = false;
@@ -88,7 +88,7 @@ public class Splitter : Building
     }
 
     // Output method (called when entity arrives at an output
-    public override void OutputEntity(Entity entity)
+    public override void OutputEntity(Item entity)
     {
         outputs[entity.outputIndex].bin = entity;
         outputs[entity.outputIndex].reserved = false;

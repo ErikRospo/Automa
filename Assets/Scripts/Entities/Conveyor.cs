@@ -89,7 +89,7 @@ public class Conveyor : Building
         */
     }
 
-    public override bool InputEntity(Entity entity)
+    public override bool InputEntity(Item entity)
     {
         acceptingEntities = false;
         inputs[0].reserved = true;
@@ -97,14 +97,14 @@ public class Conveyor : Building
         return true;
     }
 
-    public override void ReceiveEntity(Entity entity)
+    public override void ReceiveEntity(Item entity)
     {
         inputs[0].bin = entity;
         acceptingEntities = false;
         UpdateBins();
     }
 
-    public override void OutputEntity(Entity entity)
+    public override void OutputEntity(Item entity)
     {
         if (entity.transform.position.x == transform.position.x && 
             entity.transform.position.y == transform.position.y)

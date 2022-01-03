@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Constructor : Building
 {
-    public Machine machine;
+    public MachineData machine;
     public Recipe recipe;
-    public Dictionary<Item, int> inputHolding;
+    public Dictionary<EntityData, int> inputHolding;
     [HideInInspector] public int outputHolding;
     [HideInInspector] public CraftingHandler.ActiveCrafters crafter;
     [HideInInspector] public bool isCrafting = false;
@@ -32,7 +32,7 @@ public class Constructor : Building
         }
 
         this.recipe = recipe;
-        inputHolding = new Dictionary<Item, int>();
+        inputHolding = new Dictionary<EntityData, int>();
 
         if (recipe.input.Length > 0)
             foreach (RecipeItem item in recipe.input)
@@ -47,7 +47,7 @@ public class Constructor : Building
     }
 
     // Adds an item to the internal crafter storage
-    public void AddItem(Item itemToInput, int amountToAdd)
+    public void AddItem(EntityData itemToInput, int amountToAdd)
     {
         if (CheckItem(itemToInput))
         { 
@@ -62,7 +62,7 @@ public class Constructor : Building
     {
         crafter = null;
         IOClass output = outputs[0];
-        Item itemToOutput = recipe.output[0].item;
+        ItemData itemToOutput = recipe.output[0].item;
 
         if (output.bin == null)
         {
@@ -89,7 +89,7 @@ public class Constructor : Building
                 input.building.UpdateBins();
     }
 
-    public void AddOutputItem(Item item, int amount)
+    public void AddOutputItem(ItemData item, int amount)
     {
         if (outputHolding + amount <= item.maxStackSize) outputHolding += amount;
     }
@@ -138,7 +138,7 @@ public class Constructor : Building
     }
     
     // Check an item being inputted
-    public bool CheckItem(Item item)
+    public bool CheckItem(EntityData item)
     {
         for (int i = 0; i < recipe.input.Length; i++)
             if (item == recipe.input[i].item) 
@@ -147,7 +147,7 @@ public class Constructor : Building
     }
 
     // Called when an entity is ready to be sent 
-    public override bool InputEntity(Entity entity)
+    public override bool InputEntity(Item entity)
     {
         if (CheckItem(entity.item))
         {
@@ -166,7 +166,7 @@ public class Constructor : Building
     }
 
     // Called when entity arrives at input bin
-    public override void ReceiveEntity(Entity entity)
+    public override void ReceiveEntity(Item entity)
     {
         // Add entity to internal storage and move it to output position
         AddItem(entity.item, 1);

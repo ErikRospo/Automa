@@ -2,6 +2,6 @@
 public class RecipeItem
 {
     public string name;
-    public Item item;
+    public ItemData item;
     public int amount;
 }

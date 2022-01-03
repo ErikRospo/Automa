@@ -102,7 +102,7 @@ public class Tablet : MonoBehaviour
         canvasGroup.blocksRaycasts = true;
 
         // Get the scriptable for the buildin
-        BuildingTile tile = ScriptableManager.active.RequestTileByName(building.name);
+        BuildingData tile = null; //ScriptableManager.active.RequestTileByName(building.name);
         if (tile == null) 
         {
             Debug.Log("Could not retrieve info on " + building.name);
@@ -126,7 +126,7 @@ public class Tablet : MonoBehaviour
     }
 
     // Loads recipes when a building with a machine scriptable is clicked
-    public void LoadRecipes(Machine machine)
+    public void LoadRecipes(MachineData machine)
     {
         // Recycle any previous recipes
         for (int i = 0; i < recipeButtons.Count; i++)

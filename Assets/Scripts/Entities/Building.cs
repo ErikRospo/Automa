@@ -31,20 +31,20 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Called by another building to input an entity
-    public virtual bool InputEntity(Entity entity)
+    public virtual bool InputEntity(Item entity)
     {
         Debug.Log("This building cannot input entities!");
         return false;
     }
 
     // Called once an entity gets to the input position
-    public virtual void ReceiveEntity(Entity entity)
+    public virtual void ReceiveEntity(Item entity)
     {
         Debug.Log("This building cannot receive entities!");
     }
 
     // Called once an entity is ready to be output
-    public virtual void OutputEntity(Entity entity)
+    public virtual void OutputEntity(Item entity)
     {
         Debug.Log("This building cannot output entities!");
     }

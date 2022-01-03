@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "New Building", menuName = "Buildings/Building")]
-public class BuildingTile : Item
+public class BuildingData : ItemData
 {
     [System.Serializable]
     public struct Cell
@@ -19,5 +19,5 @@ public class BuildingTile : Item
     public bool axisSnappable;
     public bool rotatable;
     public bool hasOptions;
-    public List<Mineral> spawnableOn;
+    public List<MineralData> spawnableOn;
 }

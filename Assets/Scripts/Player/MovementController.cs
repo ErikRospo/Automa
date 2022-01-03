@@ -16,16 +16,16 @@ public class MovementController : NetworkBehaviour
     // Inventory script (attached to object)
     Inventory inventory;
     
-    public Item test;
+    public ItemData test;
 
-    public BuildingTile conveyor;
-    public BuildingTile spawner;
-    public BuildingTile smelter;
-    public BuildingTile splitter;
-    public BuildingTile merger;
-    public BuildingTile constructor;
-    public BuildingTile assembler;
-    public BuildingTile garbage;
+    public BuildingData conveyor;
+    public BuildingData spawner;
+    public BuildingData smelter;
+    public BuildingData splitter;
+    public BuildingData merger;
+    public BuildingData constructor;
+    public BuildingData assembler;
+    public BuildingData garbage;
 
     // GameObject child transforms
     private Rigidbody2D body;
@@ -39,7 +39,7 @@ public class MovementController : NetworkBehaviour
     public TextMeshProUGUI nameTag;
 
     // Holds the equipped item
-    public Item equippedItem;
+    public EntityData equippedItem;
 
     // Movement variables
     float horizontal;

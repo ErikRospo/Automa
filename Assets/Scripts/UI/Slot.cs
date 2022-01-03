@@ -8,7 +8,7 @@ using Michsky.UI.ModernUIPack;
 public class Slot : MonoBehaviour
 {
     // Inventory slot variables
-    [HideInInspector] public Item item;
+    [HideInInspector] public ItemData item;
     [HideInInspector] public int amount;
 
     // Button UI variables
@@ -29,7 +29,7 @@ public class Slot : MonoBehaviour
         UIEvents.active.InventorySlotClick(this);
     }
 
-    public int SetSlot(Item item, int amount)
+    public int SetSlot(ItemData item, int amount)
     {
         // Overflow value
         int overflow = 0;
