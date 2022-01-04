@@ -7,7 +7,7 @@ using TMPro;
 public class RecipeButton : MonoBehaviour
 {
     public ButtonManagerBasicWithIcon button;
-    [HideInInspector] private Recipe recipe;
+    public Recipe recipe;
     public TooltipContent tooltip;
     public RecipeTooltip recipeTooltip;
 

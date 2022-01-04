@@ -37,18 +37,14 @@ public class BuildingHandler : NetworkBehaviour
         RpcInstantiateBuilding(tile, position, rotation, option);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcInstantiateBuilding(BuildingData tile, Vector2 position, Quaternion rotation, int option)
     {
-        // Get game objected from scriptable manager
-        // GameObject obj = ScriptableManager.active.RequestBuildingByName(tile.name);
-        GameObject obj = null;
-        if (obj == null) return;
-
         // Create the tile
-        Building lastBuilding = Instantiate(obj, position, rotation).GetComponent<Building>();
+        Building lastBuilding = Instantiate(tile.obj, position, rotation).GetComponent<Building>();
         lastBuilding.transform.position = new Vector3(position.x, position.y, -1);
         lastBuilding.name = tile.name;
+        lastBuilding.data = tile;
 
         // Apply options if required
         if (option != -1) lastBuilding.ApplyOptions(option);

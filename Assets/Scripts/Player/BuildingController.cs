@@ -7,7 +7,7 @@ public class BuildingController : NetworkBehaviour
     public Transform hologram;
     public Transform hologramInput;
     public Transform hologramOutput;
-    private BuildingData building;
+    public BuildingData building;
     public int option = -1;
 
     // Sprite values

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1834c118843a459e4be4e2e30c60e, type: 3}
   m_Name: Harvester
   m_EditorClassIdentifier: 
+  internalId: 8151d836-ba8a-4ff9-a94e-4cf983ed6fed
+  createdAtTicks: 637768140189969614
   name: Harvester
   description: Harvests raw ores from material deposits. Keep your distance!
+  icon: {fileID: 0}
   maxStackSize: 0
   obj: {fileID: 5670510890034788685, guid: 4ef8fc5d8c0f5814a928658a4fffe8ef, type: 3}
   cells:
@@ -27,11 +30,11 @@ MonoBehaviour:
     y: 5
   - x: -5
     y: -5
-  offset: {x: 0, y: 0}
+  horizontalOffset: {x: 0, y: 0}
+  verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
   hasOptions: 0
   spawnableOn: []
   recipes:
-  - {fileID: 11400000, guid: 9c59e8b053879a74a921a70243a874f4, type: 2}
-  - {fileID: 11400000, guid: c6a66c19100ae2d41949b2577aa8e798, type: 2}
+  - {fileID: 11400000, guid: c0116984e3423ff429fe37d8f792efe1, type: 2}

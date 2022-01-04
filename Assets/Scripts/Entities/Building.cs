@@ -11,6 +11,9 @@ using System;
 
 public abstract class Building : NetworkBehaviour, IDamageable
 {
+    // Building data
+    public BuildingData data;
+
     // Next / previous targets
     public IOClass[] inputs;
     public IOClass[] outputs;

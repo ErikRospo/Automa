@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Grid
 {
+    // Debug vector
+    public Vector2Int debugLastPos;
+
     // Cell class. Holds info about each cell
     public class Cell
     {
@@ -37,15 +40,18 @@ public class Grid
 
     public Cell RetrieveCell(Vector2Int coords)
     {
-        if (cells.TryGetValue(coords, out Cell cell))
+        if (coords != debugLastPos)
         {
-            return cell;
+            Debug.Log("Attempting to retrieve cell at " + coords + "(" + cells.ContainsKey(coords) + ")");
+            debugLastPos = coords;
         }
+        if (cells.TryGetValue(coords, out Cell cell)) return cell;
         else return null;
     }
 
     public void SetCell(Vector2Int coords, bool occupy, BuildingData tile = null, Building obj = null)
     {
+        Debug.Log("Set cell for " + tile.name + " to " + coords);
         if (cells.TryGetValue(coords, out Cell cell))
         {
             cell.tile = tile;

@@ -86,18 +86,10 @@ public class WorldGen : MonoBehaviour
 
         // Flag for default biome
         Biome lastTile = defaultBiome;
-        bool useDefaultBiome;
 
         // Create chunk parent
         GameObject chunk = Instantiate(emptyChunk, new Vector3(xValue * 5, yValue * 5, -1), Quaternion.identity);
         chunk.name = "Chunk " + newChunk;
-
-        // Create min and max values
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
-
-        // Get map noise
-        
 
         // Loop through x and y coordinates
         for (int x = xValue - chunkOffset; x < xValue + chunkOffset; x++)
@@ -105,45 +97,7 @@ public class WorldGen : MonoBehaviour
             for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
             {
                 // Default biome
-                useDefaultBiome = true;
-
-                // Generate noise map
-                foreach (Biome biome in Scriptables.biomes)
-                {
-                    // Create offset variables to track perlin passes
-                    float amplitude = 1;
-                    float frequency = 1;
-                    float noiseHeight = 1;
-
-                    // Use perlin passes to give natural looking terrain
-                    for (int i = 0; i < biome.octaves; i++)
-                    {
-                        // Calculate perlin noise pixel
-                        float xCoord = (((float)x / biome.spawnScale) + biome.noiseOffset) * frequency;
-                        float yCoord = (((float)y / biome.spawnScale) + biome.noiseOffset) * frequency;
-                        float value = Mathf.PerlinNoise(xCoord, yCoord) * 2 - 1;
-                        noiseHeight += value * amplitude;
-                        amplitude *= biome.persistance;
-                        frequency *= biome.lacunarity;
-                    }
-
-                    // Set min and max values
-                    if (noiseHeight > maxNoiseHeight)
-                        maxNoiseHeight = noiseHeight;
-                    else if (noiseHeight < minNoiseHeight)
-                        minNoiseHeight = noiseHeight;
-
-                    // If value exceeds threshold, try and generate
-                    if (noiseHeight >= biome.spawnThreshold)
-                    {
-                        biomeTextureMap.SetTile(new Vector3Int(x, y, 0), biome.tile);
-                        useDefaultBiome = false;
-                        lastTile = biome;
-                        break;
-                    }
-                }
-
-                if (useDefaultBiome) biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome.tile);
+                biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome.tile);
 
                 // Loop through resources
                 foreach (MineralData mineral in Scriptables.minerals)

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public void Start()
+    public void Awake()
     {
         Application.targetFrameRate = 1000;
         Scriptables.GenerateAllScriptables();

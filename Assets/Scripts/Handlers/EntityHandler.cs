@@ -84,17 +84,9 @@ public class EntityHandler : NetworkBehaviour
             return null;
         }
 
-        Sprite img = Resources.Load<Sprite>("Sprites/Items/" + item.name);
-        if (img == null)
-        {
-            Debug.LogError("The entity " + item.name + " does not contain an image in the resources folder!");
-            Recycler.AddRecyclable(obj);
-            return null;
-        }
-
         lastEntity.item = item;
         lastEntity.name = item.name;
-        sprite.sprite = img;
+        sprite.sprite = item.icon;
         return lastEntity;
     }
 

@@ -13,6 +13,7 @@ public class Constructor : Building
 
     private void Start()
     {
+        // Setup constructor
         SetRecipe(recipe);
         SetupPositions();
         CheckNearbyBuildings();

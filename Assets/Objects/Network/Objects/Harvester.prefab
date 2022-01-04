@@ -351,6 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  data: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
   inputs: []
   outputs:
   - binPosition: {x: 1.25, y: 0}
@@ -360,11 +361,9 @@ MonoBehaviour:
     building: {fileID: 0}
     reserved: 0
   acceptingEntities: 0
-  skipInputCheck: 0
-  skipOutputCheck: 0
   cells: []
   machine: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
-  recipe: {fileID: 11400000, guid: 9c59e8b053879a74a921a70243a874f4, type: 2}
+  recipe: {fileID: 11400000, guid: c0116984e3423ff429fe37d8f792efe1, type: 2}
   outputHolding: 0
   isCrafting: 0
 --- !u!212 &4356406150821790477
