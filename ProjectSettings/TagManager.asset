@@ -59,6 +59,12 @@ TagManager:
   - name: Player
     uniqueID: 3061068595
     locked: 0
+  - name: Equipment
+    uniqueID: 1243412201
+    locked: 0
+  - name: Weapon
+    uniqueID: 1065599451
+    locked: 0
   - name: Glow
     uniqueID: 362706735
     locked: 0
