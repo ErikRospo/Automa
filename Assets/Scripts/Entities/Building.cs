@@ -9,7 +9,7 @@ using System;
 // has to do with conveyors. You can define buildings to have multiple inputs
 // and outputs, as well as which tiles they should check for adjacent buildings.
 
-public abstract class Building : NetworkBehaviour, IDamageable
+public abstract class Building : BaseObject
 {
     // Building data
     public BuildingData data;
@@ -149,7 +149,7 @@ public abstract class Building : NetworkBehaviour, IDamageable
     }
 
     // Destroys the entity
-    public virtual void Kill()
+    public override void Kill()
     {
         // Iterate through inputs and remove any entities
         foreach (IOClass input in inputs)

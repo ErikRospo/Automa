@@ -23,6 +23,26 @@ public class EntityHandler : NetworkBehaviour
         public bool output;
     }
     public List<MovingEntity> movingEntities = new List<MovingEntity>();
+
+    public class MovingObject
+    {
+        public MovingObject(BaseObject obj, float speed, Vector2 target, Transform transform = null)
+        {
+            this.obj = obj;
+            this.speed = speed;
+            this.target = target;
+
+            if (transform == null) this.transform = obj.transform;
+            else this.transform = obj.transform;
+        }
+
+        public BaseObject obj;
+        public float speed;
+        public Vector2 target;
+        public Transform transform;
+    }
+    public List<MovingObject> movingObjects = new List<MovingObject>();
+
     public Transform entityContainer;
 
     public static EntityHandler active;
@@ -32,7 +52,8 @@ public class EntityHandler : NetworkBehaviour
         if (this != null)
             active = this;
     }
-    private void FixedUpdate()
+
+    private void Update()
     {
         Transform pos;
 
@@ -46,6 +67,17 @@ public class EntityHandler : NetworkBehaviour
                 i--;
             }
         }
+
+        for (int i = 0; i < movingObjects.Count; i++)
+        {
+            pos = movingObjects[i].transform;
+            pos.position = Vector2.MoveTowards(pos.position, movingObjects[i].target, movingObjects[i].speed * Time.deltaTime);
+            if (pos.position.x == movingObjects[i].target.x && pos.position.y == movingObjects[i].target.y)
+            {
+                RemoveMovingObject(movingObjects[i]);
+                i--;
+            }
+        }
     }
 
     // Registers a new conveyor entity and returns it to the callign script
@@ -55,6 +87,14 @@ public class EntityHandler : NetworkBehaviour
         movingEntities.Add(newEntity);
     }
 
+    // Registers a new moving object (can be anything)
+    public MovingObject RegisterMovingObject(BaseObject obj, float speed, Vector2 target, Transform transform = null)
+    {
+        MovingObject newObject = new MovingObject(obj, speed, target, transform);
+        movingObjects.Add(newObject);
+        return newObject;
+    }
+
     // Removes a conveyor entity
     public void RemoveMovingEntity(MovingEntity entity)
     {
@@ -62,6 +102,13 @@ public class EntityHandler : NetworkBehaviour
         else if (entity.output) entity.building.OutputEntity(entity.entity);
         else entity.building.ReceiveEntity(entity.entity);
         movingEntities.Remove(entity);
+    }
+
+    // Removes a conveyor entity
+    public void RemoveMovingObject(MovingObject obj)
+    {
+        if (obj.obj != null) obj.obj.FinishMoving();
+        movingObjects.Remove(obj);
     }
 
     public Item RegisterEntity(ItemData item, Vector2 position, Quaternion rotation)
