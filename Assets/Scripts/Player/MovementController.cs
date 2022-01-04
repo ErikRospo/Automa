@@ -127,10 +127,6 @@ public class MovementController : NetworkBehaviour
         CheckMovementInput();
         CalculateSpeed();
 
-        // Interacting input check
-        if (Input.GetKeyDown(Keybinds.equip)) 
-            Debug.Log(transform.name + " pressed equip button");
-
         // Alpha numeric input check 
         CheckHotbarInput();
     }

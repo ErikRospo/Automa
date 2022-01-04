@@ -6,10 +6,22 @@ public class Door : BaseObject
 {
     // Door variables
     public Door sibling;
-    public bool isOpen = false;
+    public bool isAutomatic;
+    public bool canInteract = false;
     public Vector2 openPosition;
     public Vector2 closedPosition;
     public float doorSpeed;
+
+    // Internal flags
+    private bool isSubscribed = false;
+    private bool isOpen = false;
+
+    // Manually toggle the door
+    public void ToggleDoor()
+    {
+        if (isOpen) CloseDoor();
+        else OpenDoor();
+    }
 
     // Open the door
     public void OpenDoor()
@@ -17,6 +29,8 @@ public class Door : BaseObject
         if (movingObject != null) EntityHandler.active.RemoveMovingObject(movingObject);
         movingObject = EntityHandler.active.RegisterMovingObject(this, doorSpeed, openPosition);
         if (sibling != null) sibling.OpenDoor();
+
+        isOpen = !isOpen;
     }
 
     // Close the door
@@ -25,15 +39,34 @@ public class Door : BaseObject
         if (movingObject != null) EntityHandler.active.RemoveMovingObject(movingObject);
         movingObject = EntityHandler.active.RegisterMovingObject(this, doorSpeed, closedPosition);
         if (sibling != null) sibling.CloseDoor();
+
+        isOpen = !isOpen;
     }
 
     // Trigger area (can work without a trigger)
-    public void OnTriggerEnter2D(Collider2D collision) { OpenDoor(); }
-    public void OnTriggerExit2D(Collider2D collision) { CloseDoor(); }
+    public void OnTriggerEnter2D(Collider2D collision) 
+    {
+        if (isAutomatic) OpenDoor();
+        else if (canInteract && !isSubscribed)
+        {
+            isSubscribed = true;
+            InputEvents.active.onInteractPressed += ToggleDoor;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision) 
+    {
+        if (isAutomatic) CloseDoor();
+        else if (canInteract && isSubscribed)
+        {
+            isSubscribed = false;
+            InputEvents.active.onInteractPressed -= ToggleDoor;
+        }
+    }
 
     // Override position arrive
     public override void FinishMoving()
     {
-        isOpen = !isOpen;
+        
     }
 }

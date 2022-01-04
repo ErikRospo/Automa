@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 // This is the base class for all objects. Contains basic definitions,
 // such as from the IDamageable interface, and for moving the object.
 
-public class BaseObject : NetworkBehaviour, IDamageable
+public class BaseObject : MonoBehaviour, IDamageable
 {
     // Moving object instance
     public EntityHandler.MovingObject movingObject = null;
