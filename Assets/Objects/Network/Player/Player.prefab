@@ -1639,6 +1639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3229210262294885684}
+  - component: {fileID: -2920928531193649994}
   - component: {fileID: 3700333533480057256}
   - component: {fileID: 732988199602288924}
   - component: {fileID: 322247051514838491}
@@ -1671,6 +1672,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2920928531193649994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3872071890451825528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857a36b131b13f54589d35a4126b87fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  shield: 0
+  stamina: 50
+  oxygen: 100
+  temperature: 25
+  radiation: 0.25
+  hunger: 20
+  thirst: 20
 --- !u!114 &3700333533480057256
 MonoBehaviour:
   m_ObjectHideFlags: 0

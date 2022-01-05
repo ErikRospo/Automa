@@ -8,34 +8,14 @@ public class Creature : MonoBehaviour, IDamageable
     public Dictionary<Stat, float> stats;
     public Dictionary<Stat, float> maxStats;
 
-    // Setup stats
-    public virtual void SetupStats()
+    // Placeholder setup
+    public void SetupStats(float health, float shield, float stamina, float oxygen,
+        float temperature, float radiation, float hunger, float thirst)
     {
         // Create new dictionary instances
         stats = new Dictionary<Stat, float>();
         maxStats = new Dictionary<Stat, float>();
 
-        // Placeholder setup (default stats for humanoid)
-        CreateDefaultStats(100, 100, 20, 100, 25, 0.25f, 10, 10);
-    }
-
-    // Damage method (IDamageable interface)
-    public virtual void Damage(float dmg)
-    {
-        stats[Stat.Health] -= dmg;
-        if (stats[Stat.Health] <= 0) Kill();
-    }
-
-    // Kill method (IDamageable interface)
-    public virtual void Kill()
-    {
-        Destroy(gameObject);
-    }
-
-    // Placeholder setup
-    public void CreateDefaultStats(float health, float shield, float stamina, float oxygen,
-        float temperature, float radiation, float hunger, float thirst)
-    {
         // Set HEALTH to default value
         stats.Add(Stat.Health, health);
         maxStats.Add(Stat.Health, stats[Stat.Health]);
@@ -67,6 +47,19 @@ public class Creature : MonoBehaviour, IDamageable
         // Set THIRST to default value
         stats.Add(Stat.Thirst, thirst);
         maxStats.Add(Stat.Thirst, stats[Stat.Thirst]);
+    }
+
+    // Damage method (IDamageable interface)
+    public virtual void Damage(float dmg)
+    {
+        stats[Stat.Health] -= dmg;
+        if (stats[Stat.Health] <= 0) Kill();
+    }
+
+    // Kill method (IDamageable interface)
+    public virtual void Kill()
+    {
+        Destroy(gameObject);
     }
 
     // Check stats
@@ -119,4 +112,7 @@ public class Creature : MonoBehaviour, IDamageable
 
     // Get a stat
     public float GetStat(Stat stat) { return stats[stat]; }
+    
+    // Check if at max
+    public bool IsAtMax(Stat stat) { return stats[stat] >= maxStats[stat]; }
 }

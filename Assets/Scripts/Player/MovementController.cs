@@ -14,18 +14,13 @@ public class MovementController : NetworkBehaviour
     private BuildingController buildingController;
 
     // Inventory script (attached to object)
-    Inventory inventory;
-    
-    public ItemData test;
+    private Inventory inventory;
 
-    public BuildingData conveyor;
-    public BuildingData spawner;
-    public BuildingData smelter;
-    public BuildingData splitter;
-    public BuildingData merger;
-    public BuildingData constructor;
-    public BuildingData assembler;
-    public BuildingData garbage;
+    // Player script (attached to object)
+    private Player player;
+
+    // Holds the equipped item
+    public EntityData equippedItem;
 
     // GameObject child transforms
     private Rigidbody2D body;
@@ -34,25 +29,18 @@ public class MovementController : NetworkBehaviour
     public Transform model;
 
     // Nametag variables
-    [SyncVar(hook = nameof(OnNameChanged))]
+    [SyncVar(hook = nameof(OnNameChanged)), HideInInspector]
     public string playerName;
     public TextMeshProUGUI nameTag;
 
-    // Holds the equipped item
-    public EntityData equippedItem;
-
     // Movement variables
-    float horizontal;
-    float vertical;
-
-    // Shooting variables
-    public bool isClicking = false;
-
-    // Player movement variables
-    private float speed;
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
     public float rotationSpeed = 5f;
+    private float horizontal;
+    private float vertical;
+    private float speed;
+    private float time = 1f;
 
     // Chunking value
     private Vector2Int chunkCoords = new Vector2Int(0, 0);
@@ -65,7 +53,12 @@ public class MovementController : NetworkBehaviour
         buildingController = GetComponent<BuildingController>();
 
         // Grab inventory script
+        player = GetComponent<Player>();
         inventory = GetComponent<Inventory>();
+
+        // Check to make sure scripts are found
+        if (player == null) Debug.Log("[WARNING] No player script attached to Movement Controller!");
+        if (inventory == null) Debug.Log("[WARNING] No inventory script attached to Movement Controller!");
 
         // Start for everyone
         body = GetComponent<Rigidbody2D>();
@@ -126,9 +119,6 @@ public class MovementController : NetworkBehaviour
         // Speed input checks
         CheckMovementInput();
         CalculateSpeed();
-
-        // Alpha numeric input check 
-        CheckHotbarInput();
     }
 
     // Update chunks
@@ -158,25 +148,42 @@ public class MovementController : NetworkBehaviour
     private void CalculateSpeed()
     {
         bool isMoving = horizontal != 0 || vertical != 0;
-        if (isMoving && Input.GetKey(KeyCode.LeftShift) && !Tablet.active) speed = runSpeed;
-        else if (!isMoving) speed = 0f;
-        else speed = walkSpeed;
-    }
 
-    // Checks for hotbar input
-    [ClientCallback]
-    private void CheckHotbarInput()
-    {
-        if (Input.GetKeyDown(Keybinds.hotbar_1)) buildingController.SetBuilding(conveyor);
-        else if (Input.GetKeyDown(Keybinds.hotbar_2)) buildingController.SetBuilding(spawner);
-        else if (Input.GetKeyDown(Keybinds.hotbar_3)) buildingController.SetBuilding(smelter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_4)) buildingController.SetBuilding(constructor);
-        else if (Input.GetKeyDown(Keybinds.hotbar_5)) buildingController.SetBuilding(assembler);
-        else if (Input.GetKeyDown(Keybinds.hotbar_6)) buildingController.SetBuilding(splitter);
-        else if (Input.GetKeyDown(Keybinds.hotbar_7)) buildingController.SetBuilding(merger);
-        else if (Input.GetKeyDown(Keybinds.hotbar_8)) buildingController.SetBuilding(garbage);
-        else if (Input.GetKeyDown(Keybinds.hotbar_9)) Inventory.active.CmdAddItem(test, 25);
-        else if (Input.GetKeyDown(Keybinds.hotbar_0)) Debug.Log("9");
+        if (isMoving && Input.GetKey(KeyCode.LeftShift) && !Tablet.active)
+        {
+            // Check if player has stamina
+            if (player.GetStat(Stat.Stamina) > 0)
+            {
+                // Update stamina
+                if (time <= 0f)
+                {
+                    player.Remove(Stat.Stamina, 1);
+                    time = 1f;
+                }
+                time -= Time.deltaTime;
+
+                // Set run speed
+                speed = runSpeed;
+            }
+            else speed = walkSpeed;
+        }
+        else
+        {
+            // Update stamina
+            if (!player.IsAtMax(Stat.Stamina))
+            {
+                if (time <= 0f)
+                {
+                    player.Add(Stat.Stamina, 1);
+                    time = 1f;
+                }
+                time += Time.deltaTime;
+            }
+
+            // Set walk speed or stand still
+            if (!isMoving) speed = 0f;
+            else speed = walkSpeed;
+        }
     }
 
     // Rotates the players head towards the mouse
