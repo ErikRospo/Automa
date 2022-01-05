@@ -147,7 +147,7 @@ public abstract class Building : BaseObject
     }
 
     // Destroys the entity
-    public override void Kill()
+    public override void Destroy()
     {
         // Iterate through inputs and remove any entities
         foreach (IOClass input in inputs)

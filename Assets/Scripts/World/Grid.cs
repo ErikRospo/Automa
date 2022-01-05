@@ -72,7 +72,7 @@ public class Grid
             {
                 for (int i = 0; i < building.cells.Count; i++)
                     cells.Remove(building.cells[i]);
-                building.Kill();
+                building.Destroy();
             }
         }
     }

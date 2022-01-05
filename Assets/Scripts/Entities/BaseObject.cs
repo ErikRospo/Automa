@@ -5,7 +5,7 @@ using UnityEngine;
 // This is the base class for all objects. Contains basic definitions,
 // such as from the IDamageable interface, and for moving the object.
 
-public class BaseObject : MonoBehaviour, IDamageable
+public class BaseObject : MonoBehaviour
 {
     // Moving object instance
     public EntityHandler.MovingObject movingObject = null;
@@ -14,7 +14,7 @@ public class BaseObject : MonoBehaviour, IDamageable
     public virtual void FinishMoving() { }
 
     // Destroys the entity
-    public virtual void Kill()
+    public virtual void Destroy()
     {
         // Destroy gameObject
         Destroy(gameObject);
