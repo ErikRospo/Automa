@@ -28,8 +28,13 @@ public class Stat
     public float current;
     public float max;
 
-    // Get percentage to max
-    public float GetPercentage() { return current / max; }
+    /// <summary>
+    /// Gets normalized percentage
+    /// </summary>
+    /// <returns>float between 0 and 1</returns>
+    public float GetPercentage() {
+        return (current - min) / (max - min);
+    }
 
     // Check if at max or min
     public bool IsAtMax() { return current >= max; }
