@@ -89,9 +89,6 @@ public class BuildingController : NetworkBehaviour
         
         if (tile != null)
         {
-            // Set option
-            if (tile.hasOptions) option = 0;
-
             // Get the tile sprite and set offset
             spriteRenderer.sprite = SpritesManager.GetSprite(tile.name);
 
