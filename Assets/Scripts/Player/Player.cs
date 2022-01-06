@@ -16,6 +16,9 @@ public class Player : Creature
         // Check authority
         if (!hasAuthority) return;
 
+        // Check if environment is null
+        environment = _environment;
+
         // Get veer instance
         veer = GetComponent<VeerAI>();
 
@@ -25,10 +28,29 @@ public class Player : Creature
         // Player spawn event
         Events.active.PlayerSpawned(this);
     }
-            
+
+    // TEMP UPDATE METHOD
+    public void Update()
+    {
+        // Check authority
+        if (!hasAuthority) return;
+
+        // Check if environment is null
+        if (environment == null)
+            environment = _environment;
+
+        // Check environment 
+        if (!environment.isOxygenated)
+            Modify(Stat.Type.Oxygen, -Time.deltaTime);
+    }
+
     // Change environment 
     public override void ChangeEnvironment(EnvironmentData environment)
     {
+        // Check if environment is null
+        if (environment == null) environment = _environment;
+        if (this.environment == null) this.environment = _environment;
+
         // Check if previous environment had oxygen
         if (this.environment.isOxygenated && !environment.isOxygenated)
             veer.AddVoiceLine(Voicelines.GetLine("exit_oxygen_environment"));
@@ -71,17 +93,6 @@ public class Player : Creature
             default:
                 break;
         }
-    }
-
-    // TEMP UPDATE METHOD
-    public void Update()
-    {
-        // Check authority
-        if (!hasAuthority) return;
-
-        // Check environment 
-        if (!environment.isOxygenated)
-            Modify(Stat.Type.Oxygen, -Time.deltaTime);
     }
 
     // Placeholder setup

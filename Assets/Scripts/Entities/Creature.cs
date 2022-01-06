@@ -8,7 +8,8 @@ public class Creature : NetworkBehaviour, IDamageable
     protected Dictionary<Stat.Type, Stat> stats = new Dictionary<Stat.Type, Stat>();
 
     // Environment the creature is in
-    public EnvironmentData environment;
+    public EnvironmentData _environment;
+    protected EnvironmentData environment;
 
     // Change environment 
     public virtual void ChangeEnvironment(EnvironmentData environment)
