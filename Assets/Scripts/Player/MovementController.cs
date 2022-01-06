@@ -40,7 +40,6 @@ public class MovementController : NetworkBehaviour
     private float horizontal;
     private float vertical;
     private float speed;
-    private float time = 1f;
 
     // Chunking value
     private Vector2Int chunkCoords = new Vector2Int(0, 0);
@@ -147,20 +146,21 @@ public class MovementController : NetworkBehaviour
     // Calculate speed
     private void CalculateSpeed()
     {
+        // Get the stamina stat from player
+        Stat stamina = player.GetStat(Stat.Type.Stamina);
+
+        // Check if the player is moving
         bool isMoving = horizontal != 0 || vertical != 0;
 
+        // Check if shift is being held
         if (isMoving && Input.GetKey(KeyCode.LeftShift) && !Tablet.active)
         {
             // Check if player has stamina
-            if (player.GetStat(Stat.Stamina) > 0)
+            if (stamina.current > 0)
             {
-                // Update stamina
-                if (time <= 0f)
-                {
-                    player.Remove(Stat.Stamina, 1);
-                    time = 1f;
-                }
-                time -= Time.deltaTime;
+                // Remove stamina from player
+                stamina.current -= Time.deltaTime;
+                player.SetStat(stamina);
 
                 // Set run speed
                 speed = runSpeed;
@@ -170,14 +170,10 @@ public class MovementController : NetworkBehaviour
         else
         {
             // Update stamina
-            if (!player.IsAtMax(Stat.Stamina))
+            if (!stamina.IsAtMax())
             {
-                if (time <= 0f)
-                {
-                    player.Add(Stat.Stamina, 1);
-                    time = 1f;
-                }
-                time += Time.deltaTime;
+                stamina.current += Time.deltaTime * 2f;
+                player.SetStat(stamina);
             }
 
             // Set walk speed or stand still

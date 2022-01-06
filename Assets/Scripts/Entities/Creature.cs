@@ -1,59 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Creature : MonoBehaviour, IDamageable
+public class Creature : NetworkBehaviour, IDamageable
 {
     // List of all player stats
-    public Dictionary<Stat, float> stats;
-    public Dictionary<Stat, float> maxStats;
-
-    // Placeholder setup
-    public void SetupStats(float health, float shield, float stamina, float oxygen,
-        float temperature, float radiation, float hunger, float thirst)
-    {
-        // Create new dictionary instances
-        stats = new Dictionary<Stat, float>();
-        maxStats = new Dictionary<Stat, float>();
-
-        // Set HEALTH to default value
-        stats.Add(Stat.Health, health);
-        maxStats.Add(Stat.Health, stats[Stat.Health]);
-
-        // Set SHIELD to default value
-        stats.Add(Stat.Shield, shield);
-        maxStats.Add(Stat.Shield, stats[Stat.Shield]);
-
-        // Set STAMINA to default value
-        stats.Add(Stat.Stamina, stamina);
-        maxStats.Add(Stat.Stamina, stats[Stat.Stamina]);
-
-        // Set OXYGEN to default value
-        stats.Add(Stat.Oxygen, oxygen);
-        maxStats.Add(Stat.Oxygen, stats[Stat.Oxygen]);
-
-        // Set TEMPERATURE to default value
-        stats.Add(Stat.Temperature, temperature);
-        maxStats.Add(Stat.Temperature, 35);
-
-        // Set RADIATION to default value
-        stats.Add(Stat.Radiation, radiation);
-        maxStats.Add(Stat.Radiation, 1000);
-
-        // Set HUNGER to default value
-        stats.Add(Stat.Hunger, hunger);
-        maxStats.Add(Stat.Hunger, stats[Stat.Hunger]);
-
-        // Set THIRST to default value
-        stats.Add(Stat.Thirst, thirst);
-        maxStats.Add(Stat.Thirst, stats[Stat.Thirst]);
-    }
+    protected Dictionary<Stat.Type, Stat> stats = new Dictionary<Stat.Type, Stat>();
 
     // Damage method (IDamageable interface)
     public virtual void Damage(float dmg)
     {
-        stats[Stat.Health] -= dmg;
-        if (stats[Stat.Health] <= 0) Kill();
+        Modify(Stat.Type.Health, dmg);
     }
 
     // Kill method (IDamageable interface)
@@ -62,13 +19,13 @@ public class Creature : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    // Check stats
-    public virtual void CheckStat(Stat stat)
+    /// <summary> Checks a specified stat. </summary>
+    public virtual void CheckStat(Stat.Type stat)
     {
         switch (stat)
         {
-            case Stat.Health:
-                if (stats[Stat.Health] <= 0) Kill();
+            case Stat.Type.Health:
+                if (GetStat(stat).IsAtMin()) Kill();
                 break;
 
             default:
@@ -76,43 +33,94 @@ public class Creature : MonoBehaviour, IDamageable
         }
     }
 
-    // Add amount to stat
-    public virtual void Add(Stat stat, float amount)
+    /// <summary> Modifies the current value of a stat. </summary>
+    public void Modify(Stat.Type type, float amount)
     {
-        stats[stat] += amount;
-        if (stats[stat] > maxStats[stat])
-            stats[stat] = maxStats[stat];
-        CheckStat(stat);
+        // Check if stat exists
+        if (!HasStat(type))
+        {
+            Debug.Log("Entity does not have stat " + type.ToString() + " (Modify)");
+            return;
+        }
+
+        // Modify stat amount
+        stats[type].current += amount;
+
+        // Check stat bounds
+        if (stats[type].IsAtMax())
+            stats[type].current = stats[type].max;
+        else if (stats[type].IsAtMin())
+            stats[type].current = stats[type].min;
+
+        // Update stat
+        CheckStat(type);
     }
 
-    // Add max amount to stat
-    public virtual void AddMax(Stat stat, float amount)
+    /// <summary> Modifies the maximum bound of a stat. </summary>
+    public void ModifyMax(Stat.Type type, float amount)
     {
-        maxStats[stat] += amount;
-        CheckStat(stat);
+        // Check if stat exists
+        if (!HasStat(type))
+        {
+            Debug.Log("Entity does not have stat " + type.ToString() + " (ModifyMax)");
+            return;
+        }
+
+        // Modify max stat amount
+        stats[type].max += amount;
+
+        // Check stat bounds
+        if (stats[type].IsAtMax())
+            stats[type].current = stats[type].max;
+
+        // Update stat
+        CheckStat(type);
     }
 
-    // Remove amount from stat
-    public virtual void Remove(Stat stat, float amount)
+    /// <summary> Modifies the minimum bound of a stat. </summary>
+    public void ModifyMin(Stat.Type type, float amount)
     {
-        stats[stat] -= amount;
-        if (stats[stat] < 0)
-            stats[stat] = 0;
-        CheckStat(stat);
+        // Check if stat exists
+        if (!HasStat(type))
+        {
+            Debug.Log("Entity does not have stat " + type.ToString() + " (ModifyMin)");
+            return;
+        }
+
+        // Modify max stat amount
+        stats[type].min += amount;
+
+        // Check stat bounds
+        if (stats[type].IsAtMin())
+            stats[type].current = stats[type].min;
+
+        // Update stat
+        CheckStat(type);
     }
 
-    // Remove amount from stat
-    public virtual void RemoveMax(Stat stat, float amount)
+    /// <summary> Sets a stat object, or creates a new one if it doesn't exist. </summary>
+    public void SetStat(Stat stat)
     {
-        maxStats[stat] -= amount;
-        if (stats[stat] > maxStats[stat])
-            stats[stat] = maxStats[stat];
-        CheckStat(stat);
+        if (HasStat(stat)) stats[stat.type] = stat;
+        else stats.Add(stat.type, stat);
     }
 
-    // Get a stat
-    public float GetStat(Stat stat) { return stats[stat]; }
-    
-    // Check if at max
-    public bool IsAtMax(Stat stat) { return stats[stat] >= maxStats[stat]; }
+    /// <summary> Returns a stat object, or returns null if it doesn't exist. </summary>
+    public Stat GetStat(Stat.Type type) 
+    {
+        if (HasStat(type)) return stats[type];
+        Debug.Log(transform.name + " does not have stat " + type.ToString());
+        return null;
+    }
+
+    /// <summary> Removes a stat from a creature. </summary>
+    public void RemoveStat(Stat.Type type)
+    {
+        if (HasStat(type)) stats.Remove(type);
+        else Debug.Log(transform.name + " does not have stat " + type.ToString());
+    }
+
+    /// <summary> Checks to see if a stat exists. </summary>
+    public bool HasStat(Stat stat) { return stats.ContainsKey(stat.type); }
+    public bool HasStat(Stat.Type type) { return stats.ContainsKey(type); }
 }
