@@ -6,31 +6,59 @@ using UnityEngine;
 public class Overlay : MonoBehaviour
 {
     // Stat UI class
-    [SerializeField]
+    [System.Serializable]
     public class StatElement
     {
-        public Stat stat;
+        public Stat.Type stat;
         public string name;
         public TextMeshProUGUI text;
-
-        // Update a stat
-        public void SetStat(float amount)
-        {
-
-        }
     }
-    public List<StatElement> _statElements;
+    public List<StatElement> debugElements;
 
-    // Internal dictionary
-    public Dictionary<Stat, StatElement> statElements = new Dictionary<Stat, StatElement>();
+    // Debug overlay
+    public bool debugValues = false;
+    private bool debugValuesActive = false;
 
+    // Player pointer 
+    private Player player = null;
+    
     // Setup overlay
     public void Start()
     {
-        // Loop through stat elements
-        foreach(StatElement stat in _statElements)
+        // Subscribe to player spawn event
+        Events.active.onPlayerSpawned += SetPlayerInstance;
+    }
+
+    // Sets the player instance
+    public void SetPlayerInstance(Player player)
+    {
+        this.player = player;
+    }
+
+    // Update method
+    public void Update()
+    {
+        if (player == null) return;
+
+        // Displays values to screen
+        if (debugValues)
         {
-            
+            if (!debugValuesActive) ToggleDebugValues();
+            foreach (StatElement stat in debugElements)
+            {
+                Stat holder = player.GetStat(stat.stat);
+                stat.text.text = "<b>" + stat.name + ":</b> " + Mathf.Round(holder.current) + " / " + Mathf.Round(holder.max);
+            }
         }
+        else if (debugValuesActive) ToggleDebugValues();
+    }
+
+    // Toggle debug values
+    public void ToggleDebugValues()
+    {
+        // Check if debug values enabled
+        debugValuesActive = !debugValuesActive;
+        foreach (StatElement stat in debugElements)
+            stat.text.gameObject.SetActive(debugValuesActive);
     }
 }

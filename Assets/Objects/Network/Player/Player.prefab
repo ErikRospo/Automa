@@ -1684,10 +1684,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857a36b131b13f54589d35a4126b87fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   health: 100
   shield: 0
-  stamina: 50
-  oxygen: 100
+  stamina: 20
+  oxygen: 50
   temperature: 25
   radiation: 0.25
   hunger: 20
@@ -1726,22 +1728,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   animator: {fileID: 8335915891923124817}
-  test: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
-  conveyor: {fileID: 11400000, guid: c8a5d3178da7b594d85f7c6d01752212, type: 2}
-  spawner: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
-  smelter: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
-  splitter: {fileID: 11400000, guid: a036963d8f00e3f469cf39770ece8b5b, type: 2}
-  merger: {fileID: 11400000, guid: 62829cfc10282dd419504000894daccb, type: 2}
-  constructor: {fileID: 11400000, guid: 454dcdecfbf43744bac6945641ecd9c6, type: 2}
-  assembler: {fileID: 11400000, guid: 7c1223319d23d45418e905e67106eda6, type: 2}
-  garbage: {fileID: 11400000, guid: d62dd5d24c3fa994bb7d16f6acfcd5db, type: 2}
+  equippedItem: {fileID: 0}
   head: {fileID: 6878087465902348663}
   itemContainer: {fileID: 0}
   model: {fileID: 5562487953030958008}
   playerName: 
   nameTag: {fileID: 8228792561639653528}
-  equippedItem: {fileID: 0}
-  isClicking: 0
   walkSpeed: 5
   runSpeed: 15
   rotationSpeed: 50

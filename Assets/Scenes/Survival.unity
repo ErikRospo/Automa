@@ -8336,6 +8336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 739508897}
+  - component: {fileID: 739508898}
   m_Layer: 5
   m_Name: Heads-Up Display
   m_TagString: Untagged
@@ -8367,6 +8368,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &739508898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739508896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9619f591ad590084ba896e0081c2b768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugElements:
+  - stat: 0
+    name: Health
+    text: {fileID: 288489642}
+  - stat: 3
+    name: Oxygen
+    text: {fileID: 881141145}
+  - stat: 2
+    name: Stamina
+    text: {fileID: 738676883}
+  debugValues: 1
 --- !u!1 &741059269
 GameObject:
   m_ObjectHideFlags: 0

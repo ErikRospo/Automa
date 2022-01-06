@@ -7,6 +7,16 @@ public class Creature : NetworkBehaviour, IDamageable
     // List of all player stats
     protected Dictionary<Stat.Type, Stat> stats = new Dictionary<Stat.Type, Stat>();
 
+    // Environment the creature is in
+    public EnvironmentData environment;
+
+    // Change environment 
+    public virtual void ChangeEnvironment(EnvironmentData environment)
+    {
+        // Assign new environment
+        this.environment = environment;
+    }
+
     // Damage method (IDamageable interface)
     public virtual void Damage(float dmg)
     {

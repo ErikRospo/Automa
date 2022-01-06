@@ -13,6 +13,13 @@ public class Events : MonoBehaviour
         active = this;
     }
 
+    public event Action<Player> onPlayerSpawned;
+    public void PlayerSpawned(Player player)
+    {
+        if (onPlayerSpawned != null)
+            onPlayerSpawned(player);
+    }
+
     public event Action onPlaceBuilding;
     public void PlaceBuilding()
     {
