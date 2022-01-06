@@ -14,6 +14,10 @@ public class Creature : NetworkBehaviour, IDamageable
     // Change environment 
     public virtual void ChangeEnvironment(EnvironmentData environment)
     {
+        // Check if environment is null
+        if (environment == null) environment = _environment;
+        if (this.environment == null) this.environment = _environment;
+
         // Assign new environment
         this.environment = environment;
     }

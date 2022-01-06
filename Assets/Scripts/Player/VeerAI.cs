@@ -8,6 +8,7 @@ using UnityEngine;
 public class VeerAI : MonoBehaviour
 {
     // Audio component
+    private Voiceline currentlyPlaying;
     private AudioSource audioSource;
 
     // Queued voicelines
@@ -28,15 +29,15 @@ public class VeerAI : MonoBehaviour
     // Plays the next queued voiceline
     public void NextVoiceLine()
     {
-        Voiceline voiceline = voicelineQueue.Dequeue();
-        audioSource.clip = voiceline.audio;
+        currentlyPlaying = voicelineQueue.Dequeue();
+        audioSource.clip = currentlyPlaying.audio;
         audioSource.Play();
     }
 
     // Add a voiceline to the queue
     public void AddVoiceLine(Voiceline voiceline)
     {
-        if (!voicelineQueue.Contains(voiceline))
+        if (!voicelineQueue.Contains(voiceline) && voiceline != currentlyPlaying)
             voicelineQueue.Enqueue(voiceline);
     }
 }

@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Droppod : Building
 {
-    
-    
-    public void OnCollisionEnter2D(Collision2D collision)
+    public EnvironmentData environment;
+    public GameObject interior, exterior;
+
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        interior.SetActive(true);
+        exterior.SetActive(false);
+        Creature creature = collision.GetComponent<Creature>();
+        if (creature != null) creature.ChangeEnvironment(environment);
     }
 
-    public void OnCollisionExit2D(Collision2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
-        
+        interior.SetActive(false);
+        exterior.SetActive(true);
+        Creature creature = collision.GetComponent<Creature>();
+        if (creature != null) creature.ChangeEnvironment(null);
     }
 }

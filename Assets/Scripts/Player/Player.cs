@@ -4,7 +4,7 @@ public class Player : Creature
 {
     // Get Veer AI attached to player object
     private VeerAI veer;
-
+    
     // Default stats for player
     [SerializeField]
     private float health, shield, stamina, oxygen, 
@@ -83,10 +83,10 @@ public class Player : Creature
                 if (stat.IsAtMin()) Modify(Stat.Type.Health, Time.deltaTime * 5f);
 
                 // If player does have oxygen, check for audio queues
-                if (stat.GetPercentage() <= 0.1f)
-                    veer.AddVoiceLine(Voicelines.GetLine("oxygen_low"));
-                else if (stat.GetPercentage() <= 0f)
-                    veer.AddVoiceLine(Voicelines.GetLine("oxygen_critical"));
+                // if (stat.GetPercentage() <= 0f)
+                //     veer.AddVoiceLine(Voicelines.GetLine("oxygen_critical"));
+                // else if (stat.GetPercentage() <= 0.1f)
+                //     veer.AddVoiceLine(Voicelines.GetLine("oxygen_low"));
 
                 break;
 
