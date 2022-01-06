@@ -29,8 +29,7 @@ public class VeerAI : MonoBehaviour
     public void NextVoiceLine()
     {
         Voiceline voiceline = voicelineQueue.Dequeue();
-        Voiceline.Clip clip = voiceline.GetClip();
-        audioSource.clip = clip.audio;
+        audioSource.clip = voiceline.audio;
         audioSource.Play();
     }
 

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7136eba0f0503a3419daa9d3d18d21c7, type: 3}
+  m_Name: Exit O2
+  m_EditorClassIdentifier: 
+  internalId: 29877a00-279a-4248-b00b-d0de7b546e51
+  createdAtTicks: 637770069895018531
+  audio: {fileID: 8300000, guid: 2f2ee1f34afae034394d200ea3c73c71, type: 3}
+  identifier: exit_oxygen_environment
+  clips:
+  - language: 0
+    translation: Exiting pressurized environment. Suit is now drawing from oxygen
+      supply

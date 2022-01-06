@@ -19,33 +19,21 @@ public class Voiceline : IdentifiableScriptableObject
     [System.Serializable]
     public class Clip
     {
-        public string name;
-        public string translation;
-        public AudioClip audio;
         public Language language;
+        [TextArea] public string translation;
     }
 
-    public new string name;
+    public AudioClip audio;
     public string identifier;
     public List<Clip> clips;
 
-    public Clip GetClip(Language language = Language.English)
+    public string GetTranslation(Language language = Language.English)
     {
         foreach (Clip clip in clips)
             if (clip.language == language)
-                return clip;
+                return clip.translation;
 
-        Debug.Log("Could not retrieve clip with the specified language " + language.ToString());
-        return null;
-    }
-
-    public AudioClip GetAudio(Language language = Language.English)
-    {
-        foreach (Clip clip in clips)
-            if (clip.language == language)
-                return clip.audio;
-
-        Debug.Log("Could not retrieve audio with the specified language " + language.ToString());
+        Debug.Log("Could not retrieve translation for the specified language " + language.ToString());
         return null;
     }
 }

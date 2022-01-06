@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7136eba0f0503a3419daa9d3d18d21c7, type: 3}
+  m_Name: O2 Low
+  m_EditorClassIdentifier: 
+  internalId: 550ee7e1-b10c-4464-b050-98169c8bf05c
+  createdAtTicks: 637770069049369562
+  audio: {fileID: 8300000, guid: cd5f054f249689a4889ba776bc54e6ab, type: 3}
+  identifier: oxygen_low
+  clips:
+  - language: 0
+    translation: Oxygen levels low.

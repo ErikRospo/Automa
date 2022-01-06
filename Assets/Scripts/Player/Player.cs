@@ -40,17 +40,32 @@ public class Player : Creature
     }
 
     // Stats method
-    public override void CheckStat(Stat.Type stat)
+    public override void CheckStat(Stat.Type type)
     {
-        switch (stat)
+        // Get stat object
+        Stat stat = GetStat(type);
+
+        // Update stat
+        switch (type)
         {
             case Stat.Type.Health:
-                if (GetStat(stat).IsAtMin()) Kill();
+
+                // Check if player still has health
+                if (stat.IsAtMin()) Kill();
+
                 break;
 
             case Stat.Type.Oxygen:
-                if (GetStat(Stat.Type.Oxygen).IsAtMin())
-                    Modify(Stat.Type.Health, Time.deltaTime * 5f);
+
+                // Check if player has no oxygen
+                if (stat.IsAtMin()) Modify(Stat.Type.Health, Time.deltaTime * 5f);
+
+                // If player does have oxygen, check for audio queues
+                if (stat.GetPercentage() <= 0.1f)
+                    veer.AddVoiceLine(Voicelines.GetLine("oxygen_low"));
+                else if (stat.GetPercentage() <= 0f)
+                    veer.AddVoiceLine(Voicelines.GetLine("oxygen_critical"));
+
                 break;
 
             default:

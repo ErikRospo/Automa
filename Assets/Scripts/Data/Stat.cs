@@ -28,6 +28,9 @@ public class Stat
     public float current;
     public float max;
 
+    // Get percentage to max
+    public float GetPercentage() { return current / max; }
+
     // Check if at max or min
     public bool IsAtMax() { return current >= max; }
     public bool IsAtMin() { return current <= min; }
