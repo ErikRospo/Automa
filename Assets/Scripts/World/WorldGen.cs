@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using TMPro;
 
 public class WorldGen : MonoBehaviour
 {
@@ -8,40 +9,40 @@ public class WorldGen : MonoBehaviour
     public static WorldGen active;
 
     // Chunk variables
+    public int seed;
     public GameObject emptyChunk;
     public int renderDistance = 5;
-    public int chunkSize = 20;
-    public float perlinScale = 500;
+    public int chunkSize = 10;
+    [HideInInspector] public float worldChunkSize;
 
     // List of resource tiles
     public ResourceTile resourceTile;
     [HideInInspector] public Dictionary<Vector2Int, MineralData> spawnedResources;
+    [HideInInspector] public Grid resourceGrid;
 
     // List of environment tiles
     public Biome defaultBiome;
     public Tilemap biomeTextureMap;
 
-    // Resource grid
-    [HideInInspector] public Grid resourceGrid;
-
     // Loaded chunks
     public Dictionary<Vector2Int, Transform> loadedChunks;
+
+    // Debug variables
+    public bool enableDebugging;
 
     public void Start()
     {
         // Get active instance
         active = this;
 
+        // Get world chunk size
+        worldChunkSize = chunkSize * 5f;
+
         // Create a new resource grid
         resourceGrid = new Grid();
         spawnedResources = new Dictionary<Vector2Int, MineralData>();
         resourceGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
         loadedChunks = new Dictionary<Vector2Int, Transform>();
-
-        // Set random seed
-        #pragma warning disable CS0618
-        Random.seed = Random.Range(0, 1000000000);
-        #pragma warning restore CS0618
     }
     
     // Generate resources
@@ -84,53 +85,38 @@ public class WorldGen : MonoBehaviour
         int xValue = newChunk.x * chunkSize + chunkOffset;
         int yValue = newChunk.y * chunkSize + chunkOffset;
 
-        // Flag for default biome
-        Biome lastTile = defaultBiome;
-
-        // Create chunk parent
-        GameObject chunk = Instantiate(emptyChunk, new Vector3(xValue * 5, yValue * 5, -1), Quaternion.identity);
+        // Create new chunk parent
+        GameObject chunk = Instantiate(emptyChunk, new Vector3((xValue * 5) + (chunkOffset * 5), 
+            (yValue * 5) + (chunkOffset * 5), -1), Quaternion.identity);
         chunk.name = "Chunk " + newChunk;
-
-        // Loop through x and y coordinates
-        for (int x = xValue - chunkOffset; x < xValue + chunkOffset; x++)
+        
+        // If debugging on, visually display show chunk
+        if (enableDebugging)
         {
-            for (int y = yValue - chunkOffset; y < yValue + chunkOffset; y++)
+            chunk.GetComponent<MeshRenderer>().enabled = true;
+            TextMeshPro text = chunk.GetComponent<TextMeshPro>();
+            text.text = chunk.name;
+            text.enabled = true;
+        }
+
+        // Loop through all biomes and generate it
+        foreach(Biome biome in Scriptables.biomes)
+        {
+            // Create new noise chunk
+            // float[,] noiseChunk = Noise.GenerateNoiseChunk(newChunk, chunkSize, chunkSize, biome.spawnScale, biome.octaves, biome.persistance, biome.lacunarity, seed);
+
+            // Loop through each pixel in the noise chunk
+            for (int y = 0; y < chunkSize; y++)
             {
-                // Default biome
-                biomeTextureMap.SetTile(new Vector3Int(x, y, 0), defaultBiome.tile);
-
-                // Loop through resources
-                foreach (MineralData mineral in Scriptables.minerals)
+                for (int x = 0; x < chunkSize; x++)
                 {
-                    // Check if resource can spawn on tile
-                    if (lastTile.isLiquid && !mineral.canSpawnOnLiquid) continue;
-                    else if (!lastTile.isLiquid && !mineral.canSpawnOnLand) continue;
+                    // Get world position of noise map
+                    Vector2 worldPos = new Vector2((xValue + x) * 5, (yValue + y) * 5);
 
-                    // Check if resource uses perlin noise
-                    if (!mineral.usePerlinNoise)
+                    // Default biome
+                    if (!biomeTextureMap.HasTile(new Vector3Int(x + xValue, y + yValue, 0)))
                     {
-                        // Calculate random float value
-                        float value = Random.value;
-                        if (mineral.spawnThreshold < value)
-                        {
-                            // If threshold exceed value, spawn
-                            TrySpawnResource(mineral, x, y, chunk.transform);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        // Calculate perlin noise pixel
-                        float xCoord = ((float)x / mineral.spawnScale) + mineral.noiseOffset;
-                        float yCoord = ((float)y / mineral.spawnScale) + mineral.noiseOffset;
-                        float value = Mathf.PerlinNoise(xCoord, yCoord);
-
-                        // If value exceeds threshold, try and generate
-                        if (value >= mineral.spawnThreshold)
-                        {
-                            TrySpawnResource(mineral, x, y, chunk.transform);
-                            break;
-                        }
+                        biomeTextureMap.SetTile(new Vector3Int(x + xValue, y + yValue, 0), defaultBiome.tile);
                     }
                 }
             }

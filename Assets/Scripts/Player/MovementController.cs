@@ -125,7 +125,12 @@ public class MovementController : NetworkBehaviour
     {
         if (WorldGen.active != null)
         {
-            Vector2Int chunk = Vector2Int.RoundToInt(new Vector2(transform.position.x / 100, transform.position.y / 100));
+            // Get chunk coordinates
+            Vector2Int chunk = Vector2Int.RoundToInt(new Vector2(
+                transform.position.x / WorldGen.active.worldChunkSize, 
+                transform.position.y / WorldGen.active.worldChunkSize));
+
+            // Update chunks 
             if (chunk != chunkCoords) WorldGen.active.UpdateChunks(chunk);
             chunkCoords = chunk;
         }

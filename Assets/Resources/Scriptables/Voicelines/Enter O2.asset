@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: 2167c652-dcce-4198-bab3-e3ec339666f6
   createdAtTicks: 637770069715815633
-  audio: {fileID: 8300000, guid: 8a5cf3b3df4f06848ab559e519b0cebc, type: 3}
+  audio: {fileID: 8300000, guid: b3ed3e2e4866b2c489d8aec03e4b617b, type: 3}
   identifier: enter_oxygen_environment
   clips:
   - language: 0

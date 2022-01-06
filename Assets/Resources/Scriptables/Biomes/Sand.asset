@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad05c97b263a6ac4db928c6628f0e5b7, type: 3}
   m_Name: Sand
   m_EditorClassIdentifier: 
+  internalId: c0999be2-a712-45ff-b3bf-c27280338230
+  createdAtTicks: 637770637682114602
   name: Sand
   isLiquid: 0
-  usePerlinNoise: 1
-  spawnScale: 1000
-  spawnThreshold: 0.3
-  noiseOffset: 1000
+  usePerlinNoise: 0
+  spawnScale: 0
+  spawnThreshold: 0
+  noiseOffset: 0
   tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
+  octaves: 0
+  persistance: 0
+  lacunarity: 0
