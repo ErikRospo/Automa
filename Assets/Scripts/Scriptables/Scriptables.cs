@@ -12,6 +12,7 @@ public static class Scriptables
     public static string MineralPath = "Scriptables/Minerals";
     public static string RecipePath = "Scriptables/Recipes";
     public static string BiomePath = "Scriptables/Biomes";
+    public static string VoicelinePath = "Scriptables/Voicelines";
 
     // Scriptable dictionaries
     public static Dictionary<string, BuildingData> buildingDict;
@@ -34,6 +35,7 @@ public static class Scriptables
         GenerateItems();
         GenerateMinerals();
         GenerateBiomes();
+        GenerateVoicelines();
     }
 
     // Generate buildings on startup
@@ -101,6 +103,21 @@ public static class Scriptables
             biomeDict.Add(biome.InternalID, biome);
             biomes.Add(biome);
             Debug.Log("Loaded " + biome.name + " with UUID " + biome.InternalID);
+        }
+    }
+
+    // Generate voicelines on startup
+    public static void GenerateVoicelines()
+    {
+        Voicelines.lines = new Dictionary<string, Voiceline>();
+
+        List<Voiceline> loaded = Resources.LoadAll(VoicelinePath, typeof(Voiceline)).Cast<Voiceline>().ToList();
+        Debug.Log("Loaded " + loaded.Count + " voicelines from " + VoicelinePath);
+
+        foreach (Voiceline voiceline in loaded)
+        {
+            Voicelines.lines.Add(voiceline.identifier, voiceline);
+            Debug.Log("Loaded " + voiceline.name + " with identifier " + voiceline.identifier);
         }
     }
 }

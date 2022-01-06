@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Player : Creature
 {
+    // Get Veer AI attached to player object
+    private VeerAI veer;
+
     // Default stats for player
     [SerializeField]
     private float health, shield, stamina, oxygen, 
@@ -12,6 +15,9 @@ public class Player : Creature
     {
         // Check authority
         if (!hasAuthority) return;
+
+        // Get veer instance
+        veer = GetComponent<VeerAI>();
 
         // Create stats
         SetDefaultStats(health, shield, stamina, oxygen, temperature, radiation, hunger, thirst);
@@ -24,8 +30,10 @@ public class Player : Creature
     public override void ChangeEnvironment(EnvironmentData environment)
     {
         // Check if previous environment had oxygen
-        // if (this.environment.isOxygenated && !environment.isOxygenated)
-
+        if (this.environment.isOxygenated && !environment.isOxygenated)
+            veer.AddVoiceLine(Voicelines.GetLine("exit_oxygen_environment"));
+        else if (!this.environment.isOxygenated && environment.isOxygenated)
+            veer.AddVoiceLine(Voicelines.GetLine("enter_oxygen_environment"));
 
         // Assign new environment
         this.environment = environment;

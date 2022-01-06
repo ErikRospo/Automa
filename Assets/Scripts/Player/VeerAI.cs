@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Voiceline ID's and translations
+// https://docs.google.com/spreadsheets/d/19zwwKQXA00ff4Hzy6THyu9ErTiBCfEcNz8d5BabCRPg/edit?usp=sharing
+
 public class VeerAI : MonoBehaviour
 {
     // Audio component
@@ -26,7 +29,8 @@ public class VeerAI : MonoBehaviour
     public void NextVoiceLine()
     {
         Voiceline voiceline = voicelineQueue.Dequeue();
-        audioSource.clip = voiceline.audio;
+        Voiceline.Clip clip = voiceline.GetClip();
+        audioSource.clip = clip.audio;
         audioSource.Play();
     }
 
