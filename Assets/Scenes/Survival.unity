@@ -10221,10 +10221,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 815102592726792486, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129563627386460966, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5670510890034788685, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
         type: 3}
       propertyPath: m_Name
       value: Droppod
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732247804731636750, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849501800360785369, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.2
       objectReference: {fileID: 0}
     - target: {fileID: 9065659980565167954, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
         type: 3}
