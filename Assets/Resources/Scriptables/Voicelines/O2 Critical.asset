@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: 2cceeb34-5187-4e01-a813-d70a1e573c83
   createdAtTicks: 637770069466949356
-  audio: {fileID: 8300000, guid: b147432db52bd8f418a6258f63e1d9cb, type: 3}
+  femaleAudio: {fileID: 8300000, guid: 22dd4b80d4ddae64499bcbafbfdd5545, type: 3}
+  maleAudio: {fileID: 8300000, guid: e3c11e3aacbdae143aa862b3c14c5405, type: 3}
   identifier: oxygen_critical
   clips:
   - language: 0

@@ -8,6 +8,7 @@ using UnityEngine;
 public class VeerAI : MonoBehaviour
 {
     // Audio component
+    public bool femaleVoice = true;
     private Voiceline currentlyPlaying;
     private AudioSource audioSource;
 
@@ -30,7 +31,7 @@ public class VeerAI : MonoBehaviour
     public void NextVoiceLine()
     {
         currentlyPlaying = voicelineQueue.Dequeue();
-        audioSource.clip = currentlyPlaying.audio;
+        audioSource.clip = currentlyPlaying.GetAudio(femaleVoice);
         audioSource.Play();
     }
 

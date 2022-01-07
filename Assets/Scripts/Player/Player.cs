@@ -7,7 +7,7 @@ public class Player : Creature
     
     // Default stats for player
     [SerializeField]
-    private float health, shield, stamina, oxygen, 
+    private float health, shield, stamina, oxygen, startingOxygen,
         temperature, radiation, hunger, thirst;
 
     // Start method
@@ -23,7 +23,7 @@ public class Player : Creature
         veer = GetComponent<VeerAI>();
 
         // Create stats
-        SetDefaultStats(health, shield, stamina, oxygen, temperature, radiation, hunger, thirst);
+        SetDefaultStats(health, shield, stamina, startingOxygen, oxygen, temperature, radiation, hunger, thirst);
 
         // Player spawn event
         Events.active.PlayerSpawned(this);
@@ -42,6 +42,12 @@ public class Player : Creature
         // Check environment 
         if (!environment.isOxygenated)
             Modify(Stat.Type.Oxygen, -Time.deltaTime);
+        else if (!GetStat(Stat.Type.Oxygen).IsAtMax())
+        {
+            Modify(Stat.Type.Oxygen, Time.deltaTime * 30);
+            if (GetStat(Stat.Type.Oxygen).IsAtMax())
+                veer.AddVoiceLine(Voicelines.GetLine("oxygen_full"));
+        }
     }
 
     // Change environment 
@@ -96,14 +102,14 @@ public class Player : Creature
     }
 
     // Placeholder setup
-    public void SetDefaultStats(float health, float shield, float stamina, float oxygen,
-        float temperature, float radiation, float hunger, float thirst)
+    public void SetDefaultStats(float health, float shield, float stamina, float startingOxygen,
+        float oxygen, float temperature, float radiation, float hunger, float thirst)
     {
         // Create new dictionary instances
         SetStat(new Stat(Stat.Type.Health, 0, health, health));
         SetStat(new Stat(Stat.Type.Shield, 0, shield, shield));
         SetStat(new Stat(Stat.Type.Stamina, 0, stamina, stamina));
-        SetStat(new Stat(Stat.Type.Oxygen, 0, oxygen, oxygen));
+        SetStat(new Stat(Stat.Type.Oxygen, 0, startingOxygen, oxygen));
         SetStat(new Stat(Stat.Type.Temperature, 25f, temperature, 45f));
         SetStat(new Stat(Stat.Type.Radiation, 0, radiation, 1000f));
         SetStat(new Stat(Stat.Type.Hunger, 0, hunger, hunger));

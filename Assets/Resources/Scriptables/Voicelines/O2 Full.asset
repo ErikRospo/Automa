@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7136eba0f0503a3419daa9d3d18d21c7, type: 3}
-  m_Name: Exit O2
+  m_Name: O2 Full
   m_EditorClassIdentifier: 
-  internalId: 29877a00-279a-4248-b00b-d0de7b546e51
-  createdAtTicks: 637770069895018531
-  femaleAudio: {fileID: 8300000, guid: 0e4f5490c9830e2409ec976362129884, type: 3}
-  maleAudio: {fileID: 8300000, guid: 48f62d37901033049a9827a20639683d, type: 3}
-  identifier: exit_oxygen_environment
+  internalId: c3f57696-4610-457f-87dd-7114c0037240
+  createdAtTicks: 637770858798884423
+  femaleAudio: {fileID: 8300000, guid: 7ec405ef8c83442428506b238ebb8168, type: 3}
+  maleAudio: {fileID: 8300000, guid: e020416527094f04abaacdec11b720f0, type: 3}
+  identifier: oxygen_full
   clips:
   - language: 0
-    translation: Exiting pressurized environment. Oxygen reserves now in use.
+    translation: Oxygen reserves at 100 percent.

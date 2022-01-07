@@ -23,7 +23,8 @@ public class Voiceline : IdentifiableScriptableObject
         [TextArea] public string translation;
     }
 
-    public AudioClip audio;
+    public AudioClip femaleAudio;
+    public AudioClip maleAudio;
     public string identifier;
     public List<Clip> clips;
 
@@ -35,5 +36,11 @@ public class Voiceline : IdentifiableScriptableObject
 
         Debug.Log("Could not retrieve translation for the specified language " + language.ToString());
         return null;
+    }
+
+    public AudioClip GetAudio(bool female)
+    {
+        if (female) return femaleAudio;
+        else return maleAudio;
     }
 }

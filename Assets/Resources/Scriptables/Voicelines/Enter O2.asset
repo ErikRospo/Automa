@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: 2167c652-dcce-4198-bab3-e3ec339666f6
   createdAtTicks: 637770069715815633
-  audio: {fileID: 8300000, guid: b3ed3e2e4866b2c489d8aec03e4b617b, type: 3}
+  femaleAudio: {fileID: 8300000, guid: daf23ec55018fab4f90f3464172d9d23, type: 3}
+  maleAudio: {fileID: 8300000, guid: 8ad97ba5cee725d44b6aa248c5b45a3c, type: 3}
   identifier: enter_oxygen_environment
   clips:
   - language: 0
-    translation: Entering pressurized environment. Suit is no longer drawing from
-      oxygen supply
+    translation: Entering pressurized environment. Oxygen reserves now refueling.

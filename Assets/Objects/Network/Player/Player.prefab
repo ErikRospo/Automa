@@ -1693,6 +1693,7 @@ MonoBehaviour:
   shield: 0
   stamina: 20
   oxygen: 360
+  startingOxygen: 0
   temperature: 25
   radiation: 0.25
   hunger: 20
@@ -1709,6 +1710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c535a8b438b26bc40996069f108a0fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  femaleVoice: 0
 --- !u!114 &3700333533480057256
 MonoBehaviour:
   m_ObjectHideFlags: 0
