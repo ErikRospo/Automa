@@ -22511,8 +22511,9 @@ MonoBehaviour:
   seed: 0
   emptyChunk: {fileID: 5320635277402148286, guid: fcbb543fc9366df42bdb528ac612c3ee,
     type: 3}
-  renderDistance: 10
+  renderDistance: 6
   chunkSize: 10
+  worldChunkSize: 0
   resourceTile: {fileID: -5637757227350493285, guid: e5ea9cdb4041129428eb0eacdee13d1d,
     type: 3}
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}

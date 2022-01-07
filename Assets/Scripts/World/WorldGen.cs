@@ -11,8 +11,9 @@ public class WorldGen : MonoBehaviour
     // Chunk variables
     public int seed;
     public GameObject emptyChunk;
-    public int renderDistance = 5;
     public int chunkSize = 10;
+    private int horizontalRenderDistance = 7;
+    private int verticalRenderDistance = 4;
     [HideInInspector] public float worldChunkSize;
 
     // List of resource tiles
@@ -157,8 +158,8 @@ public class WorldGen : MonoBehaviour
         List<Vector2Int> chunks = new List<Vector2Int>();
 
         // Get surrounding chunks based on render distance
-        for (int x = chunk.x - renderDistance; x < chunk.x + renderDistance; x++)
-            for (int y = chunk.y - renderDistance; y < chunk.y + renderDistance; y++)
+        for (int x = chunk.x - horizontalRenderDistance; x < chunk.x + horizontalRenderDistance; x++)
+            for (int y = chunk.y - verticalRenderDistance; y < chunk.y + verticalRenderDistance; y++)
                 chunks.Add(new Vector2Int(x, y));
 
         // Return chunk coordinates
