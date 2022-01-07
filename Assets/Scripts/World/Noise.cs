@@ -18,13 +18,13 @@ public static class Noise
     /// <param name="lacunarity"></param>
     /// <param name="seed"></param>
     /// <returns></returns>
-    public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, Vector2 coordinates, int size, int seed)
+    public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, int xValue, int yValue, int sampleSize, int seed)
     {
         // Debug when starting a sample
-        Debug.Log("Sampling " + coordinates);
+        Debug.Log("Sampling " + "x:"+xValue + " and y:" + yValue);
 
         // Create new multi-dimensional array for the noise chunk
-        float[,] noiseChunk = new float[size, size];
+        float[,] noiseChunk = new float[sampleSize, sampleSize];
 
         // Create a new random generator with the specified seed
         System.Random random = new System.Random(seed);
@@ -45,9 +45,9 @@ public static class Noise
         float minNoiseHeight = float.MaxValue;
 
         // Iterate through noise chunk
-        for (int x = 0; x < size; x++)
+        for (int x = 0; x < sampleSize; x++)
         {
-            for (int y = 0; y < size; y++)
+            for (int y = 0; y < sampleSize; y++)
             {
                 // Internal loop values
                 float amplitude = 1;
@@ -57,8 +57,8 @@ public static class Noise
                 // Sample multiple noise passes
                 for (int i = 0; i < perlinOptions.octaves; i++)
                 {
-                    float sampleX = (x + coordinates.x) / perlinOptions.scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (y + coordinates.y) / perlinOptions.scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x + xValue) / perlinOptions.scale * frequency + octaveOffsets[i].x;
+                    float sampleY = (y + yValue) / perlinOptions.scale * frequency + octaveOffsets[i].y;
 
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
@@ -79,9 +79,9 @@ public static class Noise
         }
 
         // Iterate through bounds of the noise chunk and lerp
-        for (int x = 0; x < size; x++)
+        for (int x = 0; x < sampleSize; x++)
         {
-            for (int y = 0; y < size; y++)
+            for (int y = 0; y < sampleSize; y++)
             {
                 noiseChunk[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseChunk[x, y]);
             }

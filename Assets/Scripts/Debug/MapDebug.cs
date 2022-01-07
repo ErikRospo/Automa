@@ -10,7 +10,7 @@ public class MapDebug : MonoBehaviour
 	public PerlinOptions perlinOptions;
 	public int size;
 	public int seed;
-	public Vector2 offset;
+	public Vector2Int offset;
 
 	public bool autoUpdate;
 	public float cooldown = 1f;
@@ -29,7 +29,7 @@ public class MapDebug : MonoBehaviour
     }
     public void GenerateMap()
 	{
-		float[,] noiseMap = Noise.GenerateNoiseChunk(perlinOptions, offset, size, seed);
+		float[,] noiseMap = Noise.GenerateNoiseChunk(perlinOptions, offset.x, offset.y, size, seed);
 		DrawNoiseMap(noiseMap);
 	}
 

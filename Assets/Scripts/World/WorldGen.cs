@@ -29,8 +29,10 @@ public class WorldGen : MonoBehaviour
     public Dictionary<Vector2Int, Transform> loadedChunks;
 
     // Debug variables
-    public bool enableDebugging;
-    public GameObject debugObject;
+    public bool enableChunkDebugging;
+    public bool enableNoiseDebugging;
+    public GameObject debugNoiseText;
+    public WorldTile debugNoiseType;
 
     public void Start()
     {
@@ -96,7 +98,7 @@ public class WorldGen : MonoBehaviour
         chunk.name = tilePosition.x + " " + tilePosition.y;
 
         // If debugging on, visually display show chunk
-        if (enableDebugging)
+        if (enableChunkDebugging)
         {
             chunk.GetComponent<MeshRenderer>().enabled = true;
             TextMeshPro text = chunk.GetComponent<TextMeshPro>();
@@ -120,16 +122,17 @@ public class WorldGen : MonoBehaviour
         return chunk.transform;
     }
 
+    // THIS IS BEING NAUGHTY
     // Try and spawn a biome in a specified chunk
     private void TrySpawnBiome(Biome biome, Vector2 coords, bool fill = false)
     {
         // Create the noise chunk variable
-        int sampleSize = chunkSize * 10;
+        int sampleSize = chunkSize * chunkSize;
         int chunkOffset = chunkSize / 2;
         float[,] noiseChunk = new float[sampleSize, sampleSize];
 
         // Create new noise chunk
-        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, coords, sampleSize, seed);
+        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, (int)coords.x, (int)coords.y, sampleSize, seed);
 
         // Loop through each pixel in the noise chunk
         for (int x = 0; x < chunkSize; x++)
@@ -141,9 +144,24 @@ public class WorldGen : MonoBehaviour
                 int coordY = (int)coords.y + y;
 
                 // Default biome
-                if (!biomeTextureMap.HasTile(new Vector3Int(coordX, coordY, 0)) &&
-                    (fill || noiseChunk[x + chunkOffset, y + chunkOffset] >= biome.perlinOptions.threshold))
-                    biomeTextureMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
+                if (!biomeTextureMap.HasTile(new Vector3Int(coordX, coordY, 0)))
+                {
+                    // Sampling indexs
+                    int xIndex = x;
+                    int yIndex = y;
+
+                    // If noise debugging enabled, spawn values for specified value
+                    if (enableNoiseDebugging && noiseChunk[xIndex, yIndex] > 0 && debugNoiseType == biome)
+                    {
+                        TextMeshPro text = Instantiate(debugNoiseText, new Vector2(coordX * 5f,
+                            coordY * 5f), Quaternion.identity).GetComponent<TextMeshPro>();
+                        if (text != null) text.text = noiseChunk[xIndex, yIndex].ToString();
+                    }
+                    
+                    // If threshold exceeds that of the noise value, spawn
+                    if (fill || noiseChunk[xIndex, yIndex] >= biome.perlinOptions.threshold)
+                        biomeTextureMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
+                }
             }
         }
     }
