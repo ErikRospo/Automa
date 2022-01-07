@@ -7,7 +7,7 @@ using UnityEngine;
 public static class Noise
 {
     /// <summary>
-    /// Generates and returns a noise chunk with multiple passes.
+    /// Generates and returns a noise chunk with multiple perlin samples
     /// </summary>
     /// <param name="chunk"></param>
     /// <param name="width"></param>
@@ -18,8 +18,11 @@ public static class Noise
     /// <param name="lacunarity"></param>
     /// <param name="seed"></param>
     /// <returns></returns>
-    public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, Vector2 offset, int size, int seed)
+    public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, Vector2 coordinates, int size, int seed)
     {
+        // Debug when starting a sample
+        Debug.Log("Sampling " + coordinates);
+
         // Create new multi-dimensional array for the noise chunk
         float[,] noiseChunk = new float[size, size];
 
@@ -32,8 +35,8 @@ public static class Noise
         // Loop through octaves to generate random offsets with specified seed
         for (int i = 0; i < perlinOptions.octaves; i++)
         {
-            float offsetX = random.Next(-100000, 100000) + offset.x;
-            float offsetY = random.Next(-100000, 100000) + offset.y;
+            float offsetX = random.Next(-100000, 100000) + perlinOptions.offset;
+            float offsetY = random.Next(-100000, 100000) + perlinOptions.offset;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
@@ -41,13 +44,10 @@ public static class Noise
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
-        // Divide width and height in half
-        float halfSize = size / 2f;
-
         // Iterate through noise chunk
-        for (int y = 0; y < size; y++)
+        for (int x = 0; x < size; x++)
         {
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
                 // Internal loop values
                 float amplitude = 1;
@@ -57,8 +57,8 @@ public static class Noise
                 // Sample multiple noise passes
                 for (int i = 0; i < perlinOptions.octaves; i++)
                 {
-                    float sampleX = (x - halfSize) / perlinOptions.scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (y - halfSize) / perlinOptions.scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x + coordinates.x) / perlinOptions.scale * frequency + octaveOffsets[i].x;
+                    float sampleY = (y + coordinates.y) / perlinOptions.scale * frequency + octaveOffsets[i].y;
 
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
@@ -79,9 +79,9 @@ public static class Noise
         }
 
         // Iterate through bounds of the noise chunk and lerp
-        for (int y = 0; y < size; y++)
+        for (int x = 0; x < size; x++)
         {
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
                 noiseChunk[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseChunk[x, y]);
             }

@@ -22520,7 +22520,8 @@ MonoBehaviour:
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
   biomeTextureMap: {fileID: 736659155}
   enableDebugging: 1
-  debugPerlinModifier: 1
+  debugObject: {fileID: 5320635277402148286, guid: e18659a2527ed1b4b9e1720aa7104f23,
+    type: 3}
 --- !u!4 &2129755554
 Transform:
   m_ObjectHideFlags: 0

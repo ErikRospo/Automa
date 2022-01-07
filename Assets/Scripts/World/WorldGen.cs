@@ -30,7 +30,7 @@ public class WorldGen : MonoBehaviour
 
     // Debug variables
     public bool enableDebugging;
-    public float debugPerlinModifier;
+    public GameObject debugObject;
 
     public void Start()
     {
@@ -84,14 +84,17 @@ public class WorldGen : MonoBehaviour
         int chunkOffset = chunkSize / 2;
 
         // Get world coordinate
-        int xValue = newChunk.x * chunkSize + chunkOffset;
-        int yValue = newChunk.y * chunkSize + chunkOffset;
+        int xValue = newChunk.x * chunkSize - chunkOffset;
+        int yValue = newChunk.y * chunkSize - chunkOffset;
 
-        // Create new chunk parent
-        GameObject chunk = Instantiate(emptyChunk, new Vector3((xValue * 5) + (chunkOffset * 5), 
-            (yValue * 5) + (chunkOffset * 5), -1), Quaternion.identity);
-        chunk.name = "Chunk " + newChunk;
-        
+        // Convert the chunk coordinates to tile position
+        Vector2 tilePosition = new Vector2(xValue + chunkOffset, yValue + chunkOffset);
+
+        // Convert the chunk coordinates to world position
+        Vector2 worldPosition = new Vector3(tilePosition.x * 5, tilePosition.y * 5, -1);
+        GameObject chunk = Instantiate(emptyChunk, worldPosition, Quaternion.identity);
+        chunk.name = tilePosition.x + " " + tilePosition.y;
+
         // If debugging on, visually display show chunk
         if (enableDebugging)
         {
@@ -108,38 +111,39 @@ public class WorldGen : MonoBehaviour
             if (biome.isDefault) continue;
 
             // Create new noise chunk
-            TrySpawnBiome(biome, newChunk, xValue, yValue);
+            TrySpawnBiome(biome, tilePosition);
         }
 
         // Iterate through chunk once more, and fill missing tiles with default biome
-        //  TrySpawnBiome(defaultBiome, newChunk, xValue, yValue, true);
-
-        // Get world position of noise map
-        // Vector2 worldPos = new Vector2((xValue + x) * 5, (yValue + y) * 5);
+        TrySpawnBiome(defaultBiome, tilePosition, true);
 
         return chunk.transform;
     }
 
     // Try and spawn a biome in a specified chunk
-    private void TrySpawnBiome(Biome biome, Vector2 chunkCoords, int xValue, int yValue, bool fill = false)
+    private void TrySpawnBiome(Biome biome, Vector2 coords, bool fill = false)
     {
         // Create the noise chunk variable
-        float[,] noiseChunk = new float[chunkSize, chunkSize];
+        int sampleSize = chunkSize * 10;
+        int chunkOffset = chunkSize / 2;
+        float[,] noiseChunk = new float[sampleSize, sampleSize];
 
         // Create new noise chunk
-        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, chunkCoords, chunkSize, seed);
+        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, coords, sampleSize, seed);
 
         // Loop through each pixel in the noise chunk
-        for (int y = 0; y < chunkSize; y++)
+        for (int x = 0; x < chunkSize; x++)
         {
-            for (int x = 0; x < chunkSize; x++)
+            for (int y = 0; y < chunkSize; y++)
             {
+                // Coordinates
+                int coordX = (int)coords.x + x;
+                int coordY = (int)coords.y + y;
+
                 // Default biome
-                if (!biomeTextureMap.HasTile(new Vector3Int(x + xValue, y + yValue, 0)) &&
-                    (fill || noiseChunk[x, y] >= biome.perlinOptions.threshold))
-                {
-                    biomeTextureMap.SetTile(new Vector3Int(x + xValue, y + yValue, 0), biome.tile);
-                }
+                if (!biomeTextureMap.HasTile(new Vector3Int(coordX, coordY, 0)) &&
+                    (fill || noiseChunk[x + chunkOffset, y + chunkOffset] >= biome.perlinOptions.threshold))
+                    biomeTextureMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
             }
         }
     }
@@ -178,7 +182,7 @@ public class WorldGen : MonoBehaviour
         // Get surrounding chunks based on render distance
         for (int x = chunk.x - horizontalRenderDistance; x < chunk.x + horizontalRenderDistance; x++)
             for (int y = chunk.y - verticalRenderDistance; y < chunk.y + verticalRenderDistance; y++)
-                chunks.Add(new Vector2Int(x, y));
+                chunks.Add(new Vector2Int(x - 1, y - 1));
 
         // Return chunk coordinates
         return chunks;
