@@ -30,6 +30,7 @@ public class WorldGen : MonoBehaviour
 
     // Debug variables
     public bool enableDebugging;
+    public float debugPerlinModifier;
 
     public void Start()
     {
@@ -103,27 +104,44 @@ public class WorldGen : MonoBehaviour
         // Loop through all biomes and generate it
         foreach(Biome biome in Scriptables.biomes)
         {
+            // Check if biome is default
+            if (biome.isDefault) continue;
+
             // Create new noise chunk
-            // float[,] noiseChunk = Noise.GenerateNoiseChunk(newChunk, chunkSize, chunkSize, biome.spawnScale, biome.octaves, biome.persistance, biome.lacunarity, seed);
+            TrySpawnBiome(biome, newChunk, xValue, yValue);
+        }
 
-            // Loop through each pixel in the noise chunk
-            for (int y = 0; y < chunkSize; y++)
+        // Iterate through chunk once more, and fill missing tiles with default biome
+        //  TrySpawnBiome(defaultBiome, newChunk, xValue, yValue, true);
+
+        // Get world position of noise map
+        // Vector2 worldPos = new Vector2((xValue + x) * 5, (yValue + y) * 5);
+
+        return chunk.transform;
+    }
+
+    // Try and spawn a biome in a specified chunk
+    private void TrySpawnBiome(Biome biome, Vector2 chunkCoords, int xValue, int yValue, bool fill = false)
+    {
+        // Create the noise chunk variable
+        float[,] noiseChunk = new float[chunkSize, chunkSize];
+
+        // Create new noise chunk
+        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, chunkCoords, chunkSize, seed);
+
+        // Loop through each pixel in the noise chunk
+        for (int y = 0; y < chunkSize; y++)
+        {
+            for (int x = 0; x < chunkSize; x++)
             {
-                for (int x = 0; x < chunkSize; x++)
+                // Default biome
+                if (!biomeTextureMap.HasTile(new Vector3Int(x + xValue, y + yValue, 0)) &&
+                    (fill || noiseChunk[x, y] >= biome.perlinOptions.threshold))
                 {
-                    // Get world position of noise map
-                    Vector2 worldPos = new Vector2((xValue + x) * 5, (yValue + y) * 5);
-
-                    // Default biome
-                    if (!biomeTextureMap.HasTile(new Vector3Int(x + xValue, y + yValue, 0)))
-                    {
-                        biomeTextureMap.SetTile(new Vector3Int(x + xValue, y + yValue, 0), defaultBiome.tile);
-                    }
+                    biomeTextureMap.SetTile(new Vector3Int(x + xValue, y + yValue, 0), biome.tile);
                 }
             }
         }
-
-        return chunk.transform;
     }
 
     // Try and spawn a resource

@@ -7,15 +7,8 @@ public class MapDebug : MonoBehaviour
 {
 	public Renderer textureRender;
 
-	public int mapWidth;
-	public int mapHeight;
-	public float noiseScale;
-
-	public int octaves;
-	[Range(0, 1)]
-	public float persistance;
-	public float lacunarity;
-
+	public PerlinOptions perlinOptions;
+	public int size;
 	public int seed;
 	public Vector2 offset;
 
@@ -36,7 +29,7 @@ public class MapDebug : MonoBehaviour
     }
     public void GenerateMap()
 	{
-		float[,] noiseMap = Noise.GenerateNoiseChunk(offset, mapWidth, mapHeight, noiseScale, octaves, persistance, lacunarity, seed);
+		float[,] noiseMap = Noise.GenerateNoiseChunk(perlinOptions, offset, size, seed);
 		DrawNoiseMap(noiseMap);
 	}
 
@@ -61,25 +54,4 @@ public class MapDebug : MonoBehaviour
 		textureRender.sharedMaterial.mainTexture = texture;
 		textureRender.transform.localScale = new Vector3(width, 1, height);
 	}
-
-	void OnValidate()
-	{
-		if (mapWidth < 1)
-		{
-			mapWidth = 1;
-		}
-		if (mapHeight < 1)
-		{
-			mapHeight = 1;
-		}
-		if (lacunarity < 1)
-		{
-			lacunarity = 1;
-		}
-		if (octaves < 0)
-		{
-			octaves = 0;
-		}
-	}
-
 }

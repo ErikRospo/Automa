@@ -5,7 +5,5 @@ public class WorldTile : IdentifiableScriptableObject
     public new string name; // Name of the resource
     public bool isLiquid; // Determines if biome tile is liquid
     public bool usePerlinNoise; // Tells generator if perlin noise should be used
-    public float spawnScale; // Scale of perlin noise
-    public float spawnThreshold; // Perlin float threshold
-    public float noiseOffset; // Offset perlin noise value
+    public PerlinOptions perlinOptions; // Options to modify perlin noise
 }

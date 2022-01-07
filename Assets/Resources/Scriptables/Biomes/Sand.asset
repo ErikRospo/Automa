@@ -24,3 +24,4 @@ MonoBehaviour:
   octaves: 0
   persistance: 0
   lacunarity: 0
+  isDefault: 1

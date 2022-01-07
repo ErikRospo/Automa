@@ -1226,12 +1226,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureRender: {fileID: 65702755}
-  mapWidth: 100
-  mapHeight: 100
-  noiseScale: 27.6
-  octaves: 4
-  persistance: 0.5
-  lacunarity: 2
+  perlinOptions:
+    octaves: 4
+    persistance: 3
+    lacunarity: 0.5
+    scale: 5
+    threshold: 0
+    offset: 0
+  size: 100
   seed: 0
   offset: {x: 0, y: 0}
   autoUpdate: 1
@@ -7134,7 +7136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showGUI: 1
   offsetX: 0
-  offsetY: 0
+  offsetY: 100
 --- !u!114 &614685638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22511,7 +22513,6 @@ MonoBehaviour:
   seed: 0
   emptyChunk: {fileID: 5320635277402148286, guid: fcbb543fc9366df42bdb528ac612c3ee,
     type: 3}
-  renderDistance: 6
   chunkSize: 10
   worldChunkSize: 0
   resourceTile: {fileID: -5637757227350493285, guid: e5ea9cdb4041129428eb0eacdee13d1d,
@@ -22519,6 +22520,7 @@ MonoBehaviour:
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
   biomeTextureMap: {fileID: 736659155}
   enableDebugging: 1
+  debugPerlinModifier: 1
 --- !u!4 &2129755554
 Transform:
   m_ObjectHideFlags: 0
