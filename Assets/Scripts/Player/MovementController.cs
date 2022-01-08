@@ -7,17 +7,14 @@ using UnityEngine;
 
 public class MovementController : NetworkBehaviour
 {
+    // Player script (attached to object)
+    private Player player;
+
     // Object animator 
     public Animator animator;
 
     // Building controller (attached to child object)
     private BuildingController buildingController;
-
-    // Inventory script (attached to object)
-    private Inventory inventory;
-
-    // Player script (attached to object)
-    private Player player;
 
     // Holds the equipped item
     public EntityData equippedItem;
@@ -53,15 +50,12 @@ public class MovementController : NetworkBehaviour
 
         // Grab inventory script
         player = GetComponent<Player>();
-        inventory = GetComponent<Inventory>();
 
         // Check to make sure scripts are found
         if (player == null) Debug.Log("[WARNING] No player script attached to Movement Controller!");
-        if (inventory == null) Debug.Log("[WARNING] No inventory script attached to Movement Controller!");
 
         // Start for everyone
         body = GetComponent<Rigidbody2D>();
-        inventory = GetComponent<Inventory>();
         
         // Initialize walk speed
         speed = walkSpeed;

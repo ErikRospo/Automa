@@ -27,12 +27,17 @@ public class InventoryUI : MonoBehaviour
     {
         // Set the new inventory
         this.inventory = inventory;
-        ClearSlots();
+        SetSlots(inventory.GetItems());
     }
 
     // Set the slots
-    public void SetSolts(List<Item> items)
+    public void SetSlots(List<Item> items)
     {
+        Debug.Log("Setting inventory with " + items.Count + " items " + "(" + (items.Count - slots.Count) + ")");
+
+        // Clear previous inventory
+        ClearSlots();
+
         // Check if new slots are needed
         if (items.Count > slots.Count)
             CreateSlots(items.Count - slots.Count);
@@ -48,12 +53,18 @@ public class InventoryUI : MonoBehaviour
     // Create slots
     public void CreateSlots(int amount)
     {
+        // Get current slots count
+        int currentSlots = slots.Count;
+        int newSlots = currentSlots + amount;
+
         // Create the new slots
-        for (int i = slots.Count; i < slots.Count + amount; i++)
+        for (int i = currentSlots; i < newSlots; i++)
         {
             // Get column and row
             int column = i / rows;
-            int row = (column * rows) + i;
+            int row = i - (column * rows);
+
+            Debug.Log(column + " " + row);
 
             // Create the new slot
             Slot newSlot = Instantiate(slotObject, Vector2.zero, Quaternion.identity).GetComponent<Slot>();
@@ -61,7 +72,10 @@ public class InventoryUI : MonoBehaviour
             // Set the position relative to list
             newSlot.transform.SetParent(slotList);
             newSlot.transform.localScale = new Vector3(1, 1, 1);
-            newSlot.transform.position = new Vector2(column * spacing, row * spacing);
+            newSlot.transform.localPosition = new Vector2(row * spacing, -column * spacing);
+
+            // Add slot to slots list
+            slots.Add(newSlot);
         }
     }
 

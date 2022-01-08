@@ -4,7 +4,8 @@ public class Player : Creature
 {
     // The players inventory
     public Inventory inventory;
-    
+    public int inventorySize;
+
     // Default stats for player
     [SerializeField]
     private float health, shield, stamina, oxygen, startingOxygen,
@@ -23,7 +24,7 @@ public class Player : Creature
         if (!hasAuthority) return;
 
         // Set new inventory
-        inventory = new Inventory(true);
+        inventory = new Inventory(inventorySize, true);
 
         // Check if environment is null
         environment = _environment;

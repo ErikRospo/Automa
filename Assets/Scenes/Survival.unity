@@ -2658,6 +2658,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0273a1f3242ad548bb1af3b6100a07a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingItems:
+  - type: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
+    amount: 25
 --- !u!1001 &287742535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8045,15 +8048,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5155c60c256a84a877ec4aad242bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
   slotList: {fileID: 689157108}
   slotObject: {fileID: 2385829841023573680, guid: d97c2224edfad58429de2407381287f4,
     type: 3}
   slots: []
-  rows: 7
+  rows: 10
   spacing: 70
   mouse: {fileID: 0}
   mouseIcon: {fileID: 0}
+  mouseItem:
+    type: {fileID: 0}
+    amount: 0
 --- !u!1 &727955079
 GameObject:
   m_ObjectHideFlags: 0
@@ -10353,6 +10358,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 186674904, guid: 561c2ed27a793fa43a6c5f7d0f150be4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1774015222, guid: 561c2ed27a793fa43a6c5f7d0f150be4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5670510890034788685, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
         type: 3}
       propertyPath: m_Name
@@ -16894,7 +16907,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1537434893}
   - component: {fileID: 1537434895}
-  - component: {fileID: 1537434894}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -16967,20 +16979,6 @@ RectTransform:
   m_AnchoredPosition: {x: 26, y: -23}
   m_SizeDelta: {x: 716, y: 402}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1537434894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537434892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c570ef57a0e284d852bdc3d9269bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &1537434895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17675,6 +17673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1606405661}
+  - component: {fileID: 1606405662}
   m_Layer: 5
   m_Name: Crafting
   m_TagString: Untagged
@@ -17702,6 +17701,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1606405662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606405660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165b30ea019d6b644874a2926a76bd76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  test: {fileID: 689157109}
 --- !u!1001 &1615613122
 PrefabInstance:
   m_ObjectHideFlags: 0

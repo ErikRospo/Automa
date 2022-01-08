@@ -20,9 +20,6 @@ public static class Noise
     /// <returns></returns>
     public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, int xValue, int yValue, int sampleSize, int seed)
     {
-        // Debug when starting a sample
-        Debug.Log("Sampling " + "x:"+xValue + " and y:" + yValue);
-
         // Create new multi-dimensional array for the noise chunk
         float[,] noiseChunk = new float[sampleSize, sampleSize];
 

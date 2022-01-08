@@ -26,7 +26,7 @@ public class InterfaceOpener : MonoBehaviour
     {
         // Get the player object
         Player newPlayer = collision.GetComponent<Player>();
-        if (newPlayer == null || !player.hasAuthority) return;
+        if (newPlayer == null || !newPlayer.hasAuthority) return;
 
         // Check if already subscribed
         if (!isSubscribed)

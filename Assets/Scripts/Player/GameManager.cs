@@ -12,14 +12,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     protected List<Item> startingItems;
 
+    public void Awake()
+    {
+        active = this;
+        Application.targetFrameRate = 1000;
+        Scriptables.GenerateAllScriptables();
+    }
+
     public List<Item> FetchStartingItems()
     {
         return startingItems;
-    }
-
-    public void Awake()
-    {
-        Application.targetFrameRate = 1000;
-        Scriptables.GenerateAllScriptables();
     }
 }

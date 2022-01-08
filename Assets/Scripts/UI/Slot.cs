@@ -83,7 +83,7 @@ public class Slot : MonoBehaviour
     /// </summary>
     public void UpdateUI(bool clear = false)
     {
-        if (clear)
+        if (clear || item == null || item.type == null)
         {
             // Clear the UI elements
             button.buttonIcon = SpritesManager.GetSprite("Empty");
