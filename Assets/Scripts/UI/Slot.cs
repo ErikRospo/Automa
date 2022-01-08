@@ -13,6 +13,22 @@ public class Slot : MonoBehaviour
     public TextMeshProUGUI textAmount;
 
     /// <summary>
+    /// Sets the specified slot to a new item
+    /// </summary>
+    /// <param name="newItem"></param>
+    /// <returns></returns>
+    public void Set(Item newItem)
+    {
+        // Update UI elements
+        if (newItem != null)
+        {
+            item = newItem;
+            UpdateUI();
+        }
+        else Clear();
+    }
+
+    /// <summary>
     /// Adds a specified amount to this item slot.
     /// </summary>
     /// <param name="newItem"></param>
@@ -33,9 +49,7 @@ public class Slot : MonoBehaviour
             overflow = item.Add(newItem.amount, allowOverflow);
 
             // Update UI elements
-            button.buttonIcon = newItem.GetIcon();
-            textAmount.text = "x" + item.amount;
-            button.UpdateUI();
+            UpdateUI();
         }
 
         // Return any overflow

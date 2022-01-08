@@ -2,22 +2,28 @@ using UnityEngine;
 
 public class Player : Creature
 {
-    // Audio player for player sounds
-    public AudioPlayer footstepAudioPlayer;
-
-    // Get Veer AI attached to player object
-    private VeerAI veer;
+    // The players inventory
+    public Inventory inventory;
     
     // Default stats for player
     [SerializeField]
     private float health, shield, stamina, oxygen, startingOxygen,
         temperature, radiation, hunger, thirst;
 
+    // Audio player for player sounds
+    public AudioPlayer footstepAudioPlayer;
+
+    // Get Veer AI attached to player object
+    private VeerAI veer;
+
     // Start method
     public void Start()
     {
         // Check authority
         if (!hasAuthority) return;
+
+        // Set new inventory
+        inventory = new Inventory(true);
 
         // Check if environment is null
         environment = _environment;

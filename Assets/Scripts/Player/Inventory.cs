@@ -4,20 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : NetworkBehaviour
+public class Inventory
 {
-    // If inventory UI is available
-    private List<Item> items;
-
-    // Initial setup
-    public void Start()
+    // Constructor
+    public Inventory(bool giveStartingItems)
     {
-        // Check if user has authority
-        if (!hasAuthority) return;
-
-        // Create new lists
-        items = new List<Item>();
+        if (giveStartingItems)
+            items = new List<Item>(GameManager.active.FetchStartingItems());
+        else items = new List<Item>();
     }
+
+    // If inventory UI is available
+    private List<Item> items = new List<Item>();
 
     // Add an item to an inventory
     public void AddItem(Item newItem)

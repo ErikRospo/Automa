@@ -11,6 +11,13 @@ public class UIEvents : MonoBehaviour
         active = this;
     }
 
+    public event Action<InterfaceType, Player> onOpenInterface;
+    public void OpenInterface(InterfaceType type, Player player)
+    {
+        if (onOpenInterface != null)
+            onOpenInterface(type, player);
+    }
+
     public event Action<Slot> onInventorySlotClick;
     public void InventorySlotClick(Slot slot)
     {
