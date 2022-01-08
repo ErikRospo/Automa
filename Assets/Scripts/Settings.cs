@@ -11,10 +11,10 @@ public class Settings : MonoBehaviour
         Voice
     }
 
-    [Range(0, 1)] public static float masterVolume;
-    [Range(0, 1)] public static float musicVolume;
-    [Range(0, 1)] public static float soundVolume;
-    [Range(0, 1)] public static float voiceVolume;
+    [Range(0, 1)] public static float masterVolume = 0.5f;
+    [Range(0, 1)] public static float musicVolume = 0.5f;
+    [Range(0, 1)] public static float soundVolume = 0.5f;
+    [Range(0, 1)] public static float voiceVolume = 0.5f;
 
     public static float GetVolume(VolumeType type)
     {

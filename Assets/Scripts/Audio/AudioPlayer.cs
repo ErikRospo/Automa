@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
+    // Enabled flag
+    private bool paused = false;
+
     // Audio component attached to this object
     private AudioSource audioPlayer;
 
+    // Volume type this player will use
+    [SerializeField] protected Settings.VolumeType volumeType;
+
     // Determine if a random pitch should be used
-    public bool useRandomPitch = false;
-    [Range(-3, 3)] public float minRandomPitch;
-    [Range(-3, 3)] public float maxRandomPitch;
+    [SerializeField] protected bool useRandomPitch = false;
+    [SerializeField, Range(-3, 3)] protected float minRandomPitch;
+    [SerializeField, Range(-3, 3)] protected float maxRandomPitch;
 
     // List of clips (if random should be chosen)
-    public bool useRandomClipsList = false;
-    public List<AudioClip> randomClips;
-
-    // Volume type this player will use
-    public Settings.VolumeType volumeType;
+    [SerializeField] protected bool useRandomClipsList = false;
+    [SerializeField] protected List<AudioClip> randomClips;
 
     // Start method
     public void Start()
@@ -34,6 +37,9 @@ public class AudioPlayer : MonoBehaviour
     /// </summary>
     public void PlayClip()
     {
+        // Check if paused 
+        if (paused) return;
+
         // Set the volume for the audio player
         audioPlayer.volume = Settings.GetVolume(volumeType);
 
@@ -41,7 +47,7 @@ public class AudioPlayer : MonoBehaviour
         if (useRandomPitch) audioPlayer.pitch = Random.Range(minRandomPitch, maxRandomPitch);
 
         // Play specified clip if not set to random
-        if (useRandomClipsList)
+        if (!useRandomClipsList)
         {
             if (audioPlayer.clip != null)
                 audioPlayer.Play();
@@ -79,6 +85,12 @@ public class AudioPlayer : MonoBehaviour
         minRandomPitch = min;
         maxRandomPitch = max;
     }
+
+    /// <summary>
+    /// Toggles if the audio player is paused or not
+    /// </summary>
+    /// <param name="isPaused"></param>
+    public void TogglePaused(bool isPaused) { paused = isPaused; }
 
     /// <summary>
     /// Toggles if the audio clip should be played continously

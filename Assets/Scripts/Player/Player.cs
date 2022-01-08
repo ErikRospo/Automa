@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Player : Creature
 {
+    // Audio player for player sounds
+    public AudioPlayer footstepAudioPlayer;
+
     // Get Veer AI attached to player object
     private VeerAI veer;
     
@@ -62,6 +65,14 @@ public class Player : Creature
             veer.AddVoiceLine(Voicelines.GetLine("exit_oxygen_environment"));
         else if (!this.environment.isOxygenated && environment.isOxygenated)
             veer.AddVoiceLine(Voicelines.GetLine("enter_oxygen_environment"));
+
+        // Check for environment footstep sounds
+        if (environment.footstepSounds != null)
+        {
+            footstepAudioPlayer.SetRandomClipList(environment.footstepSounds);
+            footstepAudioPlayer.TogglePaused(false);
+        }
+        else footstepAudioPlayer.TogglePaused(true);
 
         // Assign new environment
         this.environment = environment;
