@@ -86,14 +86,14 @@ public class WorldGen : MonoBehaviour
         int chunkOffset = chunkSize / 2;
 
         // Get world coordinate
-        int xValue = newChunk.x * chunkSize - chunkOffset;
-        int yValue = newChunk.y * chunkSize - chunkOffset;
+        int xValue = (newChunk.x * chunkSize) - chunkOffset;
+        int yValue = (newChunk.y * chunkSize) - chunkOffset;
 
         // Convert the chunk coordinates to tile position
-        Vector2 tilePosition = new Vector2(xValue + chunkOffset, yValue + chunkOffset);
+        Vector2Int tilePosition = new Vector2Int(xValue + chunkOffset, yValue + chunkOffset);
 
         // Convert the chunk coordinates to world position
-        Vector2 worldPosition = new Vector3(tilePosition.x * 5, tilePosition.y * 5, -1);
+        Vector2 worldPosition = new Vector2(tilePosition.x * 5, tilePosition.y * 5);
         GameObject chunk = Instantiate(emptyChunk, worldPosition, Quaternion.identity);
         chunk.name = tilePosition.x + " " + tilePosition.y;
 
@@ -124,10 +124,10 @@ public class WorldGen : MonoBehaviour
 
     // THIS IS BEING NAUGHTY
     // Try and spawn a biome in a specified chunk
-    private void TrySpawnBiome(Biome biome, Vector2 coords, bool fill = false)
+    private void TrySpawnBiome(Biome biome, Vector2Int coords, bool fill = false)
     {
         // Create the noise chunk variable
-        int sampleSize = chunkSize * chunkSize;
+        int sampleSize = chunkSize * 10;
         int chunkOffset = chunkSize / 2;
         float[,] noiseChunk = new float[sampleSize, sampleSize];
 
@@ -139,7 +139,7 @@ public class WorldGen : MonoBehaviour
         {
             for (int y = 0; y < chunkSize; y++)
             {
-                // Coordinates
+                // Global Tile Position
                 int coordX = (int)coords.x + x;
                 int coordY = (int)coords.y + y;
 

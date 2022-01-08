@@ -30,7 +30,8 @@ public class Stat
         Temperature,
         Radiation,
         Hunger,
-        Thirst
+        Thirst,
+        Speed
     }
 
     /// <summary>
