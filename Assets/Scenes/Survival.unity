@@ -11269,11 +11269,14 @@ MonoBehaviour:
   tooltipObject: {fileID: 2124552615}
   tooltipContent: {fileID: 741059269}
   tooltipSmoothness: 0.1
+  dampSpeed: 10
+  preferredWidth: 375
   allowUpdating: 0
   vBorderTop: -15
   vBorderBottom: 10
   hBorderLeft: 20
   hBorderRight: -15
+  contentLE: {fileID: 0}
 --- !u!114 &1004669698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18950,34 +18953,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 692833558}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1709681265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709681264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c12e9e727fc418742a5904823a4a8a4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1709681266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709681264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521989cade6812948a620a7b4654715d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  driftFactor: 0.95
-  accelertationFactor: 30
-  turnFactor: 3.5
-  maxSpeed: 20
 --- !u!50 &1709681267
 Rigidbody2D:
   serializedVersion: 4
@@ -21425,7 +21400,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPercent: 100
   speed: 5
+  minValue: 0
   maxValue: 100
+  valueLimit: 100
   loadingBar: {fileID: 1601308829}
   textPercent: {fileID: 1773470463}
   isOn: 1
@@ -21435,7 +21412,12 @@ MonoBehaviour:
   addSuffix: 1
   prefix: 
   suffix: '%'
-  isFilled: 0
+  isLooped: 0
+  decimals: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  eventSource: {fileID: 0}
 --- !u!1001 &2005956513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22225,7 +22207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPercent: 100
   speed: 5
+  minValue: 0
   maxValue: 100
+  valueLimit: 100
   loadingBar: {fileID: 889342294}
   textPercent: {fileID: 874005276}
   isOn: 1
@@ -22235,7 +22219,12 @@ MonoBehaviour:
   addSuffix: 1
   prefix: 
   suffix: '%'
-  isFilled: 0
+  isLooped: 0
+  decimals: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  eventSource: {fileID: 0}
 --- !u!1 &2080954371
 GameObject:
   m_ObjectHideFlags: 0
@@ -23210,7 +23199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPercent: 0
   speed: 0
+  minValue: 0
   maxValue: 100
+  valueLimit: 100
   loadingBar: {fileID: 5440213650356501510}
   textPercent: {fileID: 2116178027535640484}
   isOn: 0
@@ -23220,7 +23211,12 @@ MonoBehaviour:
   addSuffix: 0
   prefix: 
   suffix: '%'
-  isFilled: 0
+  isLooped: 0
+  decimals: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  eventSource: {fileID: 0}
 --- !u!1 &7649244611328330570
 GameObject:
   m_ObjectHideFlags: 0
