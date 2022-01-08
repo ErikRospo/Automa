@@ -42,7 +42,7 @@ public class CarController : MonoBehaviour
 
         if (velocityVsUp > maxSpeed && accelerationInput > 0) return;
 
-        if (velocityVsUp < -maxSpeed * 0.5f && accelerationInput > 0) return;
+        if (velocityVsUp < -maxSpeed * 0.5f && accelerationInput < 0) return;
 
         if (carRigidbody.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
 
@@ -62,7 +62,6 @@ public class CarController : MonoBehaviour
         minSpeed = Mathf.Clamp01(minSpeed);
 
         rotationAngle += steeringInput * turnFactor * minSpeed;
-        Debug.Log(steeringInput + " * " + turnFactor + " * " + minSpeed +  " = " + rotationAngle);
 
         carRigidbody.MoveRotation(rotationAngle);
     }
@@ -77,8 +76,7 @@ public class CarController : MonoBehaviour
 
     public void SetInputVector(Vector2 inputVector)
     {
-        steeringInput = inputVector.x;
-        //Debug.Log(steeringInput + " " + inputVector.x);
+        steeringInput = inputVector.x * -1;
         accelerationInput = inputVector.y;
     }
 }
