@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+// Item actively in the scene
+
+public class ItemEntity : MonoBehaviour
 {
     public ItemData item;
     public Building lastBuilding;

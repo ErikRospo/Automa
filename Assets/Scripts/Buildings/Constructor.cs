@@ -148,7 +148,7 @@ public class Constructor : Building
     }
 
     // Called when an entity is ready to be sent 
-    public override bool InputEntity(Item entity)
+    public override bool InputEntity(ItemEntity entity)
     {
         if (CheckItem(entity.item))
         {
@@ -167,7 +167,7 @@ public class Constructor : Building
     }
 
     // Called when entity arrives at input bin
-    public override void ReceiveEntity(Item entity)
+    public override void ReceiveEntity(ItemEntity entity)
     {
         // Add entity to internal storage and move it to output position
         AddItem(entity.item, 1);

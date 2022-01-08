@@ -7,7 +7,7 @@ public class EntityHandler : NetworkBehaviour
 {
     public class MovingEntity
     {
-        public MovingEntity(float speed, Vector2 target, Item entity, Building building, bool output = false)
+        public MovingEntity(float speed, Vector2 target, ItemEntity entity, Building building, bool output = false)
         {
             this.speed = speed;
             this.target = target;
@@ -18,7 +18,7 @@ public class EntityHandler : NetworkBehaviour
 
         public float speed;
         public Vector2 target;
-        public Item entity;
+        public ItemEntity entity;
         public Building building;
         public bool output;
     }
@@ -81,7 +81,7 @@ public class EntityHandler : NetworkBehaviour
     }
 
     // Registers a new conveyor entity and returns it to the callign script
-    public void RegisterMovingEntity(float speed, Vector2 target, Item entity, Building building, bool output = false)
+    public void RegisterMovingEntity(float speed, Vector2 target, ItemEntity entity, Building building, bool output = false)
     {
         MovingEntity newEntity = new MovingEntity(speed, target, entity, building, output);
         movingEntities.Add(newEntity);
@@ -111,11 +111,11 @@ public class EntityHandler : NetworkBehaviour
         movingObjects.Remove(obj);
     }
 
-    public Item RegisterEntity(ItemData item, Vector2 position, Quaternion rotation)
+    public ItemEntity RegisterEntity(ItemData item, Vector2 position, Quaternion rotation)
     {
         Transform obj = Instantiate(entityContainer, position, rotation);
 
-        Item lastEntity = obj.GetComponent<Item>();
+        ItemEntity lastEntity = obj.GetComponent<ItemEntity>();
         if (lastEntity == null)
         {
             Debug.LogError("The entity you tried to create does not contain an entity script!");

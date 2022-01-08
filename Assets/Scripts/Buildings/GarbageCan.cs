@@ -11,14 +11,14 @@ public class GarbageCan : Building
     }
 
     // Called when an entity is ready to be sent 
-    public override bool InputEntity(Item entity)
+    public override bool InputEntity(ItemEntity entity)
     {
         entity.MoveTo(ResearchHandler.conveyorSpeed, transform.position, this);
         return true;
     }
 
     // Called when entity arrives at input bin
-    public override void ReceiveEntity(Item entity)
+    public override void ReceiveEntity(ItemEntity entity)
     {
         Recycler.AddRecyclable(entity.transform);
     }

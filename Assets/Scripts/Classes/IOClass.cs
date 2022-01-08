@@ -7,7 +7,7 @@ public class IOClass
     public Vector2 binConnector; // Location of where building should check for a connector
     public Vector2 binTarget; // Locaiton of where building should check for another building
 
-    [HideInInspector] public Item bin; // Holds an entity
+    [HideInInspector] public ItemEntity bin; // Holds an entity
     [HideInInspector] public Building building; // Target building. 
     [HideInInspector] public IOClass target; // Target (either input or output)
     [HideInInspector] public bool reserved; // Flag for other entities to determine if this intput / output is reserved
