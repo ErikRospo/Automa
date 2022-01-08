@@ -95,7 +95,7 @@ public class MovementController : NetworkBehaviour
         CheckInput();
 
         // Update the player for all other players
-        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
 
         // Neighbour chunk check
