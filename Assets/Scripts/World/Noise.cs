@@ -83,7 +83,15 @@ public static class Noise
         {
             for (int y = 0; y < sampleSize; y++)
             {
-                noiseChunk[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseChunk[x, y]);
+                //if (normalizeMode == NormalizeMode.Local)
+                //{
+                //    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
+                //}
+                //else
+                //{
+                float normalizedHeight = (noiseChunk[x, y] + 1) / (maxNoiseHeight / 0.9f);
+                noiseChunk[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+                //}
             }
         }
 

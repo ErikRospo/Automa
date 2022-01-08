@@ -65,6 +65,9 @@ TagManager:
   - name: Weapon
     uniqueID: 1065599451
     locked: 0
+  - name: Vehicle
+    uniqueID: 2471180411
+    locked: 0
   - name: Glow
     uniqueID: 362706735
     locked: 0
