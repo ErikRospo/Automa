@@ -1477,12 +1477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d5f9717c7b90440a18becbb9b7de15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPlayer: {fileID: 7835933646773184998}
   useRandomClipsList: 1
-  randomClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  volumeType: 0
+  randomClips: []
+  volumeType: 1
 --- !u!82 &7835933646773184998
 AudioSource:
   m_ObjectHideFlags: 0

@@ -7,8 +7,13 @@ public class AudioPlayer : MonoBehaviour
     // Audio component attached to this object
     private AudioSource audioPlayer;
 
+    // Determine if a random pitch should be used
+    public bool useRandomPitch = false;
+    [Range(-3, 3)] public float minRandomPitch;
+    [Range(-3, 3)] public float maxRandomPitch;
+
     // List of clips (if random should be chosen)
-    public bool useRandomClipsList;
+    public bool useRandomClipsList = false;
     public List<AudioClip> randomClips;
 
     // Volume type this player will use
@@ -19,6 +24,8 @@ public class AudioPlayer : MonoBehaviour
     {
         if (audioPlayer == null)
             audioPlayer = GetComponent<AudioSource>();
+
+        if (minRandomPitch > maxRandomPitch) minRandomPitch = maxRandomPitch;
     }
 
     /// <summary>
@@ -29,6 +36,9 @@ public class AudioPlayer : MonoBehaviour
     {
         // Set the volume for the audio player
         audioPlayer.volume = Settings.GetVolume(volumeType);
+
+        // Check if random pitch is set to true
+        if (useRandomPitch) audioPlayer.pitch = Random.Range(minRandomPitch, maxRandomPitch);
 
         // Play specified clip if not set to random
         if (useRandomClipsList)
@@ -44,6 +54,37 @@ public class AudioPlayer : MonoBehaviour
             audioPlayer.Play();
         }
     }
+
+    /// <summary>
+    /// Change the pitch of the audio player (between -3 and 3)
+    /// </summary>
+    /// <param name="pitch"></param>
+    public void ChangePitch(float pitch)
+    {
+        // Ensure pitch is within proper bounds
+        if (pitch > 3) pitch = 3;
+        else if (pitch < -3) pitch = -3;
+        audioPlayer.pitch = pitch;
+    }
+
+    /// <summary>
+    /// Changes the random pitch range from the audio player
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetPitchRange(float min, float max)
+    {
+        // Ensure pitch is within proper bounds
+        if (min > max) min = max;
+        minRandomPitch = min;
+        maxRandomPitch = max;
+    }
+
+    /// <summary>
+    /// Toggles if the audio clip should be played continously
+    /// </summary>
+    /// <param name="toggle"></param>
+    public void ToggleAudioLoop(bool loopAudio) { audioPlayer.loop = loopAudio; }
 
     /// <summary>
     /// Sets an audio clip on the audio source directly
