@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: a6b23799-e780-4228-87e4-31a20efa86a4
   createdAtTicks: 637770073885980103
+  footstepSounds:
+  - {fileID: 8300000, guid: 2ca3f91cbe0954b489cd046a98b798e4, type: 3}
+  - {fileID: 8300000, guid: b8ad743e268e2074d93adbdd28049edb, type: 3}
   isOxygenated: 1

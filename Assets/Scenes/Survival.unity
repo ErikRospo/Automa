@@ -10300,9 +10300,19 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 8.2
       objectReference: {fileID: 0}
+    - target: {fileID: 899797264506434079, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1489629141960149254, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
         type: 3}
       propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548452936699510289, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2404033286076147714, guid: 561c2ed27a793fa43a6c5f7d0f150be4,
