@@ -6,9 +6,14 @@ public class AssemblyBench : MonoBehaviour
 {
     public InventoryUI test;
 
+    private CanvasGroup canvasGroup;
+
     public void Start()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
+
         UIEvents.active.onOpenInterface += SetPlayer;
+        InputEvents.active.onEscapePressed += DisableUI;
     }
 
     /// <summary>
@@ -19,7 +24,18 @@ public class AssemblyBench : MonoBehaviour
     public void SetPlayer(InterfaceType type, Player player)
     {
         if (type == InterfaceType.Assembly)
+        {
             test.SetInventory(player.inventory);
+            ToggleUI(true);
+        }
+    }
+
+    /// <summary>
+    /// Disables the assembly bench interface
+    /// </summary>
+    public void DisableUI()
+    {
+        ToggleUI(false);
     }
 
     /// <summary>
@@ -28,6 +44,17 @@ public class AssemblyBench : MonoBehaviour
     /// <param name="toggle"></param>
     public void ToggleUI(bool toggle)
     {
-
+        if (toggle)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 }

@@ -1231,7 +1231,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _environment: {fileID: 11400000, guid: d1745165273f75c4e816027f062a49a2, type: 2}
-  inventorySize: 30
+  inventorySize: 35
   health: 100
   shield: 0
   stamina: 20
