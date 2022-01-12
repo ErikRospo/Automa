@@ -7,7 +7,7 @@ public class MapDebug : MonoBehaviour
 {
 	public Renderer textureRender;
 
-	public PerlinOptions perlinOptions;
+	public Perlin perlinOptions;
 	public int size;
 	public int seed;
 	public Vector2Int offset;

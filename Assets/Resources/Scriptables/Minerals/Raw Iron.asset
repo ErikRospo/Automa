@@ -17,10 +17,17 @@ MonoBehaviour:
   name: Raw Iron
   isLiquid: 0
   usePerlinNoise: 1
-  spawnScale: 30
-  spawnThreshold: 0.97
-  noiseOffset: 0
-  item: {fileID: 11400000, guid: 336eeb100d4b46a45a2a08528bb37540, type: 2}
+  perlinOptions:
+    octaves: 4
+    persistance: 3
+    lacunarity: 0.5
+    scale: 10
+    offset: 1000
+    threshold:
+    - tile: {fileID: 0}
+      minThreshold: 0
+      maxThreshold: 0
+  item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
   canSpawnOnLand: 1
   canSpawnOnLiquid: 0
   randomizeRotation: 0

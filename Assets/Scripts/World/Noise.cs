@@ -18,7 +18,7 @@ public static class Noise
     /// <param name="lacunarity"></param>
     /// <param name="seed"></param>
     /// <returns></returns>
-    public static float[,] GenerateNoiseChunk(PerlinOptions perlinOptions, int xValue, int yValue, int sampleSize, int seed)
+    public static float[,] GenerateNoiseChunk(Perlin perlinOptions, int xValue, int yValue, int sampleSize, int seed)
     {
         // Create new multi-dimensional array for the noise chunk
         float[,] noiseChunk = new float[sampleSize, sampleSize];

@@ -159,7 +159,7 @@ public class WorldGen : MonoBehaviour
                     }
                     
                     // If threshold exceeds that of the noise value, spawn
-                    if (fill || noiseChunk[xIndex, yIndex] >= biome.perlinOptions.threshold)
+                    if (fill || noiseChunk[xIndex, yIndex] >= biome.GetMinimumThreshold())
                         biomeTextureMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
                 }
             }
