@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8e8eb205f60db744989bcc34971ebc7c
+guid: f8261be0c2585594e934f8a009937bbe
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,39 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -903, y: -708}
+      - {x: -960, y: -771}
+      - {x: -960, y: -960}
+      - {x: -778, y: -960}
+      - {x: -708, y: -893}
+      - {x: -708, y: -872}
+      - {x: -873, y: -708}
+    - - {x: 898, y: -708}
+      - {x: 879, y: -708}
+      - {x: 865, y: -713}
+      - {x: 708, y: -859}
+      - {x: 708, y: -902}
+      - {x: 741, y: -960}
+      - {x: 960, y: -960}
+      - {x: 960, y: -777}
+      - {x: 945, y: -757}
+    - - {x: -777, y: 960}
+      - {x: -960, y: 960}
+      - {x: -960, y: 778}
+      - {x: -893, y: 708}
+      - {x: -880, y: 708}
+      - {x: -876, y: 709}
+      - {x: -708, y: 872}
+      - {x: -708, y: 891}
+      - {x: -713, y: 905}
+    - - {x: 768, y: 960}
+      - {x: 708, y: 904}
+      - {x: 708, y: 851}
+      - {x: 877, y: 708}
+      - {x: 916, y: 708}
+      - {x: 960, y: 771}
+      - {x: 960, y: 960}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000

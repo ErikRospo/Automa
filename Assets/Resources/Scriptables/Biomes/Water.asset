@@ -22,7 +22,10 @@ MonoBehaviour:
     persistance: 3
     lacunarity: 0.5
     scale: 10
-    threshold: 0.8
     offset: 0
+    threshold:
+    - tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
+      minThreshold: 0.8
+      maxThreshold: 1
   tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
   isDefault: 0
