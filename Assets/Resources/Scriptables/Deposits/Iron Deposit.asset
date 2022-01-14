@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a91c0cf55ea0bd47b7899fec06a690e, type: 3}
+  m_Name: Iron Deposit
+  m_EditorClassIdentifier: 
+  internalId: 8b158921-040f-4a2c-bc79-0ddaf016403f
+  createdAtTicks: 637776790653899618
+  name: 
+  isLiquid: 0
+  usePerlinNoise: 0
+  perlinOptions:
+    octaves: 1
+    persistance: 1
+    lacunarity: 0.5
+    scale: 10
+    offset: 0
+    threshold: []
+  tile: {fileID: 0}
+  item: {fileID: 0}
+  canSpawnOnLand: 0
+  canSpawnOnLiquid: 0
+  randomizeRotation: 0

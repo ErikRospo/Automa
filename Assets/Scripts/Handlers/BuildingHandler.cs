@@ -129,7 +129,7 @@ public class BuildingHandler : NetworkBehaviour
                 // Check to make sure tile can be placed
                 if (checkTilePlacement)
                 {
-                    if (WorldGen.active.spawnedResources.TryGetValue(coords, out MineralData value) &&
+                    if (WorldGen.active.resources.TryGetValue(coords, out DepositData value) &&
                         tile.spawnableOn.Contains(value)) checkTilePlacement = false;
                 }
             }
@@ -144,7 +144,7 @@ public class BuildingHandler : NetworkBehaviour
             // Check to make sure tile can be placed
             if (checkTilePlacement)
             {
-                if (WorldGen.active.spawnedResources.TryGetValue(coords, out MineralData value) &&
+                if (WorldGen.active.resources.TryGetValue(coords, out DepositData value) &&
                     tile.spawnableOn.Contains(value)) checkTilePlacement = false;
             }
         }

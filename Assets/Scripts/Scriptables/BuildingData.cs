@@ -48,5 +48,5 @@ public class BuildingData : ItemData
     /// <summary>
     /// If not empty, building will only be placeable on the specified minerals
     /// </summary>
-    public List<MineralData> spawnableOn;
+    public List<DepositData> spawnableOn;
 }

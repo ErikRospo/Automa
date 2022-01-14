@@ -9,7 +9,7 @@ public static class Scriptables
     // Resource paths
     public static string BuildingPath = "Scriptables/Buildings";
     public static string ItemPath = "Scriptables/Items";
-    public static string MineralPath = "Scriptables/Minerals";
+    public static string DepositPath = "Scriptables/Deposits";
     public static string RecipePath = "Scriptables/Recipes";
     public static string BiomePath = "Scriptables/Biomes";
     public static string VoicelinePath = "Scriptables/Voicelines";
@@ -17,23 +17,23 @@ public static class Scriptables
     // Scriptable dictionaries
     public static Dictionary<string, BuildingData> buildingDict;
     public static Dictionary<string, ItemData> itemDict;
-    public static Dictionary<string, MineralData> mineralDict;
+    public static Dictionary<string, DepositData> depositDict;
     public static Dictionary<string, Recipe> recipeDict;
-    public static Dictionary<string, Biome> biomeDict;
+    public static Dictionary<string, BiomeData> biomeDict;
 
     // Scriptable lists
     public static List<BuildingData> buildings;
     public static List<ItemData> items;
-    public static List<MineralData> minerals;
+    public static List<DepositData> deposits;
     public static List<Recipe> recipes;
-    public static List<Biome> biomes;
+    public static List<BiomeData> biomes;
 
     // Generate scriptables
     public static void GenerateAllScriptables()
     {
         GenerateBuildings();
         GenerateItems();
-        GenerateMinerals();
+        GenerateDeposits();
         GenerateBiomes();
         GenerateVoicelines();
     }
@@ -73,18 +73,18 @@ public static class Scriptables
     }
 
     // Generate minerals on startup
-    public static void GenerateMinerals()
+    public static void GenerateDeposits()
     {
-        mineralDict = new Dictionary<string, MineralData>();
-        minerals = new List<MineralData>();
+        depositDict = new Dictionary<string, DepositData>();
+        deposits = new List<DepositData>();
 
-        List<MineralData> loaded = Resources.LoadAll(MineralPath, typeof(MineralData)).Cast<MineralData>().ToList();
-        Debug.Log("Loaded " + loaded.Count + " minerals from " + MineralPath);
+        List<DepositData> loaded = Resources.LoadAll(DepositPath, typeof(DepositData)).Cast<DepositData>().ToList();
+        Debug.Log("Loaded " + loaded.Count + " deposits from " + DepositPath);
 
-        foreach (MineralData mineral in loaded)
+        foreach (DepositData mineral in loaded)
         {
-            mineralDict.Add(mineral.InternalID, mineral);
-            minerals.Add(mineral);
+            depositDict.Add(mineral.InternalID, mineral);
+            deposits.Add(mineral);
             Debug.Log("Loaded " + mineral.name + " with UUID " + mineral.InternalID);
         }
     }
@@ -92,13 +92,13 @@ public static class Scriptables
     // Generate biomes on startup
     public static void GenerateBiomes()
     {
-        biomeDict = new Dictionary<string, Biome>();
-        biomes = new List<Biome>();
+        biomeDict = new Dictionary<string, BiomeData>();
+        biomes = new List<BiomeData>();
 
-        List<Biome> loaded = Resources.LoadAll(BiomePath, typeof(Biome)).Cast<Biome>().ToList();
+        List<BiomeData> loaded = Resources.LoadAll(BiomePath, typeof(BiomeData)).Cast<BiomeData>().ToList();
         Debug.Log("Loaded " + loaded.Count + " biomes from " + BiomePath);
 
-        foreach (Biome biome in loaded)
+        foreach (BiomeData biome in loaded)
         {
             biomeDict.Add(biome.InternalID, biome);
             biomes.Add(biome);

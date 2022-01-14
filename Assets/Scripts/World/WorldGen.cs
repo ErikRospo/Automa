@@ -16,14 +16,11 @@ public class WorldGen : MonoBehaviour
     private int verticalRenderDistance = 4;
     [HideInInspector] public float worldChunkSize;
 
-    // List of resource tiles
-    public ResourceTile resourceTile;
-    [HideInInspector] public Dictionary<Vector2Int, MineralData> spawnedResources;
-    [HideInInspector] public Grid resourceGrid;
-
     // List of environment tiles
-    public Biome defaultBiome;
-    public Tilemap biomeTextureMap;
+    public BiomeData defaultBiome;
+    public Tilemap biomeMap;
+    public Tilemap resourceMap;
+    public Dictionary<Vector2, DepositData> resources;
 
     // Loaded chunks
     public Dictionary<Vector2Int, Transform> loadedChunks;
@@ -43,9 +40,6 @@ public class WorldGen : MonoBehaviour
         worldChunkSize = chunkSize * 5f;
 
         // Create a new resource grid
-        resourceGrid = new Grid();
-        spawnedResources = new Dictionary<Vector2Int, MineralData>();
-        resourceGrid.cells = new Dictionary<Vector2Int, Grid.Cell>();
         loadedChunks = new Dictionary<Vector2Int, Transform>();
     }
     
@@ -107,7 +101,7 @@ public class WorldGen : MonoBehaviour
         }
 
         // Loop through all biomes and generate it
-        foreach(Biome biome in Scriptables.biomes)
+        foreach(BiomeData biome in Scriptables.biomes)
         {
             // Check if biome is default
             if (biome.isDefault) continue;
@@ -116,15 +110,21 @@ public class WorldGen : MonoBehaviour
             TrySpawnBiome(biome, tilePosition);
         }
 
+        // Loop through all resources and generate it
+        foreach(DepositData deposit in Scriptables.deposits)
+        {
+            // Create new noise chunk and spawn
+            TrySpawnResource(deposit, tilePosition);
+        }
+
         // Iterate through chunk once more, and fill missing tiles with default biome
         TrySpawnBiome(defaultBiome, tilePosition, true);
 
         return chunk.transform;
     }
 
-    // THIS IS BEING NAUGHTY
     // Try and spawn a biome in a specified chunk
-    private void TrySpawnBiome(Biome biome, Vector2Int coords, bool fill = false)
+    private void TrySpawnBiome(BiomeData biome, Vector2Int coords, bool fill = false)
     {
         // Create the noise chunk variable
         int sampleSize = chunkSize * 10;
@@ -144,7 +144,7 @@ public class WorldGen : MonoBehaviour
                 int coordY = (int)coords.y + y;
 
                 // Default biome
-                if (!biomeTextureMap.HasTile(new Vector3Int(coordX, coordY, 0)))
+                if (!biomeMap.HasTile(new Vector3Int(coordX, coordY, 0)))
                 {
                     // Sampling indexs
                     int xIndex = x;
@@ -160,35 +160,52 @@ public class WorldGen : MonoBehaviour
                     
                     // If threshold exceeds that of the noise value, spawn
                     if (fill || noiseChunk[xIndex, yIndex] >= biome.GetMinimumThreshold())
-                        biomeTextureMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
+                        biomeMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
                 }
             }
         }
     }
 
-    // Try and spawn a resource
-    private void TrySpawnResource(MineralData resource, int x, int y, Transform parent)
+    // Try and spawn a biome in a specified chunk
+    private void TrySpawnResource(DepositData resource, Vector2Int coords)
     {
-        // Get x and y pos
-        float xPos = x * 5f;
-        float yPos = y * 5f;
+        // Create the noise chunk variable
+        int sampleSize = chunkSize * 10;
+        int chunkOffset = chunkSize / 2;
+        float[,] noiseChunk = new float[sampleSize, sampleSize];
 
-        // Check cell to make sure it's empty
-        if (resourceGrid.RetrieveCell(Vector2Int.RoundToInt(new Vector2(xPos, yPos))) == null)
+        // Create new noise chunk
+        noiseChunk = Noise.GenerateNoiseChunk(resource.perlinOptions, (int)coords.x, (int)coords.y, sampleSize, seed);
+
+        // Loop through each pixel in the noise chunk
+        for (int x = 0; x < chunkSize; x++)
         {
-            // Create the resource
-            ResourceTile temp = Instantiate(resourceTile.gameObject, new Vector3(xPos, yPos, -1), Quaternion.identity).GetComponent<ResourceTile>();
-            resourceGrid.SetCell(Vector2Int.RoundToInt(temp.transform.position), true);
-            temp.transform.parent = parent;
+            for (int y = 0; y < chunkSize; y++)
+            {
+                // Global Tile Position
+                int coordX = (int)coords.x + x;
+                int coordY = (int)coords.y + y;
 
-            // Set resource values
-            temp.name = resource.name;
-            temp.resource = resource;
-            temp.spriteRenderer.sprite = SpritesManager.GetSprite(resource.name);
-            temp.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0f);
+                // Default biome
+                if (!biomeMap.HasTile(new Vector3Int(coordX, coordY, 0)))
+                {
+                    // Sampling indexs
+                    int xIndex = x;
+                    int yIndex = y;
 
-            // Add resource to spawned resource list
-            spawnedResources.Add(Vector2Int.RoundToInt(temp.transform.position), resource);
+                    // If noise debugging enabled, spawn values for specified value
+                    if (enableNoiseDebugging && noiseChunk[xIndex, yIndex] > 0 && debugNoiseType == resource)
+                    {
+                        TextMeshPro text = Instantiate(debugNoiseText, new Vector2(coordX * 5f,
+                            coordY * 5f), Quaternion.identity).GetComponent<TextMeshPro>();
+                        if (text != null) text.text = noiseChunk[xIndex, yIndex].ToString();
+                    }
+
+                    // If threshold exceeds that of the noise value, spawn
+                    if (noiseChunk[xIndex, yIndex] >= resource.GetMinimumThreshold())
+                        biomeMap.SetTile(new Vector3Int(coordX, coordY, 0), resource.tile);
+                }
+            }
         }
     }
 
