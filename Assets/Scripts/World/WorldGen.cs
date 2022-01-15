@@ -22,7 +22,7 @@ public class WorldGen : MonoBehaviour
     public BiomeData defaultBiome;
     public Tilemap biomeMap;
     public Tilemap resourceMap;
-    public Dictionary<Vector2, DepositData> resources;
+    public Dictionary<Vector2Int, DepositData> resources;
 
     // Loaded chunks
     public Dictionary<Vector2Int, GameObject> loadedChunks;
@@ -37,6 +37,7 @@ public class WorldGen : MonoBehaviour
 
         // Create a new resource grid
         loadedChunks = new Dictionary<Vector2Int, GameObject>();
+        resources = new Dictionary<Vector2Int, DepositData>();
 
         // On player spawn event
         Events.active.onPlayerSpawned += SetViewer;
@@ -164,9 +165,31 @@ public class WorldGen : MonoBehaviour
     }
 
     // Try and spawn a biome in a specified chunk
-    private void TrySpawnResource(DepositData resource, Vector2Int coords)
+    private void TrySpawnResource(DepositData resource, Vector2Int tileCoords)
     {
-        
+        // Generate a new chunk of noise
+        float[,] noise = Noise.GenerateNoiseChunk(resource.perlin, chunkSize, tileCoords, seed);
+
+        // Iterate through each perlin pixel
+        for (int y = 0; y < chunkSize; y++)
+        {
+            for (int x = 0; x < chunkSize; x++)
+            {
+                // Get the tile position of the noise pixel
+                Vector3Int tilePosition = new Vector3Int(tileCoords.x + x, tileCoords.y + y, 0);
+
+                // Check if the map is already filled here
+                if (!resourceMap.HasTile(tilePosition))
+                {
+                    // If threshold exceeds that of the noise value, spawn
+                    if (noise[x, y] >= resource.perlin.threshold)
+                    {
+                        resourceMap.SetTile(tilePosition, resource.tile);
+                        resources.Add(new Vector2Int(tilePosition.x, tilePosition.y), resource);
+                    }
+                }
+            }
+        }
     }
 
     private List<Vector2Int> GetChunks(Vector2Int chunk)

@@ -13,5 +13,6 @@ public class Perlin
     [Range(0, 2)] public float modifier = 1.5f;
     public float scale = 10; 
     public float threshold = 0.8f;
-    public Vector2 offset;
+    public int seedOffset;
+    public Vector2 sampleOffset;
 }

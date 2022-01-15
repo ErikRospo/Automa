@@ -16,15 +16,13 @@ MonoBehaviour:
   createdAtTicks: 637776790653899618
   name: Iron Deposit
   isLiquid: 0
-  usePerlinNoise: 0
-  noiseSettings:
-    normalizeMode: 0
-    sampleMode: 0
-    scale: 50
-    octaves: 6
-    persistance: 0.6
+  perlin:
+    octaves: 4
     lacunarity: 2
-    threshold: 1
+    persistance: 0.5
+    modifier: 1.5
+    scale: 50
+    threshold: 0.8
     offset: {x: 0, y: 0}
   tile: {fileID: 11400000, guid: 195582c8c512ca047959ef1aaefc8fa6, type: 2}
   item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}

@@ -10191,7 +10191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 614548761}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 908637551}
@@ -10236,7 +10236,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902055989
   m_SortingLayer: -2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -32590,17 +32590,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewer: {fileID: 0}
   seed: 0
-  chunkSize: 10
+  chunkSize: 40
+  viewDistance: 2
   emptyChunk: {fileID: 5320635277402148286, guid: fcbb543fc9366df42bdb528ac612c3ee,
     type: 3}
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
   biomeMap: {fileID: 736659155}
   resourceMap: {fileID: 614548764}
   enableChunkDebugging: 1
-  enableNoiseDebugging: 0
-  debugNoiseText: {fileID: 8995130522574148743, guid: f6547f7468276e6428ea345ad9504205,
-    type: 3}
-  debugNoiseType: {fileID: 11400000, guid: 596d1e2534dd28f4bbd462a9e3839b1f, type: 2}
 --- !u!4 &2129755554
 Transform:
   m_ObjectHideFlags: 0

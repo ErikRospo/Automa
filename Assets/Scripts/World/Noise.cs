@@ -20,10 +20,10 @@ public static class Noise
 		float[,] noiseMap = new float[size, size];
 
 		Vector2 sampleCoords = new Vector2(
-			position.x + perlin.offset.x,
-			position.y + perlin.offset.y);
+			position.x + perlin.sampleOffset.x,
+			position.y + perlin.sampleOffset.y);
 
-		System.Random prng = new System.Random(seed);
+		System.Random prng = new System.Random(seed + perlin.seedOffset);
 		Vector2[] octaveOffsets = new Vector2[perlin.octaves];
 
 		float maxPossibleHeight = 0;
