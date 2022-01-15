@@ -38,9 +38,6 @@ public class MovementController : NetworkBehaviour
     private float vertical;
     private float speed;
 
-    // Chunking value
-    private Vector2Int chunkCoords = new Vector2Int(0, 0);
-
     // Called on start
     [Client]
     void Start()
@@ -65,10 +62,6 @@ public class MovementController : NetworkBehaviour
         {
             Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
             CmdUpdateName(SteamSettings.Client.user.DisplayName);
-
-            // Generate chunks
-            if (WorldGen.active != null)
-                WorldGen.active.UpdateChunks(chunkCoords);
         }
     }
 
@@ -91,9 +84,6 @@ public class MovementController : NetworkBehaviour
         // Update the player for all other players
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
-
-        // Neighbour chunk check
-        UpdateChunks();
     }
 
     // Physics update for handling movement calculations 
@@ -112,22 +102,6 @@ public class MovementController : NetworkBehaviour
         // Speed input checks
         CheckMovementInput();
         CalculateSpeed();
-    }
-
-    // Update chunks
-    private void UpdateChunks()
-    {
-        if (WorldGen.active != null)
-        {
-            // Get chunk coordinates
-            Vector2Int chunk = Vector2Int.RoundToInt(new Vector2(
-                transform.position.x / WorldGen.active.worldChunkSize, 
-                transform.position.y / WorldGen.active.worldChunkSize));
-
-            // Update chunks 
-            if (chunk != chunkCoords) WorldGen.active.UpdateChunks(chunk);
-            chunkCoords = chunk;
-        }
     }
 
     // Checks for movement input

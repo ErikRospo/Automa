@@ -5,16 +5,21 @@ using TMPro;
 
 public class WorldGen : MonoBehaviour
 {
+    // Chunk class
+
+
     // Active instance
     public static WorldGen active;
 
+    // Point to the active viewer
+    public Transform viewer;
+    public static Vector2 viewerPosition;
+
     // Chunk variables
     public int seed;
-    public GameObject emptyChunk;
     public int chunkSize = 10;
-    private int horizontalRenderDistance = 7;
-    private int verticalRenderDistance = 4;
-    [HideInInspector] public float worldChunkSize;
+    private int viewDistance = 8;
+    public GameObject emptyChunk;
 
     // List of environment tiles
     public BiomeData defaultBiome;
@@ -23,7 +28,7 @@ public class WorldGen : MonoBehaviour
     public Dictionary<Vector2, DepositData> resources;
 
     // Loaded chunks
-    public Dictionary<Vector2Int, Transform> loadedChunks;
+    public Dictionary<Vector2Int, GameObject> loadedChunks;
 
     // Debug variables
     public bool enableChunkDebugging;
@@ -36,19 +41,37 @@ public class WorldGen : MonoBehaviour
         // Get active instance
         active = this;
 
-        // Get world chunk size
-        worldChunkSize = chunkSize * 5f;
-
         // Create a new resource grid
-        loadedChunks = new Dictionary<Vector2Int, Transform>();
+        loadedChunks = new Dictionary<Vector2Int, GameObject>();
+
+        // On player spawn event
+        Events.active.onPlayerSpawned += SetViewer;
     }
-    
-    // Generate resources
-    public void UpdateChunks(Vector2Int chunk)
+
+    public void Update()
     {
+        viewerPosition = new Vector2(viewer.position.x, viewer.position.y);
+        UpdateChunks();
+    }
+
+    // Set the active viewer
+    public void SetViewer(Player player)
+    {
+        if (player.hasAuthority)
+            viewer = player.transform;
+    }
+
+    // Generate resources
+    public void UpdateChunks()
+    {
+        // Get chunk coordinates
+        Vector2Int coords = Vector2Int.RoundToInt(new Vector2(
+            viewerPosition.x / chunkSize,
+            viewerPosition.y / chunkSize));
+
         // Create new chunks list
-        List<Vector2Int> chunks = GetChunks(chunk);
-        List<Transform> chunksLoaded = new List<Transform>();
+        List<Vector2Int> chunks = GetChunks(coords);
+        List<GameObject> chunksLoaded = new List<GameObject>();
 
         // Loops through chunks
         foreach (Vector2Int chunkCoords in chunks)
@@ -56,25 +79,25 @@ public class WorldGen : MonoBehaviour
             // Check that the chunk isn't loaded
             if (loadedChunks.ContainsKey(chunkCoords))
             {
-                loadedChunks[chunkCoords].gameObject.SetActive(true);
+                loadedChunks[chunkCoords].SetActive(true);
                 chunksLoaded.Add(loadedChunks[chunkCoords]);
             }
             else
             {
-                Transform newChunk = GenerateNewChunk(chunkCoords);
+                GameObject newChunk = GenerateNewChunk(chunkCoords);
                 loadedChunks.Add(chunkCoords, newChunk);
                 chunksLoaded.Add(newChunk);
             }
         }
 
         // Disable chunks that are out of sight
-        foreach (Transform loadedChunk in loadedChunks.Values)
+        foreach (GameObject loadedChunk in loadedChunks.Values)
             if (!chunksLoaded.Contains(loadedChunk))
                 loadedChunk.gameObject.SetActive(false);
     }
 
     // Loops through a new chunk and spawns resources based on perlin noise values
-    private Transform GenerateNewChunk(Vector2Int newChunk)
+    private GameObject GenerateNewChunk(Vector2Int newChunk)
     {
         // Get middle offset
         int chunkOffset = chunkSize / 2;
@@ -120,7 +143,7 @@ public class WorldGen : MonoBehaviour
         // Iterate through chunk once more, and fill missing tiles with default biome
         TrySpawnBiome(defaultBiome, tilePosition, true);
 
-        return chunk.transform;
+        return chunk;
     }
 
     // Try and spawn a biome in a specified chunk
@@ -141,9 +164,9 @@ public class WorldGen : MonoBehaviour
         List<Vector2Int> chunks = new List<Vector2Int>();
 
         // Get surrounding chunks based on render distance
-        for (int x = chunk.x - horizontalRenderDistance; x < chunk.x + horizontalRenderDistance; x++)
-            for (int y = chunk.y - verticalRenderDistance; y < chunk.y + verticalRenderDistance; y++)
-                chunks.Add(new Vector2Int(x - 1, y - 1));
+        for (int x = chunk.x - viewDistance; x < chunk.x + viewDistance; x++)
+            for (int y = chunk.y - viewDistance; y < chunk.y + viewDistance; y++)
+                chunks.Add(new Vector2Int(x, y));
 
         // Return chunk coordinates
         return chunks;
