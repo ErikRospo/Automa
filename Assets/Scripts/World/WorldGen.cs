@@ -126,77 +126,13 @@ public class WorldGen : MonoBehaviour
     // Try and spawn a biome in a specified chunk
     private void TrySpawnBiome(BiomeData biome, Vector2Int coords, bool fill = false)
     {
-        // Create the noise chunk variable
-        int sampleSize = chunkSize * 10;
-        float[,] noiseChunk = new float[sampleSize, sampleSize];
-
-        // Create new noise chunk
-        if (!fill) noiseChunk = Noise.GenerateNoiseChunk(biome.perlinOptions, (int)coords.x, (int)coords.y, sampleSize, seed);
-
-        // Loop through each pixel in the noise chunk
-        for (int x = 0; x < chunkSize; x++)
-        {
-            for (int y = 0; y < chunkSize; y++)
-            {
-                // Global Tile Position
-                int coordX = (int)coords.x + x;
-                int coordY = (int)coords.y + y;
-
-                // Default biome
-                if (!biomeMap.HasTile(new Vector3Int(coordX, coordY, 0)))
-                {
-                    // Sampling indexs
-                    int xIndex = x;
-                    int yIndex = y;
-
-                    // If noise debugging enabled, spawn values for specified value
-                    if (enableNoiseDebugging && noiseChunk[xIndex, yIndex] > 0 && debugNoiseType == biome)
-                    {
-                        TextMeshPro text = Instantiate(debugNoiseText, new Vector2(coordX * 5f,
-                            coordY * 5f), Quaternion.identity).GetComponent<TextMeshPro>();
-                        if (text != null) text.text = noiseChunk[xIndex, yIndex].ToString();
-                    }
-                    
-                    // If threshold exceeds that of the noise value, spawn
-                    if (fill || noiseChunk[xIndex, yIndex] >= biome.perlinOptions.threshold)
-                        biomeMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
-                }
-            }
-        }
+        
     }
 
     // Try and spawn a biome in a specified chunk
     private void TrySpawnResource(DepositData resource, Vector2Int coords)
     {
-        // Create the noise chunk variable
-        int sampleSize = chunkSize * 10;
-        float[,] noiseChunk = new float[sampleSize, sampleSize];
-
-        // Create new noise chunk
-        noiseChunk = Noise.GenerateNoiseChunk(resource.perlinOptions, (int)coords.x, (int)coords.y, sampleSize, seed);
-
-        // Loop through each pixel in the noise chunk
-        for (int x = 0; x < chunkSize; x++)
-        {
-            for (int y = 0; y < chunkSize; y++)
-            {
-                // Global Tile Position
-                int coordX = (int)coords.x + x;
-                int coordY = (int)coords.y + y;
-
-                // Default biome
-                if (!biomeMap.HasTile(new Vector3Int(coordX, coordY, 0)))
-                {
-                    // Sampling indexs
-                    int xIndex = x;
-                    int yIndex = y;
-
-                    // If threshold exceeds that of the noise value, spawn
-                    if (noiseChunk[xIndex, yIndex] >= resource.perlinOptions.threshold)
-                        resourceMap.SetTile(new Vector3Int(coordX, coordY, 0), resource.tile);
-                }
-            }
-        }
+        
     }
 
     private List<Vector2Int> GetChunks(Vector2Int chunk)

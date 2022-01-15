@@ -38,8 +38,11 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: BG Environment
     uniqueID: 1506137859
+    locked: 0
+  - name: BG Resource
+    uniqueID: 3392911307
     locked: 0
   - name: Shadow
     uniqueID: 3446144057

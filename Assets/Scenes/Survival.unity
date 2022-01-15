@@ -1303,12 +1303,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textureRender: {fileID: 65702755}
   perlinOptions:
+    useMultiSampling: 0
     octaves: 4
     persistance: 3
     lacunarity: 0.5
     scale: 5
     offset: 0
-    threshold: []
+    threshold: 0.8
   size: 100
   seed: 0
   offset: {x: 0, y: 0}
@@ -10241,7 +10242,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1506137859
+  m_SortingLayerID: -902055989
   m_SortingLayer: -2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -11947,7 +11948,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1506137859
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
