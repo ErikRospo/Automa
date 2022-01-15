@@ -128,7 +128,6 @@ public class WorldGen : MonoBehaviour
     {
         // Create the noise chunk variable
         int sampleSize = chunkSize * 10;
-        int chunkOffset = chunkSize / 2;
         float[,] noiseChunk = new float[sampleSize, sampleSize];
 
         // Create new noise chunk
@@ -159,7 +158,7 @@ public class WorldGen : MonoBehaviour
                     }
                     
                     // If threshold exceeds that of the noise value, spawn
-                    if (fill || noiseChunk[xIndex, yIndex] >= biome.GetMinimumThreshold())
+                    if (fill || noiseChunk[xIndex, yIndex] >= biome.perlinOptions.threshold)
                         biomeMap.SetTile(new Vector3Int(coordX, coordY, 0), biome.tile);
                 }
             }
@@ -171,7 +170,6 @@ public class WorldGen : MonoBehaviour
     {
         // Create the noise chunk variable
         int sampleSize = chunkSize * 10;
-        int chunkOffset = chunkSize / 2;
         float[,] noiseChunk = new float[sampleSize, sampleSize];
 
         // Create new noise chunk
@@ -193,17 +191,9 @@ public class WorldGen : MonoBehaviour
                     int xIndex = x;
                     int yIndex = y;
 
-                    // If noise debugging enabled, spawn values for specified value
-                    if (enableNoiseDebugging && noiseChunk[xIndex, yIndex] > 0 && debugNoiseType == resource)
-                    {
-                        TextMeshPro text = Instantiate(debugNoiseText, new Vector2(coordX * 5f,
-                            coordY * 5f), Quaternion.identity).GetComponent<TextMeshPro>();
-                        if (text != null) text.text = noiseChunk[xIndex, yIndex].ToString();
-                    }
-
                     // If threshold exceeds that of the noise value, spawn
-                    if (noiseChunk[xIndex, yIndex] >= resource.GetMinimumThreshold())
-                        biomeMap.SetTile(new Vector3Int(coordX, coordY, 0), resource.tile);
+                    if (noiseChunk[xIndex, yIndex] >= resource.perlinOptions.threshold)
+                        resourceMap.SetTile(new Vector3Int(coordX, coordY, 0), resource.tile);
                 }
             }
         }

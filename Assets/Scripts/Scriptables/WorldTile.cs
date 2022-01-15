@@ -8,6 +8,7 @@ public class WorldTile : IdentifiableScriptableObject
     public bool usePerlinNoise; // Tells generator if perlin noise should be used
     public Perlin perlinOptions; // Options to modify perlin noise
 
+    /*
     /// <summary>
     /// Returns the minimum threshold for this tile to spawn
     /// </summary>
@@ -39,4 +40,6 @@ public class WorldTile : IdentifiableScriptableObject
 
         return null;
     }
+    */
+
 }

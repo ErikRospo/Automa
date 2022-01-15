@@ -32600,10 +32600,9 @@ MonoBehaviour:
     type: 3}
   chunkSize: 10
   worldChunkSize: 0
-  resourceTile: {fileID: -5637757227350493285, guid: e5ea9cdb4041129428eb0eacdee13d1d,
-    type: 3}
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
-  biomeTextureMap: {fileID: 736659155}
+  biomeMap: {fileID: 736659155}
+  resourceMap: {fileID: 614548764}
   enableChunkDebugging: 0
   enableNoiseDebugging: 0
   debugNoiseText: {fileID: 8995130522574148743, guid: f6547f7468276e6428ea345ad9504205,

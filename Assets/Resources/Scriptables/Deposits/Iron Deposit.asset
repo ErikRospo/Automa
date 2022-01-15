@@ -14,18 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: 8b158921-040f-4a2c-bc79-0ddaf016403f
   createdAtTicks: 637776790653899618
-  name: 
+  name: Iron Deposit
   isLiquid: 0
   usePerlinNoise: 0
   perlinOptions:
+    useMultiSampling: 0
     octaves: 1
     persistance: 1
     lacunarity: 0.5
-    scale: 10
+    scale: 250
     offset: 0
-    threshold: []
-  tile: {fileID: 0}
-  item: {fileID: 0}
-  canSpawnOnLand: 0
+    threshold:
+    - tile: {fileID: 11400000, guid: 195582c8c512ca047959ef1aaefc8fa6, type: 2}
+      minThreshold: 0.98
+      maxThreshold: 1
+  tile: {fileID: 11400000, guid: 195582c8c512ca047959ef1aaefc8fa6, type: 2}
+  item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
+  canSpawnOnLand: 1
   canSpawnOnLiquid: 0
-  randomizeRotation: 0
+  randomizeRotation: 1

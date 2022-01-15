@@ -9,19 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad05c97b263a6ac4db928c6628f0e5b7, type: 3}
+  m_Script: {fileID: 11500000, guid: b47f54fb8e8d6f840b84a8cf19f5215e, type: 3}
   m_Name: Sand
   m_EditorClassIdentifier: 
-  internalId: c0999be2-a712-45ff-b3bf-c27280338230
-  createdAtTicks: 637770637682114602
+  internalId: a16ac1c0-9f69-457a-b0fc-a432b4f54c64
+  createdAtTicks: 637777828166604793
   name: Sand
   isLiquid: 0
   usePerlinNoise: 0
-  spawnScale: 0
-  spawnThreshold: 0
-  noiseOffset: 0
+  perlinOptions:
+    octaves: 1
+    persistance: 1
+    lacunarity: 0.5
+    scale: 10
+    offset: 0
+    threshold:
+    - tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
+      minThreshold: 0
+      maxThreshold: 1
   tile: {fileID: 11400000, guid: 003f20cc7fd00d4469f110e0ea29e66a, type: 2}
-  octaves: 0
-  persistance: 0
-  lacunarity: 0
   isDefault: 1

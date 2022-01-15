@@ -17,10 +17,11 @@ public class Perlin
     }
 
     // Perlin options
+    public bool useMultiSampling = false;
     public int octaves = 1;
     public float persistance = 1;
     [Range(0, 1)] public float lacunarity = 0.5f;
     public float scale = 10; 
     public float offset = 0;
-    public List<Threshold> threshold;
+    public float threshold = 0.8f;
 }

@@ -9,23 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad05c97b263a6ac4db928c6628f0e5b7, type: 3}
+  m_Script: {fileID: 11500000, guid: b47f54fb8e8d6f840b84a8cf19f5215e, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: 
-  internalId: 75e88aee-aec9-482e-b125-49212c34e89a
-  createdAtTicks: 637770652840637507
+  internalId: 7fe2ad0c-b36c-4922-82d5-f6ba573a6f35
+  createdAtTicks: 637777828219017455
   name: Water
   isLiquid: 1
-  usePerlinNoise: 1
+  usePerlinNoise: 0
   perlinOptions:
-    octaves: 4
+    octaves: 1
     persistance: 3
     lacunarity: 0.5
-    scale: 10
+    scale: 5
     offset: 0
     threshold:
     - tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
-      minThreshold: 0.8
+      minThreshold: 0.85
       maxThreshold: 1
   tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
   isDefault: 0

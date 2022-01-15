@@ -18,7 +18,7 @@ public static class Noise
     /// <param name="lacunarity"></param>
     /// <param name="seed"></param>
     /// <returns></returns>
-    public static float[,] GenerateNoiseChunk(Perlin perlinOptions, int xValue, int yValue, int sampleSize, int seed)
+    public static float[,] GenerateNoiseChunk(Perlin perlinOptions, int xValue, int yValue, int sampleSize, int seed, bool localize = false)
     {
         // Create new multi-dimensional array for the noise chunk
         float[,] noiseChunk = new float[sampleSize, sampleSize];
@@ -60,8 +60,11 @@ public static class Noise
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
-                    amplitude *= perlinOptions.persistance;
-                    frequency *= perlinOptions.lacunarity;
+                    if (perlinOptions.useMultiSampling)
+                    {
+                        amplitude *= perlinOptions.persistance;
+                        frequency *= perlinOptions.lacunarity;
+                    }
                 }
 
                 // Assign bounds of lowest and highest noise pixel
@@ -80,15 +83,15 @@ public static class Noise
         {
             for (int y = 0; y < sampleSize; y++)
             {
-                //if (normalizeMode == NormalizeMode.Local)
-                //{
-                //    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
-                //}
-                //else
-                //{
-                float normalizedHeight = (noiseChunk[x, y] + 1) / (maxNoiseHeight / 0.9f);
-                noiseChunk[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
-                //}
+                if (localize)
+                {
+                    noiseChunk[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseChunk[x, y]);
+                }
+                else
+                {
+                    float normalizedHeight = (noiseChunk[x, y] + 1) / (maxNoiseHeight / 0.9f);
+                    noiseChunk[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+                }
             }
         }
 
