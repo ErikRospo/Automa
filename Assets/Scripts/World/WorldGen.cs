@@ -32,9 +32,6 @@ public class WorldGen : MonoBehaviour
 
     // Debug variables
     public bool enableChunkDebugging;
-    public bool enableNoiseDebugging;
-    public GameObject debugNoiseText;
-    public WorldTile debugNoiseType;
 
     public void Start()
     {
@@ -50,8 +47,11 @@ public class WorldGen : MonoBehaviour
 
     public void Update()
     {
-        viewerPosition = new Vector2(viewer.position.x, viewer.position.y);
-        UpdateChunks();
+        if (viewer != null)
+        {
+            viewerPosition = new Vector2(viewer.position.x, viewer.position.y);
+            UpdateChunks();
+        }
     }
 
     // Set the active viewer
@@ -66,8 +66,8 @@ public class WorldGen : MonoBehaviour
     {
         // Get chunk coordinates
         Vector2Int coords = Vector2Int.RoundToInt(new Vector2(
-            viewerPosition.x / chunkSize,
-            viewerPosition.y / chunkSize));
+            viewerPosition.x / 5 / chunkSize,
+            viewerPosition.y / 5 / chunkSize));
 
         // Create new chunks list
         List<Vector2Int> chunks = GetChunks(coords);
@@ -99,29 +99,15 @@ public class WorldGen : MonoBehaviour
     // Loops through a new chunk and spawns resources based on perlin noise values
     private GameObject GenerateNewChunk(Vector2Int newChunk)
     {
-        // Get middle offset
-        int chunkOffset = chunkSize / 2;
-
-        // Get world coordinate
-        int xValue = (newChunk.x * chunkSize) - chunkOffset;
-        int yValue = (newChunk.y * chunkSize) - chunkOffset;
-
-        // Convert the chunk coordinates to tile position
-        Vector2Int tilePosition = new Vector2Int(xValue + chunkOffset, yValue + chunkOffset);
+        // Get tile coordinate
+        Vector2Int tileCoords = new Vector2Int(
+            newChunk.x * chunkSize,
+            newChunk.y * chunkSize);
 
         // Convert the chunk coordinates to world position
-        Vector2 worldPosition = new Vector2(tilePosition.x * 5, tilePosition.y * 5);
+        Vector2 worldPosition = new Vector2(tileCoords.x * 5, tileCoords.y * 5);
         GameObject chunk = Instantiate(emptyChunk, worldPosition, Quaternion.identity);
-        chunk.name = tilePosition.x + " " + tilePosition.y;
-
-        // If debugging on, visually display show chunk
-        if (enableChunkDebugging)
-        {
-            chunk.GetComponent<MeshRenderer>().enabled = true;
-            TextMeshPro text = chunk.GetComponent<TextMeshPro>();
-            text.text = chunk.name;
-            text.enabled = true;
-        }
+        chunk.name = newChunk.x + " " + newChunk.y;
 
         // Loop through all biomes and generate it
         foreach(BiomeData biome in Scriptables.biomes)
@@ -130,26 +116,29 @@ public class WorldGen : MonoBehaviour
             if (biome.isDefault) continue;
 
             // Create new noise chunk
-            TrySpawnBiome(biome, tilePosition);
+            TrySpawnBiome(biome, tileCoords);
         }
 
         // Loop through all resources and generate it
         foreach(DepositData deposit in Scriptables.deposits)
         {
             // Create new noise chunk and spawn
-            TrySpawnResource(deposit, tilePosition);
+            TrySpawnResource(deposit, tileCoords);
         }
 
         // Iterate through chunk once more, and fill missing tiles with default biome
-        TrySpawnBiome(defaultBiome, tilePosition, true);
+        TrySpawnBiome(defaultBiome, tileCoords, true);
 
         return chunk;
     }
 
     // Try and spawn a biome in a specified chunk
-    private void TrySpawnBiome(BiomeData biome, Vector2Int coords, bool fill = false)
+    private void TrySpawnBiome(BiomeData biome, Vector2Int tileCoords, bool fill = false)
     {
-        
+        // Generate a new chunk of noise
+        float[,] noise = Noise.GenerateNoiseChunk(biome.perlin, chunkSize, tileCoords, seed);
+
+
     }
 
     // Try and spawn a biome in a specified chunk

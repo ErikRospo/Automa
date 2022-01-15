@@ -1302,14 +1302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureRender: {fileID: 65702755}
-  perlinOptions:
-    useMultiSampling: 0
-    octaves: 4
-    persistance: 3
-    lacunarity: 0.5
-    scale: 5
-    offset: 0
-    threshold: 0.8
   size: 100
   seed: 0
   offset: {x: 0, y: 0}
@@ -32596,15 +32588,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ec96bf0bb8f244b88cac5f6fc66092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewer: {fileID: 0}
   seed: 0
+  chunkSize: 10
   emptyChunk: {fileID: 5320635277402148286, guid: fcbb543fc9366df42bdb528ac612c3ee,
     type: 3}
-  chunkSize: 10
-  worldChunkSize: 0
   defaultBiome: {fileID: 11400000, guid: c376191316043df4da4f1f2321519897, type: 2}
   biomeMap: {fileID: 736659155}
   resourceMap: {fileID: 614548764}
-  enableChunkDebugging: 0
+  enableChunkDebugging: 1
   enableNoiseDebugging: 0
   debugNoiseText: {fileID: 8995130522574148743, guid: f6547f7468276e6428ea345ad9504205,
     type: 3}

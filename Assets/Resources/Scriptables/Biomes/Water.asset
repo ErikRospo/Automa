@@ -16,5 +16,12 @@ MonoBehaviour:
   createdAtTicks: 637777828219017455
   name: Water
   isLiquid: 1
+  perlin:
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 25
+    threshold: 0.8
+    offset: {x: 0, y: 0}
   tile: {fileID: 11400000, guid: 018027289a1c3744899a412d00a93445, type: 2}
   isDefault: 0
