@@ -23,8 +23,9 @@ MonoBehaviour:
     modifier: 1.5
     scale: 50
     threshold: 0.8
-    offset: {x: 0, y: 0}
-  tile: {fileID: 11400000, guid: 195582c8c512ca047959ef1aaefc8fa6, type: 2}
+    seedOffset: 0
+    sampleOffset: {x: 0, y: 0}
+  tile: {fileID: 11400000, guid: 0de70d03564b7564fb842bcfdcb4c21e, type: 2}
   item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
   canSpawnOnLand: 1
   canSpawnOnLiquid: 0
