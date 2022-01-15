@@ -25,18 +25,22 @@ public static class Noise
 
 		System.Random prng = new System.Random(seed);
 		Vector2[] octaveOffsets = new Vector2[perlin.octaves];
+
+		float maxPossibleHeight = 0;
+		float amplitude = 1;
+
 		for (int i = 0; i < perlin.octaves; i++)
 		{
 			float offsetX = prng.Next(-100000, 100000) + sampleCoords.x;
 			float offsetY = prng.Next(-100000, 100000) - sampleCoords.y;
 			octaveOffsets[i] = new Vector2(offsetX, offsetY);
+
+			maxPossibleHeight += amplitude;
+			amplitude *= perlin.persistance;
 		}
 
 		if (perlin.scale <= 0)
 			perlin.scale = 0.0001f;
-
-		float maxNoiseHeight = float.MinValue;
-		float minNoiseHeight = float.MaxValue;
 
 		float halfSize = size / 2f;
 
@@ -44,7 +48,7 @@ public static class Noise
 		{
 			for (int x = 0; x < size; x++)
 			{
-				float amplitude = 1;
+				amplitude = 1;
 				float frequency = 1;
 				float noiseHeight = 0;
 
@@ -60,11 +64,6 @@ public static class Noise
 					frequency *= perlin.lacunarity;
 				}
 
-				if (noiseHeight > maxNoiseHeight)
-					maxNoiseHeight = noiseHeight;
-				else if (noiseHeight < minNoiseHeight)
-					minNoiseHeight = noiseHeight;
-
 				noiseMap[x, y] = noiseHeight;
 			}
 		}
@@ -73,7 +72,8 @@ public static class Noise
 		{
 			for (int x = 0; x < size; x++)
 			{
-				noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+				float normalizedHeight = (noiseMap[x, y] + 1) / (2f * maxPossibleHeight / perlin.modifier);
+				noiseMap[x, y] = normalizedHeight;
 			}
 		}
 

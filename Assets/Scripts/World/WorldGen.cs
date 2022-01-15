@@ -5,9 +5,6 @@ using TMPro;
 
 public class WorldGen : MonoBehaviour
 {
-    // Chunk class
-
-
     // Active instance
     public static WorldGen active;
 
@@ -16,9 +13,9 @@ public class WorldGen : MonoBehaviour
     public static Vector2 viewerPosition;
 
     // Chunk variables
-    public int seed;
+    public int seed = 0;
     public int chunkSize = 10;
-    private int viewDistance = 8;
+    public int viewDistance = 8;
     public GameObject emptyChunk;
 
     // List of environment tiles
@@ -109,8 +106,17 @@ public class WorldGen : MonoBehaviour
         GameObject chunk = Instantiate(emptyChunk, worldPosition, Quaternion.identity);
         chunk.name = newChunk.x + " " + newChunk.y;
 
+        // If debugging on, visually display show chunk
+        if (enableChunkDebugging)
+        {
+            chunk.GetComponent<MeshRenderer>().enabled = true;
+            TextMeshPro text = chunk.GetComponent<TextMeshPro>();
+            text.text = chunk.name;
+            text.enabled = true;
+        }
+
         // Loop through all biomes and generate it
-        foreach(BiomeData biome in Scriptables.biomes)
+        foreach (BiomeData biome in Scriptables.biomes)
         {
             // Check if biome is default
             if (biome.isDefault) continue;
@@ -138,7 +144,23 @@ public class WorldGen : MonoBehaviour
         // Generate a new chunk of noise
         float[,] noise = Noise.GenerateNoiseChunk(biome.perlin, chunkSize, tileCoords, seed);
 
+        // Iterate through each perlin pixel
+        for (int y = 0; y < chunkSize; y++)
+        {
+            for (int x = 0; x < chunkSize; x++)
+            {
+                // Get the tile position of the noise pixel
+                Vector3Int tilePosition = new Vector3Int(tileCoords.x + x, tileCoords.y + y, 0);
 
+                // Check if the map is already filled here
+                if (!biomeMap.HasTile(tilePosition))
+                {
+                    // If threshold exceeds that of the noise value, spawn
+                    if (fill || noise[x, y] >= biome.perlin.threshold)
+                        biomeMap.SetTile(tilePosition, biome.tile);
+                }
+            }
+        }
     }
 
     // Try and spawn a biome in a specified chunk
