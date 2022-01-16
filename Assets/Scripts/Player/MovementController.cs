@@ -88,9 +88,6 @@ public class MovementController : NetworkBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
         }
-
-        // Neighbour chunk check
-        UpdateChunks();
     }
 
     // Physics update for handling movement calculations 
