@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
+  m_Name: Silica
+  m_EditorClassIdentifier: 
+  internalId: 6d3126b0-ad41-49a4-aa3f-35707189643b
+  createdAtTicks: 637779347996432783
+  name: 
+  description: 
+  icon: {fileID: 0}
+  maxStackSize: 0
+  placeable: {fileID: 0}

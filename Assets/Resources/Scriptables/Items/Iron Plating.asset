@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
-  m_Name: Iron Ore
+  m_Name: Iron Plating
   m_EditorClassIdentifier: 
-  internalId: 89cdfb79-0c4c-4881-8778-783d31dbc028
-  createdAtTicks: 637768126964597022
-  name: Iron Ore
-  description: A clumpy metallic like resource. Can be smelted into iron plating,
-    which is one of the most fundamental materials in the production chain.
-  icon: {fileID: 21300000, guid: 69daeec2e4d99654a8bc2e4778761c56, type: 3}
-  maxStackSize: 99
+  internalId: bf0a3148-1f9e-4e25-aa50-2077886f1448
+  createdAtTicks: 637779346271091013
+  name: Iron Plating
+  description: 
+  icon: {fileID: 0}
+  maxStackSize: 0
   recipes:
   - name: Default
-    input: []
-    output:
+    input:
     - name: Iron Ore
+      item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
+      amount: 1
+    output:
+    - name: Iron Plating
       item: {fileID: 11400000}
       amount: 1
-    time: 2
+    time: 4
     enabled: 1
   placeable: {fileID: 0}

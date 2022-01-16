@@ -6,4 +6,5 @@ using UnityEngine;
 public class MachineData : BuildingData
 {
     public List<Recipe> recipes;
+    public List<ItemData> cost;
 }

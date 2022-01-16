@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21b9cce1ace29cc46919a8dc191e5aec, type: 3}
-  m_Name: Iron Ore
+  m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
+  m_Name: Iron Bolts
   m_EditorClassIdentifier: 
-  name: Iron Ore
-  input: []
-  output:
-  - name: Iron Ore
-    item: {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
-    amount: 1
-  time: 2
-  enabled: 1
+  internalId: 7a1a3560-5b66-416d-a7cb-f380735a2b25
+  createdAtTicks: 637779346477630294
+  name: 
+  description: 
+  icon: {fileID: 0}
+  maxStackSize: 0
+  placeable: {fileID: 0}
