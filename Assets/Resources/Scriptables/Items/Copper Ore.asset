@@ -10,25 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
-  m_Name: Glass Panel
+  m_Name: Copper Ore
   m_EditorClassIdentifier: 
-  internalId: a86fc935-0d18-4c88-946e-ca715e90ce83
-  createdAtTicks: 637779348094913464
-  name: Glass Panel
-  description: 
-  icon: {fileID: 0}
+  internalId: 07e7c13a-29c5-471e-9bf4-0ea151dc9c9a
+  createdAtTicks: 637779406065505937
+  name: Copper Ore
+  description: 'A highly conductive, metallic based resource. Can be smelted into
+    copper plating, which is used in almost all electrical based items. '
+  icon: {fileID: 21300000, guid: 2eb493f3c94a4ac48b81444e96d34ded, type: 3}
   maxStackSize: 100
   recipes:
   - name: Default
-    madeIn: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
-    input:
-    - name: Silica
-      item: {fileID: 11400000, guid: 45d5f4b55748ad04a9ff2a0bb023635a, type: 2}
-      amount: 8
+    madeIn: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
+    input: []
     output:
-    - name: Glass Panel
+    - name: Copper Ore
       item: {fileID: 11400000}
       amount: 1
-    time: 4
+    time: 2
     enabled: 1
   placeable: {fileID: 0}

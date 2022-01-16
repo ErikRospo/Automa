@@ -10,25 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
-  m_Name: Glass Panel
+  m_Name: Quartz
   m_EditorClassIdentifier: 
-  internalId: a86fc935-0d18-4c88-946e-ca715e90ce83
-  createdAtTicks: 637779348094913464
-  name: Glass Panel
-  description: 
+  internalId: 7f12b930-a595-411d-b893-bb9fdf26f841
+  createdAtTicks: 637779398126885419
+  name: Quartz
+  description: A rare crystalline material. Can be broken down into silica, or smelted
+    into refined quartz, which is used in advanced mining practices.
   icon: {fileID: 0}
-  maxStackSize: 100
+  maxStackSize: 20
   recipes:
   - name: Default
-    madeIn: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
-    input:
-    - name: Silica
-      item: {fileID: 11400000, guid: 45d5f4b55748ad04a9ff2a0bb023635a, type: 2}
-      amount: 8
+    madeIn: {fileID: 11400000, guid: e95b9cba042cb714bb06a1589d18f16c, type: 2}
+    input: []
     output:
-    - name: Glass Panel
+    - name: Quartz
       item: {fileID: 11400000}
       amount: 1
     time: 4
-    enabled: 1
+    enabled: 0
   placeable: {fileID: 0}

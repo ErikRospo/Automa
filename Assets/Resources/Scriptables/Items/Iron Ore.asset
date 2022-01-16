@@ -18,9 +18,10 @@ MonoBehaviour:
   description: A clumpy metallic like resource. Can be smelted into iron plating,
     which is one of the most fundamental materials in the production chain.
   icon: {fileID: 21300000, guid: 69daeec2e4d99654a8bc2e4778761c56, type: 3}
-  maxStackSize: 99
+  maxStackSize: 100
   recipes:
   - name: Default
+    madeIn: {fileID: 11400000, guid: 6705aefed3c2cf941b449e6be7d187e1, type: 2}
     input: []
     output:
     - name: Iron Ore

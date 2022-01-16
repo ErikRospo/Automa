@@ -14,8 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   internalId: 6951dd6d-9ce6-47a0-bbce-cf0f46c4f094
   createdAtTicks: 637779346412604805
-  name: 
-  description: 
-  icon: {fileID: 0}
-  maxStackSize: 0
+  name: Copper Plating
+  description: 'One of the most essential materials in most electrical based items. '
+  icon: {fileID: 21300000, guid: cd459f1c06b776044aff7b208be45eae, type: 3}
+  maxStackSize: 100
+  recipes:
+  - name: Default
+    madeIn: {fileID: 11400000, guid: 3addb8e11e240414494d05cee3855d24, type: 2}
+    input:
+    - name: Copper Ore
+      item: {fileID: 11400000, guid: 32f2c863db8e20140b18bdce06e74263, type: 2}
+      amount: 1
+    output:
+    - name: Copper Plating
+      item: {fileID: 11400000}
+      amount: 1
+    time: 4
+    enabled: 1
   placeable: {fileID: 0}
