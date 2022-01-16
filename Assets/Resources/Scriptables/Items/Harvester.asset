@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
+  m_Name: Harvester
+  m_EditorClassIdentifier: 
+  internalId: 306e030b-e1b9-42ce-b947-25c7c3ce7cf5
+  createdAtTicks: 637778736830613343
+  name: Harvester
+  description: 'Mines surface ores with a refined quartz blade. '
+  icon: {fileID: 21300000, guid: b423814e6f83fad42ac4e8557e815216, type: 3}
+  maxStackSize: 20
+  placeable: {fileID: -5519891925619386795, guid: 4ef8fc5d8c0f5814a928658a4fffe8ef,
+    type: 3}

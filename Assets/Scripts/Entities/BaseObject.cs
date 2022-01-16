@@ -10,6 +10,9 @@ public class BaseObject : MonoBehaviour
     // Moving object instance
     public EntityHandler.MovingObject movingObject = null;
 
+    // Uses the item
+    public virtual void Use() { }
+
     // Called by the EntityHandler when an object arrives at its destination
     public virtual void FinishMoving() { }
 

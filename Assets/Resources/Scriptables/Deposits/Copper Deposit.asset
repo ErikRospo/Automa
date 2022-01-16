@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a91c0cf55ea0bd47b7899fec06a690e, type: 3}
+  m_Name: Copper Deposit
+  m_EditorClassIdentifier: 
+  internalId: b04a1ad6-deb9-4245-b8fa-9c537f4eefb1
+  createdAtTicks: 637778843929318951
+  name: Copper Deposit
+  isLiquid: 0
+  perlin:
+    octaves: 4
+    lacunarity: 2
+    persistance: 0.5
+    modifier: 1.5
+    scale: 50
+    threshold: 0.8
+    seedOffset: 5
+    sampleOffset: {x: 0, y: 0}
+  tile: {fileID: 11400000, guid: fa9bf048ee02a4d46bb9531a3525df31, type: 2}
+  item: {fileID: 0}
+  canSpawnOnLand: 0
+  canSpawnOnLiquid: 0
+  randomizeRotation: 0

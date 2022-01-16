@@ -6,4 +6,5 @@ using UnityEngine;
 public class ItemData : EntityData
 {
     public int maxStackSize;
+    public BaseObject placeable;
 }
