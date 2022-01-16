@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,13 +6,15 @@ using UnityEngine;
 
 // Script adapted from "Pretty Fly Games" https://www.youtube.com/watch?v=DVHcOS1E5OQ
 
-public class CarController : MonoBehaviour
+public class Vehicle : NetworkBehaviour
 {
-    [Header("Car settings")]
+    [Header("Vehicle settings")]
     public float driftFactor = 0.95f;
     public float accelertationFactor = 30.0f;
     public float turnFactor = 3.5f;
     public float maxSpeed = 20;
+
+    public List<Seat> seats;
 
     float accelerationInput = 0;
     float steeringInput = 0;
@@ -27,6 +30,16 @@ public class CarController : MonoBehaviour
         carRigidbody = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        if (seats[0] != null)
+            seats[0].isDriver = true;
+        foreach (Seat seat in seats)
+        {
+            seat.vehicle = this;
+        }
+    }
+
     private void FixedUpdate()
     {
         ApplyEngineForce();
@@ -34,6 +47,8 @@ public class CarController : MonoBehaviour
         KillOrthogonalVelocity();
 
         ApplySteering();
+        foreach (Seat seat in seats)
+            seat.UpdateSitterPos(carRigidbody.velocity);
     }
 
     private void ApplyEngineForce()
@@ -47,7 +62,7 @@ public class CarController : MonoBehaviour
         if (carRigidbody.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
 
         if (accelerationInput == 0)
-            carRigidbody.drag = Mathf.Lerp(carRigidbody.drag, 3.0f, Time.fixedDeltaTime * 3);
+            carRigidbody.drag = Mathf.Lerp(carRigidbody.drag, 3.0f, Time.fixedDeltaTime * 30);
         else
             carRigidbody.drag = 0;
 

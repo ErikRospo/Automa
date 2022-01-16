@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CarInputHandler : MonoBehaviour
 {
-    CarController carController;
+    Vehicle carController;
 
     private void Awake()
     {
-        carController = GetComponent<CarController>();
+        carController = GetComponent<Vehicle>();
     }
 
     // Update is called once per frame
