@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa300b50db3816e4da2b637bb380cd64, type: 3}
+  m_Name: Electrical Wiring
+  m_EditorClassIdentifier: 
+  internalId: be020ff6-53fb-4296-9730-dcab1192dc75
+  createdAtTicks: 637779411079264669
+  name: Electrical Wiring
+  description: A combination of iron wiring and copper wiring that can create a balanced
+    flow of electricity.
+  icon: {fileID: 21300000, guid: d6af28d9ef5dc414f82d694600da367c, type: 3}
+  maxStackSize: 50
+  recipes:
+  - name: Default
+    madeIn: {fileID: 11400000, guid: 7c1223319d23d45418e905e67106eda6, type: 2}
+    input:
+    - name: 
+      item: {fileID: 0}
+      amount: 0
+    - name: 
+      item: {fileID: 0}
+      amount: 0
+    output:
+    - name: 
+      item: {fileID: 0}
+      amount: 0
+    time: 0
+    enabled: 0
+  placeable: {fileID: 0}
