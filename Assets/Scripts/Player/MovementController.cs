@@ -34,6 +34,7 @@ public class MovementController : NetworkBehaviour
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
     public float rotationSpeed = 5f;
+    public bool isSeated = false;
     private float horizontal;
     private float vertical;
     private float speed;
@@ -82,14 +83,21 @@ public class MovementController : NetworkBehaviour
         CheckInput();
 
         // Update the player for all other players
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-        CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
+        if (!isSeated)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            CmdUpdatePlayer(transform.position, model.localRotation.eulerAngles.z, head.rotation.eulerAngles.z, speed, GetComponent<Rigidbody2D>().velocity);
+        }
+
+        // Neighbour chunk check
+        UpdateChunks();
     }
 
     // Physics update for handling movement calculations 
     private void FixedUpdate()
     {
         if (!hasAuthority) return;
+        if (isSeated) return;
 
         var step = rotationSpeed * Time.deltaTime;
         if (speed > 0) model.localRotation = Quaternion.RotateTowards(model.localRotation, head.rotation, step);
@@ -107,6 +115,7 @@ public class MovementController : NetworkBehaviour
     // Checks for movement input
     private void CheckMovementInput()
     {
+        if (isSeated) return;
         vertical = 0;
         vertical += Input.GetKey(Keybinds.move_up) ? 1 : 0;
         vertical -= Input.GetKey(Keybinds.move_down) ? 1 : 0;
