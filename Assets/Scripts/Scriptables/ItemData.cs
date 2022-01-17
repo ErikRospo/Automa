@@ -7,5 +7,4 @@ public class ItemData : EntityData
 {
     public int maxStackSize;
     public List<Recipe> recipes;
-    public BaseObject placeable;
 }

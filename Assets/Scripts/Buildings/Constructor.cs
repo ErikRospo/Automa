@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Constructor : Building
 {
-    public MachineData machine;
     public Recipe recipe;
     public Dictionary<EntityData, int> inputHolding;
     [HideInInspector] public int outputHolding;

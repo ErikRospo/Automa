@@ -5,7 +5,6 @@ using UnityEngine;
 public class Harvester : Building
 {
     // Get holding amount
-    public MachineData machine;
     public Recipe recipe;
     public Dictionary<EntityData, int> inputHolding;
 

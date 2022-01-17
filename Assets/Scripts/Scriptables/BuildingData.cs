@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "New Building", menuName = "Buildings/Building")]
-public class BuildingData : ItemData
+public class BuildingData : EntityData
 {
     /// <summary>
     /// Used to set a cell in the <see cref="Grid"/> class

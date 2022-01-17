@@ -90,7 +90,7 @@ public class Tablet : MonoBehaviour
     {
         if (constructor.recipe == recipe) return;
         constructor.SetRecipe(recipe);
-        LoadRecipes(constructor.machine);
+        LoadRecipes();
     }
 
     public void LoadInfo(Building building)
@@ -120,31 +120,15 @@ public class Tablet : MonoBehaviour
         {
             this.constructor = constructor;
             recipeInfo.SetActive(true);
-            LoadRecipes(constructor.machine);
+            LoadRecipes();
         }
         else recipeInfo.SetActive(false);
     }
 
     // Loads recipes when a building with a machine scriptable is clicked
-    public void LoadRecipes(MachineData machine)
+    public void LoadRecipes()
     {
-        // Recycle any previous recipes
-        for (int i = 0; i < recipeButtons.Count; i++)
-            Destroy(recipeButtons[i]);
-        recipeButtons = new List<GameObject>();
-
-        // Loop through new building recipes and add them
-        foreach(Recipe recipe in machine.recipes)
-        {
-            RecipeButton button = Instantiate(recipeButton.gameObject, Vector3.zero, Quaternion.identity).GetComponent<RecipeButton>();
-            button.transform.SetParent(recipeList);
-            button.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-            button.SetInfo(recipe, tooltipRect, tooltipDesc, recipeTooltip);
-            recipeButtons.Add(button.gameObject);
-        }
-
-        // Check if constructor has active recipe
-        SetInputOutputs(constructor);
+        
     }
 
     // Sets a recipe from a constructor
