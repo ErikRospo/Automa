@@ -48,5 +48,10 @@ public class BuildingData : EntityData
     /// <summary>
     /// If not empty, building will only be placeable on the specified minerals
     /// </summary>
-    public List<DepositData> spawnableOn;
+    public List<DepositData> buildableOn;
+
+    /// <summary>
+    /// The items needed to place this building
+    /// </summary>
+    public List<RecipeItem> buildCosts;
 }

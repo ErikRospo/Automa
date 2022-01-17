@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a1834c118843a459e4be4e2e30c60e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4e182e531734042848a92d41bc363f, type: 3}
   m_Name: Smelter
   m_EditorClassIdentifier: 
+  internalId: 1328fcfe-3ee6-4761-ac75-7f5ab43a9bbb
+  createdAtTicks: 637779555806733695
   name: Smelter
   description: Turns raw ore into refined materials for further processing.
-  maxStackSize: 10
+  icon: {fileID: 0}
   obj: {fileID: 8713355525346585352, guid: 3a70e8ebe546c14428e91d6ee98d9090, type: 3}
   cells:
   - x: 5
@@ -33,8 +35,11 @@ MonoBehaviour:
   verticalOffset: {x: 2.5, y: 0}
   axisSnappable: 0
   rotatable: 1
-  hasOptions: 0
-  spawnableOn: []
-  recipes:
-  - {fileID: 11400000, guid: 891b00cba83f5a142a34f610b80d3236, type: 2}
-  - {fileID: 11400000, guid: 794ec60743057dd43887c28c3fc61ca2, type: 2}
+  buildableOn: []
+  buildCosts:
+  - name: Iron Rod
+    item: {fileID: 11400000, guid: bdb38f48499bf4f4ea1fe1b763b6d14b, type: 2}
+    amount: 8
+  - name: Electrical Wiring
+    item: {fileID: 11400000, guid: 6505b9b1d60d4a34d9eed8a099e48f14, type: 2}
+    amount: 5

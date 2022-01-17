@@ -113,7 +113,7 @@ public class BuildingHandler : NetworkBehaviour
     public bool CheckTiles(BuildingData tile, Vector3 position, Quaternion rotation)
     {
         // Tells system to check tile placement
-        bool checkTilePlacement = tile.spawnableOn.Count > 0;
+        bool checkTilePlacement = tile.buildableOn.Count > 0;
 
         if (tile.cells.Length > 0)
         {
@@ -130,7 +130,7 @@ public class BuildingHandler : NetworkBehaviour
                 if (checkTilePlacement)
                 {
                     if (WorldGen.active.resources.TryGetValue(coords, out DepositData value) &&
-                        tile.spawnableOn.Contains(value)) checkTilePlacement = false;
+                        tile.buildableOn.Contains(value)) checkTilePlacement = false;
                 }
             }
         }
@@ -145,7 +145,7 @@ public class BuildingHandler : NetworkBehaviour
             if (checkTilePlacement)
             {
                 if (WorldGen.active.resources.TryGetValue(coords, out DepositData value) &&
-                    tile.spawnableOn.Contains(value)) checkTilePlacement = false;
+                    tile.buildableOn.Contains(value)) checkTilePlacement = false;
             }
         }
 

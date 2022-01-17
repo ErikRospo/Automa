@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a1834c118843a459e4be4e2e30c60e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4e182e531734042848a92d41bc363f, type: 3}
   m_Name: Harvester
   m_EditorClassIdentifier: 
   internalId: 8151d836-ba8a-4ff9-a94e-4cf983ed6fed
@@ -17,8 +17,6 @@ MonoBehaviour:
   name: Harvester
   description: Harvests raw ores from material deposits. Keep your distance!
   icon: {fileID: 0}
-  maxStackSize: 0
-  placeable: {fileID: 0}
   obj: {fileID: 5670510890034788685, guid: 4ef8fc5d8c0f5814a928658a4fffe8ef, type: 3}
   cells:
   - x: 5
@@ -35,8 +33,11 @@ MonoBehaviour:
   verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
-  spawnableOn: []
-  recipes:
-  - {fileID: 11400000, guid: c0116984e3423ff429fe37d8f792efe1, type: 2}
-  cost:
-  - {fileID: 11400000, guid: 7ce2d86126b5810449a0a629b6f8067d, type: 2}
+  buildableOn: []
+  buildCosts:
+  - name: Iron Rod
+    item: {fileID: 11400000, guid: bdb38f48499bf4f4ea1fe1b763b6d14b, type: 2}
+    amount: 10
+  - name: Electrical Wiring
+    item: {fileID: 11400000, guid: 24c5ef852ce25454ba3287fcd955130e, type: 2}
+    amount: 2

@@ -16,12 +16,15 @@ MonoBehaviour:
   createdAtTicks: 637768035008216928
   name: Merger
   description: It merges shit.
-  maxStackSize: 0
+  icon: {fileID: 0}
   obj: {fileID: 2815248319985988235, guid: 625e8afc1b501a1469063f21236cbee1, type: 3}
   cells: []
   horizontalOffset: {x: 0, y: 0}
   verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
-  hasOptions: 0
-  spawnableOn: []
+  buildableOn: []
+  buildCosts:
+  - name: Iron Plating
+    item: {fileID: 11400000, guid: 266c9d898aa540e4eb6ae37f0ef8f072, type: 2}
+    amount: 5

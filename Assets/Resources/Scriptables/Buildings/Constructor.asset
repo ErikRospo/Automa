@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a1834c118843a459e4be4e2e30c60e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4e182e531734042848a92d41bc363f, type: 3}
   m_Name: Constructor
   m_EditorClassIdentifier: 
+  internalId: 83a63dbb-e029-43d4-9928-8495623198cc
+  createdAtTicks: 637779555354210325
   name: Constructor
   description: 'Assembles basic materials for further production. '
-  maxStackSize: 10
+  icon: {fileID: 21300000, guid: 52f42f0e7b7a86c4dadc7764f572940e, type: 3}
   obj: {fileID: 8713355525346585352, guid: 9250930591628a94f850848df3369363, type: 3}
   cells:
   - x: 5
@@ -35,11 +37,18 @@ MonoBehaviour:
     y: -5
   - x: 0
     y: -5
-  offset: {x: 0, y: 0}
+  horizontalOffset: {x: 0, y: 0}
+  verticalOffset: {x: 0, y: 0}
   axisSnappable: 0
   rotatable: 1
-  hasOptions: 0
-  recipes:
-  - {fileID: 11400000, guid: 3a4430ad3fe1c1545b25bd720c21da0c, type: 2}
-  - {fileID: 11400000, guid: aa8c067106699b841b28c53fbf7a107c, type: 2}
-  - {fileID: 11400000, guid: 794ec60743057dd43887c28c3fc61ca2, type: 2}
+  buildableOn: []
+  buildCosts:
+  - name: Iron Rod
+    item: {fileID: 11400000, guid: bdb38f48499bf4f4ea1fe1b763b6d14b, type: 2}
+    amount: 15
+  - name: Iron Bolts
+    item: {fileID: 11400000, guid: 922555492c3f39d4fad9a3aec70c9369, type: 2}
+    amount: 30
+  - name: Electrical Wiring
+    item: {fileID: 11400000, guid: 24c5ef852ce25454ba3287fcd955130e, type: 2}
+    amount: 10
